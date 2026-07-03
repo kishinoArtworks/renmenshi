@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>『連綿師』公式サイト｜書が術となり、名が命を結ぶ和風ファンタジー</title>
+<meta name="description" content="一筆書きの草書で幻獣を召喚する少年書家・都竹理玄の和風ファンタジー『連綿師』公式サイト。世界観・連綿術・キャラクターを紹介します。">
+<meta property="og:title" content="『連綿師』公式サイト">
+<meta property="og:description" content="書が術となり、名が命を結ぶ和風ファンタジー。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Yuji+Syuku&display=swap" rel="stylesheet">
+<style>
+/* ============ 基本 ============ */
+/* 行書体タイトル用フォント（衡山毛筆フォント行書）
+   gyosho-title.woff2 は「連綿師」3文字のみを抜き出した軽量版。
+   タイトル以外にも使いたい場合は KouzanGyoushoOTF.otf の方を参照してください。 */
+@font-face{
+  font-family:'GyoshoTitle';
+  src:url('assets/fonts/gyosho-title.woff2') format('woff2'),
+      url('assets/fonts/KouzanGyoushoOTF.otf') format('opentype');
+  font-display:swap;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --washi:#f4f1ea;        /* 生成り（和紙） */
+  --washi-deep:#ece7db;   /* 濃いめの和紙 */
+  --sumi:#2b2723;         /* 墨色 */
+  --sumi-usu:#5c554c;     /* 薄墨 */
+  --kon:#514b9c;          /* 紺菫（差し色） */
+  --kon-fukai:#322e66;    /* 深い紺菫 */
+  --shu:#b23a2b;          /* 朱 */
+  --kin:#b08d3e;          /* 金泥 */
+  --frame:18px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Shippori Mincho',serif;
+  color:var(--sumi);
+  background:var(--kon-fukai);
+  line-height:1.9;
+  letter-spacing:.06em;
+}
+/* ============ 亀甲柄の外枠 ============ */
+.kikko-frame{
+  position:fixed;inset:0;z-index:90;pointer-events:none;
+  border:var(--frame) solid transparent;
+  border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='64' viewBox='0 0 56 64'><rect width='56' height='64' fill='%23322e66'/><g stroke='%23b08d3e' stroke-width='1.6' fill='none' opacity='0.55'><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(28,0) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(14,16) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(-14,16) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(42,16) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(0,32) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(28,32) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(14,48) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(-14,48) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(42,48) scale(0.5)'/></g></svg>") 28 round;
+}
+.page{
+  min-height:100vh;
+  margin:var(--frame);
+  background:
+    radial-gradient(ellipse 1200px 800px at 80% -100px, rgba(176,141,62,.10), transparent 60%),
+    radial-gradient(ellipse 900px 900px at -100px 40%, rgba(81,75,156,.07), transparent 55%),
+    var(--washi);
+}
+/* 和紙の質感 */
+.page::before{
+  content:"";position:fixed;inset:var(--frame);z-index:1;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.40 0 0 0 0 0.32 0 0 0 0.05 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+}
+main{position:relative;z-index:2}
+/* ============ ナビ ============ */
+nav{
+  position:sticky;top:var(--frame);z-index:80;
+  display:flex;justify-content:center;gap:clamp(8px,2.4vw,28px);
+  padding:14px 8px 12px;
+  background:linear-gradient(to bottom, rgba(244,241,234,.97), rgba(244,241,234,.88));
+  border-bottom:1px solid rgba(43,39,35,.15);
+  backdrop-filter:blur(4px);
+  flex-wrap:wrap;
+}
+nav a{
+  color:var(--sumi);text-decoration:none;font-size:14.5px;font-weight:600;
+  padding:2px 2px;position:relative;white-space:nowrap;
+}
+nav a small{display:block;font-size:9px;color:var(--kin);text-align:center;letter-spacing:.18em;font-weight:400}
+nav a::after{
+  content:"";position:absolute;left:50%;bottom:-4px;width:0;height:2px;
+  background:var(--shu);transition:all .3s;transform:translateX(-50%);
+}
+nav a:hover::after{width:100%}
+/* 個展情報：朱色で強調 */
+nav a.nav-hot{color:var(--shu)}
+nav a.nav-hot small{color:var(--shu);opacity:.75}
+/* ============ 共通セクション ============ */
+section{padding:clamp(60px,9vw,110px) clamp(20px,6vw,80px);max-width:1200px;margin:0 auto}
+.sec-title{
+  font-family:'Yuji Syuku',serif;
+  font-size:clamp(30px,4.5vw,44px);
+  color:var(--sumi);text-align:center;margin-bottom:14px;letter-spacing:.18em;
+}
+.sec-sub{
+  text-align:center;color:var(--kin);font-size:12px;letter-spacing:.42em;
+  margin-bottom:clamp(36px,5vw,60px);text-transform:uppercase;
+}
+.ink-divider{display:block;margin:0 auto;width:min(340px,70%);height:14px;opacity:.75}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.reveal.on{opacity:1;transform:none}
+/* ============ HERO ============ */
+.hero{
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;position:relative;overflow:hidden;
+  padding:70px 20px 90px;
+}
+/* タイトル一式を包むラッパー：円と縦書きはこの箱を基準に配置される */
+.hero-inner{
+  position:relative;width:fit-content;margin:0 auto;
+  padding:55px 30px 160px;
+  display:flex;flex-direction:column;align-items:center;
+}
+.hero .enso{
+  position:absolute;width:min(620px,96vw);aspect-ratio:1/1;
+  top:46%;left:50%;transform:translate(-50%,-50%);
+  opacity:.10;pointer-events:none;
+}
+.hero-title{
+  font-family:'GyoshoTitle','Yuji Syuku',serif;
+  font-size:clamp(60px,12vw,128px);
+  letter-spacing:.08em;color:var(--sumi);
+  line-height:1.15;
+  text-shadow:0 2px 14px rgba(43,39,35,.12);
+}
+.hero-ruby{font-size:clamp(13px,1.8vw,17px);letter-spacing:1.2em;color:var(--sumi-usu);margin-bottom:10px;padding-left:1.2em}
+.hero-en{font-size:clamp(10px,1.4vw,13px);letter-spacing:.34em;color:var(--kin);margin-top:16px}
+.hero-tagline{
+  writing-mode:vertical-rl;
+  font-size:clamp(16px,2vw,20px);
+  color:var(--kon);font-weight:600;letter-spacing:.32em;
+  position:absolute;right:calc(-1 * clamp(50px,7vw,110px));top:50%;transform:translateY(-50%);
+  border-right:1px solid rgba(81,75,156,.32);padding-right:14px;
+  white-space:nowrap;
+}
+.hero-catch{
+  margin-top:10px;font-size:clamp(14.5px,1.9vw,18px);color:var(--sumi);
+  font-weight:600;letter-spacing:.2em;
+}
+.hero-catch .shu{color:var(--shu)}
+.hero-scroll{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  font-size:10px;letter-spacing:.4em;color:var(--sumi-usu);
+}
+.hero-scroll::after{
+  content:"";display:block;width:1px;height:44px;margin:8px auto 0;
+  background:linear-gradient(var(--sumi-usu),transparent);
+  animation:drip 2s infinite;
+}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* ============ 物語 ============ */
+.story-lead{
+  max-width:760px;width:fit-content;margin:0 auto;
+  font-size:clamp(15px,1.8vw,17.5px);
+  text-align:left;
+}
+.story-lead p{margin-bottom:1.6em}
+.story-lead .first-line{font-family:'Yuji Syuku',serif;font-size:1.35em;color:var(--kon);display:block;text-align:center;margin-bottom:1.2em;letter-spacing:.1em}
+/* ============ 世界 ============ */
+.world-lead{max-width:900px;width:fit-content;margin:0 auto clamp(36px,5vw,50px);font-size:clamp(14.5px,1.7vw,16.5px);text-align:left}
+.world-lead p{margin-bottom:1.5em}
+.world-lead h3{font-family:'Yuji Syuku',serif;font-size:clamp(19px,2.4vw,23px);color:var(--kon);letter-spacing:.14em;margin:1.8em 0 .7em;text-align:center}
+.world-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;margin-top:10px}
+.world-card{
+  background:rgba(255,253,248,.75);
+  border:1px solid rgba(176,141,62,.4);
+  padding:28px 26px 26px;position:relative;
+  box-shadow:0 4px 18px rgba(43,39,35,.06);
+}
+.world-card::before{
+  content:"";position:absolute;top:8px;left:8px;right:8px;bottom:8px;
+  border:1px solid rgba(81,75,156,.16);pointer-events:none;
+}
+.world-card h3{
+  font-family:'Yuji Syuku',serif;font-size:22px;color:var(--kon);
+  margin-bottom:4px;letter-spacing:.14em;
+}
+.world-card .yomi{font-size:11px;color:var(--kin);letter-spacing:.3em;margin-bottom:14px}
+.world-card p{font-size:14px;color:var(--sumi);text-align:justify}
+/* ============ 連綿師とは ============ */
+.jutsu-wrap{max-width:980px;margin:0 auto}
+.lore{
+  max-width:780px;margin:0 auto clamp(44px,6vw,64px);
+  font-size:clamp(14.5px,1.7vw,16.5px);text-align:justify;
+  border-top:1px solid rgba(176,141,62,.5);border-bottom:1px solid rgba(176,141,62,.5);
+  padding:clamp(28px,4vw,40px) clamp(4px,2vw,20px);
+}
+.lore p{margin-bottom:1.4em}
+.lore p:last-child{margin-bottom:0}
+.lore .close{font-weight:600;color:var(--kon)}
+.jutsu-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.jutsu-step{
+  background:var(--kon);color:var(--washi);
+  padding:34px 28px;position:relative;overflow:hidden;
+}
+.jutsu-step::after{
+  content:attr(data-num);position:absolute;right:10px;bottom:-18px;
+  font-family:'Yuji Syuku',serif;font-size:110px;color:rgba(244,241,234,.08);line-height:1;
+}
+.jutsu-step h3{
+  font-family:'Yuji Syuku',serif;font-size:26px;letter-spacing:.2em;margin-bottom:4px;
+}
+.jutsu-step .yomi{font-size:10.5px;color:#cbb87a;letter-spacing:.3em;margin-bottom:16px}
+.jutsu-step p{font-size:13.5px;line-height:1.95;text-align:justify;color:rgba(244,241,234,.92)}
+.sub-title{
+  font-family:'Yuji Syuku',serif;font-size:clamp(22px,3vw,28px);text-align:center;
+  margin:clamp(50px,7vw,80px) 0 8px;letter-spacing:.2em;color:var(--sumi);
+}
+.sub-sub{text-align:center;color:var(--kin);font-size:11px;letter-spacing:.4em;margin-bottom:36px}
+.aspect-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.aspect-card{
+  background:rgba(255,253,248,.8);border:1px solid rgba(43,39,35,.15);
+  border-top:3px solid var(--kon);padding:26px 24px 22px;
+}
+.aspect-card h4{font-family:'Yuji Syuku',serif;font-size:20px;letter-spacing:.16em;color:var(--kon);margin-bottom:12px;text-align:center}
+.aspect-card p{font-size:13.5px;color:var(--sumi);line-height:1.9;text-align:justify}
+.scrolls{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:20px}
+.scroll-card{
+  display:flex;gap:16px;align-items:flex-start;
+  background:rgba(255,253,248,.75);border:1px solid rgba(43,39,35,.18);padding:20px 22px;
+}
+.scroll-card .tab{
+  flex:none;width:14px;height:64px;border-radius:3px;margin-top:4px;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);
+}
+.scroll-card h4{font-size:16px;margin-bottom:6px;letter-spacing:.12em}
+.scroll-card p{font-size:13px;color:var(--sumi-usu);line-height:1.8}
+.koushou{
+  margin:0 auto;font-size:clamp(14px,1.6vw,15.5px);text-align:justify;
+  background:rgba(255,253,248,.7);border:1px solid rgba(176,141,62,.4);
+  padding:clamp(24px,3.5vw,36px) clamp(20px,3.5vw,34px);
+}
+.koushou p{margin-bottom:1.3em}
+.koushou p:last-child{margin-bottom:0}
+/* ============ 人物 ============ */
+.char-block{margin-bottom:clamp(60px,8vw,90px)}
+.char-main{display:grid;grid-template-columns:minmax(240px,340px) 1fr;gap:clamp(24px,4vw,44px);align-items:start}
+.char-portrait img{
+  width:100%;display:block;border:1px solid rgba(43,39,35,.2);
+  box-shadow:0 10px 32px rgba(50,46,102,.18);
+}
+.char-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.char-head h3{font-family:'Yuji Syuku',serif;font-size:clamp(26px,3.4vw,34px);letter-spacing:.14em}
+.char-head .role{color:var(--shu);font-size:13px;letter-spacing:.18em;font-weight:600}
+.char-desc{font-size:14.5px;text-align:justify;margin-bottom:20px}
+.char-desc p{margin-bottom:1em}
+.char-desc .serif{color:var(--kon);font-weight:600}
+/* 略歴（和風の書付け風・枠線なし） */
+.profile-list{
+  margin-top:clamp(26px,4vw,38px);
+  columns:2;column-gap:clamp(30px,5vw,60px);
+  font-size:13.5px;
+}
+.profile-list .pi{
+  break-inside:avoid;display:flex;gap:14px;align-items:baseline;
+  padding:7px 2px;
+}
+.profile-list .pl{
+  flex:none;width:6em;color:var(--kon);font-weight:600;letter-spacing:.22em;
+  position:relative;padding-left:14px;
+}
+.profile-list .pl::before{
+  content:"";position:absolute;left:0;top:.42em;width:6px;height:6px;
+  background:var(--shu);transform:rotate(45deg);opacity:.75;
+}
+.profile-list .pv{color:var(--sumi);text-align:justify;line-height:1.85}
+.profile-caption{
+  font-family:'Yuji Syuku',serif;font-size:15px;color:var(--kin);
+  letter-spacing:.4em;margin-top:clamp(22px,3.5vw,32px);
+  text-align:center;
+}
+.profile-caption::before,.profile-caption::after{content:"─";color:rgba(176,141,62,.5);margin:0 14px;letter-spacing:0}
+@media (max-width:700px){.profile-list{columns:1}}
+/* カード内のコンパクトなプロファイル */
+.sub-card .profile-caption{margin-top:20px;font-size:13px;letter-spacing:.3em}
+.sub-card .profile-list{margin-top:10px;font-size:12.5px}
+.sub-card .profile-list .pi{padding:5px 2px}
+.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:16px}
+.sub-card{
+  background:rgba(255,253,248,.8);border:1px solid rgba(43,39,35,.15);
+  border-top:3px solid var(--kon);padding:20px 20px 18px;
+}
+.sub-card.kami{border-top-color:var(--shu)}
+.sub-card.wide{grid-column:1/-1}
+.sub-card h4{font-size:16.5px;letter-spacing:.1em;margin-bottom:2px}
+.sub-card .yomi{font-size:10.5px;color:var(--kin);letter-spacing:.2em;margin-bottom:10px}
+.sub-card p{font-size:13px;color:var(--sumi-usu);line-height:1.85;text-align:justify;margin-bottom:.7em}
+.sub-card p:last-child{margin-bottom:0}
+/* ============ 画廊 ============ */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.gallery-grid figure{
+  cursor:zoom-in;overflow:hidden;border:1px solid rgba(43,39,35,.2);
+  background:#fff;box-shadow:0 4px 14px rgba(43,39,35,.08);position:relative;
+}
+.gallery-grid img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;display:block;transition:transform .5s}
+.gallery-grid figure:hover img{transform:scale(1.04)}
+.gallery-grid figcaption{
+  position:absolute;left:0;right:0;bottom:0;font-size:10.5px;letter-spacing:.1em;
+  background:linear-gradient(transparent,rgba(50,46,102,.85));color:var(--washi);
+  padding:18px 10px 6px;text-align:right;
+}
+.gallery-empty{
+  text-align:center;padding:70px 20px;color:var(--sumi-usu);
+  border:1px dashed rgba(176,141,62,.6);background:rgba(255,253,248,.5);
+  font-size:14.5px;letter-spacing:.14em;
+}
+.gallery-empty .fude{font-family:'Yuji Syuku',serif;font-size:26px;color:var(--kin);display:block;margin-bottom:10px}
+.gallery-note{font-size:12px;color:var(--sumi-usu);text-align:center;margin-top:24px;letter-spacing:.1em}
+.lightbox{
+  position:fixed;inset:0;z-index:200;background:rgba(30,27,55,.93);
+  display:none;align-items:center;justify-content:center;padding:4vmin;cursor:zoom-out;
+}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:100%;box-shadow:0 0 60px rgba(0,0,0,.6)}
+/* ============ お知らせ ============ */
+.news-img-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;
+  max-width:980px;margin:0 auto 34px;
+}
+.news-img-grid figure{
+  cursor:zoom-in;border:1px solid rgba(43,39,35,.2);background:#fff;
+  box-shadow:0 8px 26px rgba(50,46,102,.14);overflow:hidden;
+}
+.news-img-grid img{width:100%;display:block;transition:transform .5s}
+.news-img-grid figure:hover img{transform:scale(1.02)}
+.news-body{
+  max-width:760px;width:fit-content;margin:0 auto;
+  font-size:clamp(14.5px,1.7vw,16px);text-align:left;
+}
+.news-body p{margin-bottom:1.4em}
+.news-info{
+  max-width:600px;margin:26px auto 0;font-size:14px;
+  border-top:1px solid rgba(176,141,62,.5);border-bottom:1px solid rgba(176,141,62,.5);
+  padding:18px 10px;
+}
+.news-info .row{display:flex;gap:16px;padding:5px 0;align-items:baseline}
+.news-info .lbl{
+  flex:none;width:6.5em;white-space:nowrap;
+  color:var(--kon);font-weight:600;letter-spacing:.22em;
+  position:relative;padding-left:14px;
+}
+.news-info .lbl::before{
+  content:"";position:absolute;left:0;top:.42em;width:6px;height:6px;
+  background:var(--shu);transform:rotate(45deg);opacity:.75;
+}
+.news-info a{color:var(--kon);text-decoration:none;border-bottom:1px solid rgba(81,75,156,.4)}
+.news-info a:hover{border-bottom-color:var(--kon)}
+.substack-banner{display:block;max-width:760px;margin:0 auto 30px;border:1px solid rgba(43,39,35,.2);box-shadow:0 8px 26px rgba(50,46,102,.14)}
+.substack-banner img{width:100%;display:block}
+/* ============ 通販 ============ */
+.shop-lead{max-width:680px;margin:0 auto 36px;text-align:center;font-size:clamp(14.5px,1.7vw,16px)}
+.goods-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;max-width:900px;margin:0 auto 40px}
+.goods-item{
+  background:rgba(255,253,248,.8);border:1px solid rgba(176,141,62,.4);
+  padding:18px 20px;text-align:center;
+}
+.goods-item h4{font-size:15px;letter-spacing:.1em;margin-bottom:4px}
+.goods-item .price{color:var(--shu);font-size:13.5px;font-weight:600;letter-spacing:.08em}
+.btn-row{text-align:center}
+.btn{
+  display:inline-block;background:var(--kon);color:var(--washi);
+  text-decoration:none;font-weight:600;font-size:15.5px;letter-spacing:.2em;
+  padding:15px 46px;border:none;cursor:pointer;font-family:'Shippori Mincho',serif;
+  box-shadow:0 6px 18px rgba(50,46,102,.3);transition:all .3s;
+}
+.btn:hover{background:var(--kon-fukai);transform:translateY(-2px)}
+.btn.shu{background:var(--shu)}
+.btn.shu:hover{background:#8d2e22}
+.shop-note{font-size:12px;color:var(--sumi-usu);text-align:center;margin-top:18px;letter-spacing:.1em}
+/* ============ お問合せ ============ */
+.contact-wrap{max-width:620px;margin:0 auto}
+.contact-lead{text-align:center;font-size:14.5px;margin-bottom:34px}
+.form-row{margin-bottom:22px}
+.form-row label{display:block;font-size:13.5px;font-weight:600;letter-spacing:.14em;margin-bottom:8px;color:var(--kon)}
+.form-row label .req{color:var(--shu);font-size:11px;margin-left:6px}
+.form-row input,.form-row textarea{
+  width:100%;padding:12px 14px;font-family:'Shippori Mincho',serif;font-size:15px;
+  border:1px solid rgba(43,39,35,.3);background:rgba(255,253,248,.9);color:var(--sumi);
+  outline:none;transition:border .3s;
+}
+.form-row input:focus,.form-row textarea:focus{border-color:var(--kon)}
+.form-row textarea{min-height:160px;resize:vertical}
+.contact-note{font-size:11.5px;color:var(--sumi-usu);margin-top:16px;text-align:center;line-height:1.9}
+/* ============ 縁（メッセージ） ============ */
+.en-sec{background:var(--kon);color:var(--washi);max-width:none;padding-left:0;padding-right:0}
+.en-inner{max-width:820px;margin:0 auto;padding:0 clamp(20px,6vw,60px);text-align:center}
+.en-sec .sec-title{color:var(--washi)}
+.en-lead{
+  font-family:'Yuji Syuku',serif;font-size:clamp(20px,3vw,28px);
+  letter-spacing:.16em;line-height:2.2;margin-bottom:34px;
+}
+.en-lead .kin{color:#cbb87a}
+.en-body{font-size:clamp(14.5px,1.7vw,16px);color:rgba(244,241,234,.9);text-align:justify;line-height:2.1}
+.en-body p{margin-bottom:1.5em}
+/* ============ フッター ============ */
+footer{
+  background:var(--kon-fukai);color:rgba(244,241,234,.75);
+  text-align:center;padding:44px 20px 40px;font-size:12px;letter-spacing:.14em;
+}
+footer .f-title{font-family:'Yuji Syuku',serif;font-size:26px;color:var(--washi);letter-spacing:.3em;margin-bottom:10px}
+footer .f-links{margin-top:16px}
+footer .f-links a{color:#cbb87a;text-decoration:none;margin:0 12px;font-size:12px}
+footer .f-links a:hover{text-decoration:underline}
+footer .f-note{font-size:11px;color:rgba(244,241,234,.5);margin-top:14px;line-height:2}
+/* ============ レスポンシブ ============ */
+@media (max-width:760px){
+  .char-main{grid-template-columns:1fr}
+  .char-portrait{max-width:340px;margin:0 auto}
+}
+/* 縦書きタグラインは狭い画面では横書きに切替（円との干渉を防ぐ） */
+@media (max-width:900px){
+  .hero-tagline{position:static;transform:none;writing-mode:horizontal-tb;border-right:none;padding-right:0;margin-top:28px;border-top:1px solid rgba(81,75,156,.32);padding-top:14px;white-space:normal}
+}
+@media (max-width:640px){
+  :root{--frame:10px}
+  /* モバイルでは手動改行を無効化し、自然な折り返しに任せる */
+  .story-lead br,.world-lead br,.sub-card br,.news-body br{display:none}
+  .hero-inner{padding:70px 10px 80px}
+  nav{gap:12px}
+}
+</style>
+</head>
+<body>
+<div class="kikko-frame" aria-hidden="true"></div>
+<div class="page">
+<main>
+
+<!-- ============ ナビ ============ -->
+<nav>
+  <a href="#hero">序<small>TOP</small></a>
+  <a href="#story">物語<small>STORY</small></a>
+  <a href="#world">世界観<small>WORLD</small></a>
+  <a href="#renmenshi">連綿師とは<small>ABOUT</small></a>
+  <a href="#chars">登場人物<small>CHARACTER</small></a>
+  <a href="#gallery">画廊<small>GALLERY</small></a>
+  <a href="#news" class="nav-hot">個展情報<small>EXHIBITION</small></a>
+  <a href="#diary">理玄の日記<small>DIARY</small></a>
+  <a href="#shop">通販<small>SHOP</small></a>
+  <a href="#contact">お問合せ<small>CONTACT</small></a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <svg class="enso" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 14 a86 86 0 1 0 60 24" fill="none" stroke="#2b2723" stroke-width="10" stroke-linecap="round"/>
+    </svg>
+    <div class="hero-ruby">れんめんし</div>
+    <h1 class="hero-title">連綿師</h1>
+    <div class="hero-en">-THE SUMMONER OF MAD CALLIGRAPHY-</div>
+    <p class="hero-catch">一筆に宿る<span class="shu">縁起</span>。その筆先が、世界を繋ぐ。</p>
+    <p class="hero-tagline">名付けと名指しで紡がれる、連綿の理</p>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- ============ 物語 ============ -->
+<section id="story" class="reveal">
+  <h2 class="sec-title">物語</h2>
+  <div class="sec-sub">STORY</div>
+  <div class="story-lead">
+    <span class="first-line">筆を執るたび、少年の文字が命を宿す──</span>
+    <p>書家に拾われ育った十五歳の少年・都竹理玄（つづき りげん）は、<br>「連綿体」で綴った文字から幻獣〈連綿獣〉を呼び出す、異能の書き手。</p>
+    <p>幼い頃に出会った狼の茱真理（シュマリ）と大蛇の玄也（げんや）は、<br>名を与えられた連綿獣として彼に寄り添っている。<br>名前を与えることで繋がる絆と、綴った文字が結ぶ奇跡。</p>
+    <p>連綿師の一族の役目が記された古い巻物を手がかりに術を磨く理玄のもとには、<br>怪奇現象や困りごとの相談が自然と集まるようになった。<br>連綿術と関わりのない話も多いが、理玄はどの依頼も断らない。</p>
+    <p>本当の自分は何者で、一体どこから来たのか──。<br>いつか自分の出自が明らかになることを信じて、少年は今日も筆を執る。</p>
+  </div>
+</section>
+
+<svg class="ink-divider" viewBox="0 0 340 14" xmlns="http://www.w3.org/2000/svg"><path d="M4 8 C60 2, 120 12, 170 7 S 300 4, 336 8" fill="none" stroke="#2b2723" stroke-width="2.4" stroke-linecap="round" opacity=".6"/><circle cx="170" cy="7" r="3" fill="#b23a2b"/></svg>
+
+<!-- ============ 世界観 ============ -->
+<section id="world" class="reveal">
+  <h2 class="sec-title">世界観</h2>
+  <div class="sec-sub">WORLD</div>
+
+  <div class="world-lead">
+    <h3>理玄たちが暮らす里</h3>
+    <p>『連綿師』の舞台は、東の果てにある山々に抱かれた小さな村、「羽鹿野（はがの）」から始まる。<br>時代的には古いものと新しいものが、まだ折り合いをつけていないような、そんな空気感の流れる時代。</p>
+  </div>
+
+  <div class="world-grid">
+    <div class="world-card">
+      <h3>羽鹿野村</h3>
+      <div class="yomi">はがのむら</div>
+      <p>物語の始まりの地。東の果て、山々に抱かれた小さな村。理玄の生家である書道塾もここにある。</p>
+    </div>
+    <div class="world-card">
+      <h3>羽留奈町</h3>
+      <div class="yomi">はるなちょう</div>
+      <p>羽鹿野村から徒歩で一刻（約二時間）の場所にある、養蚕が盛んな町。</p>
+    </div>
+    <div class="world-card">
+      <h3>羽野浜</h3>
+      <div class="yomi">はのはま</div>
+      <p>二刻（四時間）ほど先にある貿易港。海の向こうから運ばれる舶来の書物、硝子工芸、香料、機械仕掛けの細工物が行き交い、羽鹿野とはまったく異なる輝きと熱気に満ちていた。</p>
+    </div>
+  </div>
+
+  <div class="world-lead" style="margin-top:clamp(40px,6vw,60px);margin-bottom:0">
+    <h3>連綿師を知る者たち</h3>
+    <p>理玄の周りにこそ連綿師は見当たらないが、かつてその一族と縁を結んだ者たちは、<br>今も村や町の片隅にひっそりと暮らしている。<br>人の姿に紛れて生きているため一見しては分からないが、<br>神獣の嗅覚だけは、その本性を取り違えることはない。</p>
+    <h3>連綿師の使命</h3>
+    <p>理玄の手には、連綿師の一族の役目が記された古い巻物がある。<br>理玄が巻物を手がかりに連綿術を磨くうち、彼のもとには自然と相談が集まるようになった。</p>
+    <p>夜中に起きる怪奇現象、行方不明になった物の捜索、人との関わりに悩む者の話や、人生の迷いごとまで──。<br>連綿術と無関係なものも多いが、時に連綿相として契約できそうな霊が現れることもあるため、<br>理玄はどの依頼も断らない。</p>
+    <p>いつか自分の出自が明らかになることを信じて。</p>
+  </div>
+</section>
+
+<svg class="ink-divider" viewBox="0 0 340 14" xmlns="http://www.w3.org/2000/svg"><path d="M4 6 C80 12, 150 2, 210 9 S 310 10, 336 5" fill="none" stroke="#2b2723" stroke-width="2.4" stroke-linecap="round" opacity=".6"/><circle cx="210" cy="9" r="3" fill="#b23a2b"/></svg>
+
+<!-- ============ 連綿師とは ============ -->
+<section id="renmenshi" class="reveal">
+  <h2 class="sec-title">連綿師とは</h2>
+  <div class="sec-sub">WHAT IS RENMENSHI</div>
+  <div class="jutsu-wrap">
+
+    <div class="lore">
+      <p>かつて、古き大陸において、文字は神意を読み解き伝え継ぐための秘文だった。</p>
+      <p>文字に刻まれた言葉は、神との確かな対話となっていたが、やがて多様な姿の文字はかたちを統べられ、広大な国を束ねる要となり、人々の距離を縮めていく。さらに時を経て、彼方で磨かれた文字は海を渡り、この地のことばと暮らしに根を張っていくのだった。</p>
+      <p>──その長い流れの先に、もうひとつの系がある。</p>
+      <p>名付けによって縁を結び、その名を一筆書きで綴る者たち。彼らは彼方の縁起をたぐり寄せ、文字を授けて現世に降ろし、名指しによって顕現させ、厄災・穢れを祓い断つ。</p>
+      <p class="close">書は契りの証、筆は境界を越える橋、繋ぐ彼らを人々は〝連綿師〟と呼んだ──。</p>
+    </div>
+
+    <h3 class="sub-title" style="margin-top:0">契りの三段</h3>
+    <div class="sub-sub">THE THREE STEPS</div>
+    <div class="jutsu-steps">
+      <div class="jutsu-step" data-num="一">
+        <h3>名づけ</h3>
+        <div class="yomi">発見・仮契約</div>
+        <p>輪郭の曖昧な存在を意識に上げ、そのものに縁のある漢字を絡めた名前を贈る。意味と音の響き──相手がその名を気に入れば、仮の契約が結ばれる。</p>
+      </div>
+      <div class="jutsu-step" data-num="二">
+        <h3>名入れ</h3>
+        <div class="yomi">連綿体生成・本契約の儀</div>
+        <p>ひと筆書きの連綿体でその名を綴る。連綿体は、その連綿相だけの召喚陣。緑の巻物「連綿禄」に名を連ねることで本契約となる。</p>
+      </div>
+      <div class="jutsu-step" data-num="三">
+        <h3>名指し</h3>
+        <div class="yomi">召喚</div>
+        <p>連綿体に向けて、名前を呼ぶ。それだけで、その存在はこの世に姿を現す。信頼を重ねた相手ほど、手順を省いて瞬時に応えてくれる。</p>
+      </div>
+    </div>
+
+    <h3 class="sub-title">術師と契約する「連綿相」</h3>
+    <div class="sub-sub">RENMENSOU</div>
+    <div class="aspect-grid">
+      <div class="aspect-card">
+        <h4>神獣</h4>
+        <p>神気を宿した獣が、名付けの契約によって人の姿を得た相（すがた）。シュマリや玄也がこれにあたる。理玄は契約前と契約後とを分けるため、契約後の神獣を「連綿獣」とも呼んでいる。</p>
+        <p>古来より信仰の対象となった狐や狼などがこれにあたり、会話による意思疎通に加え、意識の一部を結び、感覚を共有することもできる。自律的に行動し、術師が呼びかけなくとも顕現するが、最終的な判断は術師の意思に従う。</p>
+      </div>
+      <div class="aspect-card">
+        <h4>付喪神</h4>
+        <p>人々が長く慈しみ、想いを寄せた器物に宿る小さき神々の相。八百万の神のうち、器物に霊性が宿ったものとされる。名付けの契約をすることで、連綿体の字体がそのまま姿となる。</p>
+        <p>言葉による意思疎通は可能だが、自ら現世に干渉する力は神獣ほど強くはない。</p>
+      </div>
+      <div class="aspect-card">
+        <h4>式神</h4>
+        <p>連綿体で書かれた字がそのまま具現化したものは「象意」とよび、主に火・雲・風といった自然の要素が多く、固有名を必要としないが、術師による使役が前提である。</p>
+        <p>これに固有名をつけると、簡単な命令に従って動く式神となる。ただし、環境そのものを示す大字（山・川・海など）は象意の相とはならない。</p>
+      </div>
+    </div>
+
+    <h3 class="sub-title">三つの巻物</h3>
+    <div class="sub-sub">THE THREE SCROLLS</div>
+    <div class="scrolls">
+      <div class="scroll-card">
+        <span class="tab" style="background:#a83226"></span>
+        <div><h4>連綿術指南書</h4><p>連綿術の手ほどきが記された、赤い巻物。理玄が蔵で見つけた、すべての始まり。</p></div>
+      </div>
+      <div class="scroll-card">
+        <span class="tab" style="background:#3d6b4f"></span>
+        <div><h4>連綿禄</h4><p>契約した連綿相の名を連ねる、緑の巻物。茱真理の名もここに在る。</p></div>
+      </div>
+      <div class="scroll-card">
+        <span class="tab" style="background:#2c4d8f"></span>
+        <div><h4>連綿術秘伝書</h4><p>固く封印されたままの、蒼い巻物。その封が解かれる日は、来るのだろうか。</p></div>
+      </div>
+    </div>
+
+    <h3 class="sub-title">術師の協力者「幽世の工匠」</h3>
+    <div class="sub-sub">KAKURIYO NO KOUSHOU</div>
+    <div class="koushou">
+      <p>羽野浜港に拠点を置く「人ならざる者たち」による技術者集団。物作りの工匠、情報や調達を担う目利き、運び屋の船頭など、いくつかの専門職からなる。連綿術に必要な特殊な道具・衣装・術符の調達と制作を担い、術の仕組みを熟知した職人の仕事ともいえる。</p>
+      <p>理玄の事情も深く理解しており、基本的に淡々としながらも、術師としての活動を支える協力者として、尽力してくれる存在だ。熟達した技術からも、かつて連綿師たちに歴史や社会的地位があったことを示唆する存在でもある。</p>
+      <p>理玄は実際に連綿師の一族と会ったことはなく、巻物や幽世の工匠たちからの伝聞でその姿を知るのみ。それでも日記の中で「僕たち連綿師は」と語るとき、まだ見ぬ一族との繋がりを想像している。</p>
+    </div>
+  </div>
+</section>
+
+<svg class="ink-divider" viewBox="0 0 340 14" xmlns="http://www.w3.org/2000/svg"><path d="M4 8 C60 2, 120 12, 170 7 S 300 4, 336 8" fill="none" stroke="#2b2723" stroke-width="2.4" stroke-linecap="round" opacity=".6"/><circle cx="120" cy="9" r="3" fill="#b23a2b"/></svg>
+
+<!-- ============ 登場人物 ============ -->
+<section id="chars" class="reveal">
+  <h2 class="sec-title">登場人物</h2>
+  <div class="sec-sub">CHARACTER</div>
+
+  <!-- 理玄 -->
+  <div class="char-block reveal">
+    <div class="char-main">
+      <figure class="char-portrait"><img src="assets/Rigen_Profile.jpg" alt="都竹理玄" loading="lazy"></figure>
+      <div>
+        <div class="char-head"><h3>都竹 理玄</h3><span class="role">主人公｜連綿師</span></div>
+        <div class="char-desc">
+          <p>赤子の時に書家の一家に拾われ、書道とともに育った15歳の少年。祖父や父と同じように書の道を志し筆を走らせるうちに、自分にしか視えない存在を感じ取るようになる。</p>
+          <p>もともと空想することが好きで、時折落書き感覚で自由に筆を走らせ、名前を付けるのが趣味だった理玄は、筆を通して霊的存在をこの世に顕現させる能力を目覚めさせた。最初に顕現させた存在は、幼い頃に出会った神格化された狼の「茱真理 -シュマリ-」である。その後も多くの〝名もなき者〟に姿と名を与えようと試みたが、言葉を交わせる存在として新たに現れたのは、玄也だけだった。</p>
+          <p>理玄は顕現させた存在を「連綿相」と呼び、それらを巻物に収めているが、シュマリと玄也だけは上着の護符から本人たちの意思で現れることができる。</p>
+        </div>
+      </div>
+    </div>
+    <div class="profile-caption">プロファイル</div>
+    <div class="profile-list">
+      <div class="pi"><span class="pl">身　長</span><span class="pv">5尺3寸（約160cm）</span></div>
+      <div class="pi"><span class="pl">体　重</span><span class="pv">13貫（48.8kg）</span></div>
+      <div class="pi"><span class="pl">足のサイズ</span><span class="pv">10.5文（約25cm）</span></div>
+      <div class="pi"><span class="pl">誕生日</span><span class="pv">如月（2月）の上旬</span></div>
+      <div class="pi"><span class="pl">職　業</span><span class="pv">実家の書道塾の若先生。その傍ら、連綿術を用いて悪霊や怪奇現象に関する相談を請け負う。</span></div>
+      <div class="pi"><span class="pl">性　格</span><span class="pv">真面目で神経が細やかなため、困りごとを見ると放っておけない。</span></div>
+      <div class="pi"><span class="pl">家　族</span><span class="pv">祖父母、父母、姉3人</span></div>
+      <div class="pi"><span class="pl">趣　味</span><span class="pv">型にとらわれず書を遊んだり、文字から想起した名前を付ける事。しかし名づけのセンスが独特すぎて周囲に理解されない。</span></div>
+      <div class="pi"><span class="pl">特　技</span><span class="pv">邪気や人心の陰りを敏感に察知する勘の鋭さを活かした、危機回避能力がある。</span></div>
+      <div class="pi"><span class="pl">好　き</span><span class="pv">兎や犬などの可愛らしい小動物や抹茶系の甘味が好きだが、気恥ずかしくて堂々と言えない。</span></div>
+      <div class="pi"><span class="pl">苦　手</span><span class="pv">お湯が苦手。</span></div>
+      <div class="pi"><span class="pl">劣等感</span><span class="pv">よく女子に間違えられるため、もっと男らしい外見がよかったと思っている。</span></div>
+      <div class="pi"><span class="pl">影の努力</span><span class="pv">筋トレをして腹筋を割ることで男らしさを主張したいが、なかなか割れない。</span></div>
+    </div>
+  </div>
+
+  <!-- 茱真理 -->
+  <div class="char-block reveal">
+    <div class="char-main">
+      <figure class="char-portrait"><img src="assets/Shumari_Profile.jpg" alt="茱真理" loading="lazy"></figure>
+      <div>
+        <div class="char-head"><h3>茱真理</h3><span class="role">最初の連綿獣｜大口真神</span></div>
+        <div class="char-desc">
+          <p>理玄が初めて顕現させた連綿獣。性格は穏やかで知性も高く、好戦的ではないものの理玄に害をなす相手には怒りを露わにする。本来の姿は、古くは〝大神〟と呼ばれ、狼が神格化された「大口真神」である。</p>
+          <p>しかし、ある時を境に狼信仰が衰退し、人々から語り継がれなくなったため、まだ幼かった理玄は彼が〝狼〟だと分からず、地元で篤く信仰されていた「お狐さま」だと思い込み、狐を意味するアイヌ語の「シュマリ」と名付けてしまう。名は「咒（しゅ）」となり、その存在を現世（うつしよ）に繋ぎとめる楔となる。理玄は己の間違いに強い罪悪感を抱いたが、その〝間違い〟こそが、シュマリに再び神格を与える唯一の絆になった。</p>
+          <p class="serif">「君は間違ってなんかいないよ。──ほら、僕は君の〝お狐さま〟だ」</p>
+          <p>彼はそういって狐面を被って見せた。それ以来、シュマリは人の姿でいるときは〝狐面〟を身につけている。</p>
+        </div>
+      </div>
+    </div>
+    <div class="profile-caption">プロファイル</div>
+    <div class="profile-list">
+      <div class="pi"><span class="pl">身　長</span><span class="pv">5尺9寸（約180cm）</span></div>
+      <div class="pi"><span class="pl">体　重</span><span class="pv">19.5貫（73kg）</span></div>
+      <div class="pi"><span class="pl">足のサイズ</span><span class="pv">11.9文（約28.5cm）</span></div>
+      <div class="pi"><span class="pl">誕生日</span><span class="pv">不明</span></div>
+      <div class="pi"><span class="pl">職　業</span><span class="pv">薬師の助手／薙刀使い</span></div>
+      <div class="pi"><span class="pl">性　格</span><span class="pv">通常は穏やかで寛容だが、寂しがり屋なので理玄との距離を詰めたがる。</span></div>
+      <div class="pi"><span class="pl">家　族</span><span class="pv">すでに一族の者は残っておらず、契約主である理玄が家族の代わり。</span></div>
+      <div class="pi"><span class="pl">趣　味</span><span class="pv">人の姿を得て以来、世界が色彩豊かであることに気づき、狐面に模様を描く事が趣味となる。狐面は外出時や戦闘時にその場の気分で選んでおり、通常は半面を着けているが、気分的に顔を見せたくない時に全面を着けることもある。</span></div>
+      <div class="pi"><span class="pl">特　技</span><span class="pv">狩り、薬草の調合</span></div>
+      <div class="pi"><span class="pl">好　き</span><span class="pv">肉、グミの実、楽器の演奏、服飾を見てまわる事。</span></div>
+      <div class="pi"><span class="pl">苦　手</span><span class="pv">お香や香水などの、人工的な強い香り。</span></div>
+      <div class="pi"><span class="pl">劣等感</span><span class="pv">犬猫の場合は外見的特徴の違いはよく分かるのに、人間の顔は見分けがつきづらい事。</span></div>
+      <div class="pi"><span class="pl">影の努力</span><span class="pv">妖怪や山神等に聞いて連綿師に関する情報を収集している。</span></div>
+    </div>
+  </div>
+
+  <!-- 玄也 -->
+  <div class="char-block reveal">
+    <div class="char-main">
+      <figure class="char-portrait"><img src="assets/Genya_Profile.jpg" alt="玄也" loading="lazy"></figure>
+      <div>
+        <div class="char-head"><h3>玄也</h3><span class="role">二体目の連綿獣｜大蛇 -orochi-</span></div>
+        <div class="char-desc">
+          <p>その正体は大蛇（オロチ）という、シュマリとは対照的に祀られ続けている蛇神一族の末裔。理玄とはシュマリ顕現の後に出会い、数年来の付き合いだが、気の合う相棒のような存在である。</p>
+          <p>「人々が求める現世利益とはどういったものなのかを知りたい」と言って、人里に降りては繁華街で遊びまわるため見聞が広い。世間に対してはややドライだが、決断が早く面倒見の良い兄貴肌でもある。</p>
+          <p>かつては忍びの里で修行をしていた経験があり、戦闘力も高いが特筆すべきはその〝運の強さ〟だ。彼はサイコロの出目で36通りの術を繰り出す「サイコロ忍法」を得意としており、接近戦を避けて相手をけむに巻き、素早く撤退する戦法を好む。また、十二年に一度、運気が最高潮に達する年には勝負運も財運も〝神がかり〟となる。蓄財の才もあり、懐が温かいことから理玄たちに頼られることも多い。</p>
+        </div>
+      </div>
+    </div>
+    <div class="profile-caption">プロファイル</div>
+    <div class="profile-list">
+      <div class="pi"><span class="pl">身　長</span><span class="pv">5尺7寸（約172cm）</span></div>
+      <div class="pi"><span class="pl">体　重</span><span class="pv">17貫（65kg）</span></div>
+      <div class="pi"><span class="pl">足のサイズ</span><span class="pv">11文（約26.5cm）</span></div>
+      <div class="pi"><span class="pl">誕生日</span><span class="pv">不明</span></div>
+      <div class="pi"><span class="pl">職　業</span><span class="pv">忍者、時々探偵</span></div>
+      <div class="pi"><span class="pl">性　格</span><span class="pv">サバサバしていて明朗快活。明確に物をいうが、悪気はない。</span></div>
+      <div class="pi"><span class="pl">家　族</span><span class="pv">一族の曽祖父母から兄弟まで多数いる</span></div>
+      <div class="pi"><span class="pl">趣　味</span><span class="pv">花札、花街巡り、変装、人間観察</span></div>
+      <div class="pi"><span class="pl">特　技</span><span class="pv">勝負事、易占い、隠密行動</span></div>
+      <div class="pi"><span class="pl">好　き</span><span class="pv">お茶屋の三色団子、酒盛り、祭り</span></div>
+      <div class="pi"><span class="pl">苦　手</span><span class="pv">ジメジメした場所、寒さ</span></div>
+      <div class="pi"><span class="pl">劣等感</span><span class="pv">一族の中では変わり者扱いされていること</span></div>
+      <div class="pi"><span class="pl">影の努力</span><span class="pv">変装技術を伸ばすべく特殊メイクを習得中。</span></div>
+    </div>
+  </div>
+
+  <!-- 理央 -->
+  <h3 class="sub-title">理玄をとりまく人々</h3>
+  <div class="sub-sub">PEOPLE AROUND RIGEN</div>
+  <div class="sub-grid">
+    <div class="sub-card wide">
+      <h4>筒井 理央</h4><div class="yomi">つつい りお｜親友</div>
+      <p>理玄とは同い年の男子で、親友。理玄の家の近所に住んでおり、連綿術に目覚める前から交流がある。<br>理玄がある時を境に他人と距離を取り始めたとき、最後まで側に残っていた子。<br>6歳の頃に突然居なくなったシュマリのことで落ち込む理玄を、何も聞かずに寄り添って励ましていた。</p>
+      <p>しかし、いつまでも打ち明けてくれない理玄とすれ違い、仲直りできないまま引越しで離れてしまう。<br>数年後、12歳の頃に隣町の羽留奈町で再会。すっかり明るくなった理玄を見て、仲直りをした。</p>
+      <div class="profile-caption">プロファイル</div>
+      <div class="profile-list">
+        <div class="pi"><span class="pl">身　長</span><span class="pv">5尺4寸（約162cm）</span></div>
+        <div class="pi"><span class="pl">体　重</span><span class="pv">14貫（50kg）</span></div>
+        <div class="pi"><span class="pl">足のサイズ</span><span class="pv">10.5文（約25cm）</span></div>
+        <div class="pi"><span class="pl">誕生日</span><span class="pv">不明</span></div>
+        <div class="pi"><span class="pl">年　齢</span><span class="pv">15歳</span></div>
+        <div class="pi"><span class="pl">職　業</span><span class="pv">商店の奉公人</span></div>
+        <div class="pi"><span class="pl">性　格</span><span class="pv">大人しいが几帳面で、前向きな性格。</span></div>
+        <div class="pi"><span class="pl">家　族</span><span class="pv">祖父母、父母、妹</span></div>
+        <div class="pi"><span class="pl">特　技</span><span class="pv">暗算が早い事</span></div>
+        <div class="pi"><span class="pl">好　き</span><span class="pv">落ち着いた書庫、読書、紙のにおい</span></div>
+        <div class="pi"><span class="pl">苦　手</span><span class="pv">人が多いところ</span></div>
+        <div class="pi"><span class="pl">劣等感</span><span class="pv">理玄に比べて、自分は知識も経験も少ないと感じており、尊敬しつつも同い年の男子として対抗心を心に秘めている。</span></div>
+      </div>
+    </div>
+    <div class="sub-card">
+      <h4>椿</h4><div class="yomi">つばき｜都竹家 長女</div>
+      <p>理玄の6つ上の姉。おっとりした性格で、おしゃれに興味関心が強い。妹たちの髪をいじったり着飾ってやるのが趣味だが、三女の三咲が拒むため、その矛先が理玄に向いていた。</p>
+      <p>理玄に構おうとすると、村の男子にからかわれるからと避けられていたが、姉弟関係は悪くなく、椿が17で嫁に行く際に最も別れを惜しんでいたのは理玄だった。そして椿は、かつて理玄が羽野浜港に行った際に、お土産としてもらった蝶々の簪を後生大事にしている。</p>
+    </div>
+    <div class="sub-card">
+      <h4>夏月</h4><div class="yomi">なつき｜都竹家 次女</div>
+      <p>理玄の3つ上の姉。穏やかな性格で最も頭がよく、論理的思考の持ち主。理玄の連綿術への情熱を最も理解してくれる。</p>
+      <p>村の女子の中では珍しく眼鏡、おさげ髪という地味な風貌。眼鏡を取れば意外と……。8歳の頃、妖魔にさらわれたところをシュマリ（人型）に助けられたことがあり、シュマリには密かに憧れている。</p>
+    </div>
+    <div class="sub-card">
+      <h4>三咲</h4><div class="yomi">みさき｜都竹家 三女</div>
+      <p>理玄とは同い年。世間的には双子の姉という扱いになっている。小さい頃は仲が良かったが、ある時血の繋がりがないと知って以来、理玄への接し方に戸惑い空回りしている。</p>
+      <p>理玄に対する容姿のコンプレックスから男勝りな性格となり、その意地っ張りさゆえに理玄からは姉扱いされていない。連綿術に対しては訝しげで、人型のシュマリを警戒する一方、同一人物とは気づかずに狼姿のシュマリを密かにモフりたいと願う一面を持っている。</p>
+    </div>
+  </div>
+
+  <h3 class="sub-title">羽鹿野の神々とあやかし</h3>
+  <div class="sub-sub">KAMI &amp; YOKAI</div>
+  <div class="sub-grid">
+    <div class="sub-card kami"><h4>鎮狗</h4><div class="yomi">しずく｜祠守りの子犬</div><p>茱真理の祠を守る、子犬の眷属。「永久に在り続ける子犬」の意を込めて名付けられた。理玄を「ごしゅりん」と呼んで慕い、毎朝の訪れを心待ちにしている。</p></div>
+    <div class="sub-card kami"><h4>山神</h4><div class="yomi">やまがみ</div><p>鳥の羽と鹿の角を持つ、羽鹿野村の名の由来となった神。人の姿にも鹿の姿にもなれる。</p></div>
+    <div class="sub-card kami"><h4>烏天狗</h4><div class="yomi">からすてんぐ</div><p>山の上の寺に住まう修行僧たち。茱真理に薙刀の稽古をつけた師でもある。長は黒髪の女君主。</p></div>
+    <div class="sub-card kami"><h4>妖狸</h4><div class="yomi">ようり</div><p>山に住む狸たち。人に化けて里に下りては、食べ物を失敬したり、山や村の噂話を理玄のもとへ運んでくる。</p></div>
+    <div class="sub-card kami"><h4>お稲荷様</h4><div class="yomi">おいなりさま</div><p>村で主に祀られている女狐。新参の茱真理とは、何かと張り合う仲。</p></div>
+  </div>
+</section>
+
+<svg class="ink-divider" viewBox="0 0 340 14" xmlns="http://www.w3.org/2000/svg"><path d="M4 6 C80 12, 150 2, 210 9 S 310 10, 336 5" fill="none" stroke="#2b2723" stroke-width="2.4" stroke-linecap="round" opacity=".6"/><circle cx="260" cy="8" r="3" fill="#b23a2b"/></svg>
+
+<!-- ============ 画廊 ============ -->
+<section id="gallery" class="reveal">
+  <h2 class="sec-title">画廊</h2>
+  <div class="sec-sub">GALLERY</div>
+  <!--
+    ◆ 画廊の更新方法 ◆
+    下のスクリプト内 GALLERY_IMAGES に1行追加するだけで画像が並びます。
+    例： { src: "assets/新しい画像.jpg", caption: "キャプション" },
+    画像ファイルは assets フォルダに入れてください。空の場合は「準備中」表示になります。
+  -->
+  <div class="gallery-grid" id="galleryGrid"></div>
+  <div class="gallery-empty" id="galleryEmpty" style="display:none">
+    <span class="fude">只今、揮毫中</span>
+    作品は順次公開予定です。今しばらくお待ちください。
+  </div>
+  <p class="gallery-note" id="galleryNote" style="display:none">クリックで拡大表示できます。掲載画像の無断転載はご遠慮ください。</p>
+</section>
+
+<svg class="ink-divider" viewBox="0 0 340 14" xmlns="http://www.w3.org/2000/svg"><path d="M4 8 C60 2, 120 12, 170 7 S 300 4, 336 8" fill="none" stroke="#2b2723" stroke-width="2.4" stroke-linecap="round" opacity=".6"/><circle cx="80" cy="6" r="3" fill="#b23a2b"/></svg>
+
+<!-- ============ お知らせ ============ -->
+<section id="news" class="reveal">
+  <h2 class="sec-title">お知らせ</h2>
+  <div class="sec-sub">NEWS</div>
+
+  <h3 class="sub-title" style="margin-top:0">個展『紡 -Tsumugi-』開催</h3>
+  <div class="sub-sub">SOLO EXHIBITION</div>
+  <div class="news-img-grid" style="grid-template-columns:1fr;max-width:860px">
+    <figure class="lb-zoom"><img src="assets/kishino個展【tsumugi】キービジュアル_website.jpg" alt="kishino初個展『紡 -Tsumugi-』キービジュアル" loading="lazy"></figure>
+  </div>
+  <div class="news-body">
+    <p>kishino初個展【紡 -Tsumugi-】を開催します！<br>テーマは、一筆書きの連綿体×イラストレーション。</p>
+    <p>昔の書家たちが紡いだ、筆の流れが途切れずに続く「連綿体」という表現で、<br>伝統的な書の美を現代のイラストレーションへ繋げていきます。<br>長年の想いを込めて紡ぎ出した作品たちをお楽しみいただければ幸いです。</p>
+  </div>
+  <div class="news-info">
+    <div class="row"><span class="lbl">会　期</span><span>7月14日(火) 〜 7月19日(日)</span></div>
+    <div class="row"><span class="lbl">時　間</span><span>10:00 〜 19:00（最終日は17:00まで）</span></div>
+    <div class="row"><span class="lbl">会　場</span><span><a href="https://atelier-ar-57.com/" target="_blank" rel="noopener">『ATERIER AR』3階 ↗</a></span></div>
+    <div class="row"><span class="lbl">住　所</span><span><a href="https://www.google.com/maps/search/?api=1&amp;query=東京都台東区浅草橋1丁目24番11号&amp;basemap=roadmap" target="_blank" rel="noopener">東京都台東区浅草橋1丁目24番11号 ↗</a></span></div>
+    <div class="row"><span class="lbl">アクセス</span><span>JR総武線「浅草橋」西口徒歩1分</span></div>
+  </div>
+  <p style="text-align:center;margin-top:22px;font-size:14.5px;letter-spacing:.12em">入場無料・全日在廊します。<br>是非kishinoに会いに来てください！</p>
+
+  <h3 class="sub-title" id="diary" style="scroll-margin-top:90px">理玄の日記『一筆の縁』連載中</h3>
+  <div class="sub-sub">SERIAL DIARY ON SUBSTACK</div>
+  <a class="substack-banner" href="https://tsudukirigen.substack.com/" target="_blank" rel="noopener">
+    <img src="assets/substack_header.png" alt="理玄の日記『一筆の縁』" loading="lazy">
+  </a>
+  <div class="news-body">
+    <p>山沿いの田舎で静かに筆を執る書家の少年が、<br>日々の暮らしでの気付きや心の機微を綴った独り言。</p>
+    <p>本来なら、誰の目にも触れるはずのない「私的な記録」が、なぜかあなたの元へ届きます。<br>理玄の見ている世界を、あなたも覗いてみませんか？</p>
+    <p>忙しい毎日の隙間、ふと江戸の風を感じるような、穏やかなひと時をお届けできれば幸いです。<br>メルマガ読者限定で、理玄からの手紙も届きます。</p>
+  </div>
+  <div class="news-info" style="margin-bottom:34px">
+    <div class="row"><span class="lbl">配　信</span><span>毎週 月・水・金 20時</span></div>
+    <div class="row"><span class="lbl">場　所</span><span>Substack（プラットフォーム）もしくはメルマガ</span></div>
+  </div>
+  <div class="btn-row">
+    <a class="btn" href="https://tsudukirigen.substack.com/" target="_blank" rel="noopener">『一筆の縁』を読む</a>
+  </div>
+</section>
+
+<!-- ============ 通販 ============ -->
+<section id="shop" class="reveal">
+  <h2 class="sec-title">グッズ通販</h2>
+  <div class="sec-sub">SHOP</div>
+  <p class="shop-lead">『連綿師』グッズの通販はBOOTHにて行っております。<br>※デザインフェスタ61で販売したグッズと同じものです。</p>
+  <div class="goods-list">
+    <div class="goods-item"><h4>ポストカード</h4><div class="price">各 ￥220</div></div>
+    <div class="goods-item"><h4>カンバッジ</h4><div class="price">キャラ 各￥330／連綿体 各￥220</div></div>
+    <div class="goods-item"><h4>フレークシールセット</h4><div class="price">￥550</div></div>
+    <div class="goods-item"><h4>A4クリアファイル</h4><div class="price">各 ￥550</div></div>
+    <div class="goods-item"><h4>アクリルスタンド</h4><div class="price">各 ￥1,650</div></div>
+    <div class="goods-item"><h4>B2タペストリー</h4><div class="price">各 ￥5,500</div></div>
+  </div>
+  <div class="btn-row">
+    <a class="btn shu" href="https://lmaworks.booth.pm/" target="_blank" rel="noopener">BOOTHでグッズを見る</a>
+  </div>
+  <p class="shop-note">在庫状況・最新のラインナップはBOOTHのショップページをご確認ください。</p>
+</section>
+
+<!-- ============ お問合せ ============ -->
+<section id="contact" class="reveal">
+  <h2 class="sec-title">お問合せ</h2>
+  <div class="sec-sub">CONTACT</div>
+  <div class="contact-wrap">
+    <p class="contact-lead">『連綿師』に関するご感想・ご依頼・コラボのご相談など、<br>お気軽にお寄せください。</p>
+    <form id="contactForm" action="https://formsubmit.co/lmadesignworks@gmail.com" method="POST">
+      <!-- FormSubmit設定（初回送信時に届く確認メールで有効化してください） -->
+      <input type="hidden" name="_subject" value="『連綿師』サイトからのお問い合わせ">
+      <input type="hidden" name="_next" id="fsNext" value="">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="text" name="_honey" style="display:none">
+      <div class="form-row">
+        <label for="cName">ご氏名／企業名<span class="req">＊必須</span></label>
+        <input type="text" id="cName" name="ご氏名／企業名" required>
+      </div>
+      <div class="form-row">
+        <label for="cMail">メールアドレス<span class="req">＊必須</span></label>
+        <input type="email" id="cMail" name="email" required>
+      </div>
+      <div class="form-row">
+        <label for="cBody">ご用件<span class="req">＊必須</span></label>
+        <textarea id="cBody" name="ご用件" required></textarea>
+      </div>
+      <div class="btn-row"><button type="submit" class="btn">送信する</button></div>
+      <p class="contact-note">送信いただいた内容は、運営者（kishino）宛てに直接届きます。<br>返信が必要な場合は、数日以内にメールにてご連絡いたします。</p>
+    </form>
+    <p id="contactThanks" style="display:none;text-align:center;font-size:15px;letter-spacing:.12em;padding:40px 0">
+      お問い合わせを送信しました。<br>ご連絡ありがとうございます。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 縁 ============ -->
+<section id="en" class="en-sec reveal">
+  <div class="en-inner">
+    <h2 class="sec-title">縁</h2>
+    <div class="sec-sub" style="color:#cbb87a">MESSAGE</div>
+    <p class="en-lead">名を与えることは、<br><span class="kin">縁を結ぶ</span>ということ。</p>
+    <div class="en-body">
+      <p>語り継がれなくなった神は、輪郭を失い、誰の目にも映らなくなっていく。けれど、たったひとりでも見つけてくれる人がいれば──名前を呼んでくれる人がいれば、その存在はもう一度、この世界に足跡を残せる。</p>
+      <p>『連綿師』が描くのは、忘れられゆくものたちと、それでも繋がり続けようとする心の物語。一筆書きの文字が途切れずに連なるように、人と人、人とあやかしの縁もまた、連綿と紡がれていく。</p>
+      <p>その筆先が結ぶ縁起を、どうか見届けてください。</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ フッター ============ -->
+<footer>
+  <div class="f-title">連綿師</div>
+  <div>-THE SUMMONER OF MAD CALLIGRAPHY-</div>
+  <div class="f-links">
+    <a href="https://lmaworks.booth.pm/" target="_blank" rel="noopener">BOOTH</a>
+    <a href="#contact">お問合せ</a>
+  </div>
+  <div class="f-note">© 『連綿師』 kishino All Rights Reserved.<br>本サイトに掲載の文章・画像の無断転載を禁じます。</div>
+</footer>
+</div>
+
+<!-- ライトボックス -->
+<div class="lightbox" id="lightbox"><img src="" alt=""></div>
+
+<script>
+/* ==========================================================
+   ◆ 画廊の画像リスト ◆
+   ここに追加するだけでギャラリーが更新されます。
+   例：
+   const GALLERY_IMAGES = [
+     { src: "assets/artwork_01.jpg", caption: "キービジュアル" },
+     { src: "assets/artwork_02.png", caption: "理玄 立ち絵" },
+   ];
+   ========================================================== */
+const GALLERY_IMAGES = [
+  // { src: "assets/main_banner.jpg", caption: "メインビジュアル" },
+];
+
+// ギャラリー描画
+const grid = document.getElementById('galleryGrid');
+const empty = document.getElementById('galleryEmpty');
+const note = document.getElementById('galleryNote');
+if (GALLERY_IMAGES.length === 0) {
+  empty.style.display = 'block';
+} else {
+  note.style.display = 'block';
+  GALLERY_IMAGES.forEach(item => {
+    const fig = document.createElement('figure');
+    const img = document.createElement('img');
+    img.src = item.src; img.alt = item.caption || ''; img.loading = 'lazy';
+    fig.appendChild(img);
+    if (item.caption) {
+      const cap = document.createElement('figcaption');
+      cap.textContent = item.caption;
+      fig.appendChild(cap);
+    }
+    fig.addEventListener('click', () => {
+      lbImg.src = item.src;
+      lb.classList.add('open');
+    });
+    grid.appendChild(fig);
+  });
+}
+
+// ライトボックス
+const lb = document.getElementById('lightbox');
+const lbImg = lb.querySelector('img');
+// お知らせ内の画像もクリックで拡大
+document.querySelectorAll('.lb-zoom').forEach(f => {
+  f.addEventListener('click', () => {
+    lbImg.src = f.querySelector('img').src;
+    lb.classList.add('open');
+  });
+});
+lb.addEventListener('click', () => lb.classList.remove('open'));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+
+// ふわっと出現
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// お問合せ（FormSubmit）：送信後は同じページに ?sent=1 付きで戻る
+document.getElementById('fsNext').value =
+  location.origin + location.pathname + '?sent=1#contact';
+if (new URLSearchParams(location.search).get('sent') === '1') {
+  document.getElementById('contactForm').style.display = 'none';
+  document.getElementById('contactThanks').style.display = 'block';
+}
+</script>
+</body>
+</html>
