@@ -253,14 +253,14 @@
       text-align: center;
       position: relative;
       overflow: hidden;
-      padding: 70px 20px 90px;
+      padding: 0px 20px 90px;
     }
 
     /* タイトル一式を包むラッパー：円と縦書きはこの箱を基準に配置される */
     .hero-inner {
       position: relative;
       width: fit-content;
-      margin: 0 auto;
+      margin: clamp(40px, 7vw, 80px) auto 0;
       padding: 90px 30px 150px;
       display: flex;
       flex-direction: column;
@@ -330,6 +330,20 @@
 
     .hero-catch .shu {
       color: var(--shu)
+    }
+
+    /* ファーストビューのメインビジュアル */
+    .hero-visual {
+      margin: 0 auto;
+      width: min(880px, 94vw);
+      border: 1px solid rgba(43, 39, 35, .2);
+      box-shadow: 0 12px 44px rgba(50, 46, 102, .18);
+      overflow: hidden;
+    }
+
+    .hero-visual img {
+      width: 100%;
+      display: block;
     }
 
     .hero-scroll {
@@ -1470,6 +1484,9 @@
 
       <!-- ============ HERO ============ -->
       <section class="hero" id="hero">
+        <figure class="hero-visual">
+          <img src="assets/renmenshi_top.jpg" alt="『連綿師』メインビジュアル：玄也・理玄・茱真理" fetchpriority="high">
+        </figure>
         <div class="hero-inner">
           <img class="enso" src="assets/suimmaru.svg" alt="" aria-hidden="true">
           <div class="hero-ruby">れんめんし</div>
