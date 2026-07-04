@@ -198,9 +198,39 @@
     .ink-divider {
       display: block;
       margin: 0 auto;
-      width: min(340px, 70%);
-      height: 14px;
-      opacity: .75
+      width: min(320px, 62%);
+      height: auto;
+      opacity: .8
+    }
+
+    /* 設定画サムネイル */
+    .art-thumbs {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+      max-width: 640px;
+    }
+
+    .art-thumbs figure {
+      cursor: zoom-in;
+      overflow: hidden;
+      border: 1px solid rgba(43, 39, 35, .2);
+      background: #fff;
+      box-shadow: 0 3px 12px rgba(43, 39, 35, .08);
+      position: relative;
+    }
+
+    .art-thumbs img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s;
+    }
+
+    .art-thumbs figure:hover img {
+      transform: scale(1.06);
     }
 
     .reveal {
@@ -1368,10 +1398,7 @@
       <!-- ============ HERO ============ -->
       <section class="hero" id="hero">
         <div class="hero-inner">
-          <svg class="enso" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <path d="M100 14 a86 86 0 1 0 60 24" fill="none" stroke="#2b2723" stroke-width="10"
-              stroke-linecap="round" />
-          </svg>
+          <img class="enso" src="assets/suimmaru.svg" alt="" aria-hidden="true">
           <div class="hero-ruby">れんめんし</div>
           <h1 class="hero-title">連綿師</h1>
           <div class="hero-en">-THE SUMMONER OF MAD CALLIGRAPHY-</div>
@@ -1394,11 +1421,7 @@
         </div>
       </section>
 
-      <svg class="ink-divider" viewBox="0 0 340 14" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 8 C60 2, 120 12, 170 7 S 300 4, 336 8" fill="none" stroke="#2b2723" stroke-width="2.4"
-          stroke-linecap="round" opacity=".6" />
-        <circle cx="170" cy="7" r="3" fill="#b23a2b" />
-      </svg>
+      <img class="ink-divider" src="assets/sumisen.svg" alt="">
 
       <!-- ============ 世界観 ============ -->
       <section id="world" class="reveal">
@@ -1442,11 +1465,7 @@
         </div>
       </section>
 
-      <svg class="ink-divider" viewBox="0 0 340 14" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 6 C80 12, 150 2, 210 9 S 310 10, 336 5" fill="none" stroke="#2b2723" stroke-width="2.4"
-          stroke-linecap="round" opacity=".6" />
-        <circle cx="210" cy="9" r="3" fill="#b23a2b" />
-      </svg>
+      <img class="ink-divider" src="assets/sumisen.svg" alt="">
 
       <!-- ============ 連綿師とは ============ -->
       <section id="renmenshi" class="reveal">
@@ -1544,11 +1563,7 @@
         </div>
       </section>
 
-      <svg class="ink-divider" viewBox="0 0 340 14" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 8 C60 2, 120 12, 170 7 S 300 4, 336 8" fill="none" stroke="#2b2723" stroke-width="2.4"
-          stroke-linecap="round" opacity=".6" />
-        <circle cx="120" cy="9" r="3" fill="#b23a2b" />
-      </svg>
+      <img class="ink-divider" src="assets/sumisen.svg" alt="">
 
       <!-- ============ 登場人物 ============ -->
       <section id="chars" class="reveal">
@@ -1594,6 +1609,8 @@
             <div class="pi"><span class="pl">影の努力</span><span class="pv">筋トレをして腹筋を割ることで男らしさを主張したいが、なかなか割れない。</span>
             </div>
           </div>
+          <div class="profile-caption">設定画</div>
+          <div class="art-thumbs" data-char="rigen"></div>
         </div>
 
         <!-- 茱真理 -->
@@ -1634,6 +1651,8 @@
             </div>
             <div class="pi"><span class="pl">影の努力</span><span class="pv">妖怪や山神等に聞いて連綿師に関する情報を収集している。</span></div>
           </div>
+          <div class="profile-caption">設定画</div>
+          <div class="art-thumbs" data-char="shumari"></div>
         </div>
 
         <!-- 玄也 -->
@@ -1670,6 +1689,8 @@
             <div class="pi"><span class="pl">劣等感</span><span class="pv">一族の中では変わり者扱いされていること</span></div>
             <div class="pi"><span class="pl">影の努力</span><span class="pv">変装技術を伸ばすべく特殊メイクを習得中。</span></div>
           </div>
+          <div class="profile-caption">設定画</div>
+          <div class="art-thumbs" data-char="genya"></div>
         </div>
 
         <!-- 理央 -->
@@ -1755,11 +1776,7 @@
         </div>
       </section>
 
-      <svg class="ink-divider" viewBox="0 0 340 14" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 6 C80 12, 150 2, 210 9 S 310 10, 336 5" fill="none" stroke="#2b2723" stroke-width="2.4"
-          stroke-linecap="round" opacity=".6" />
-        <circle cx="260" cy="8" r="3" fill="#b23a2b" />
-      </svg>
+      <img class="ink-divider" src="assets/sumisen.svg" alt="">
 
       <!-- ============ 画廊 ============ -->
       <section id="gallery" class="reveal">
@@ -1779,11 +1796,7 @@
         <p class="gallery-note" id="galleryNote" style="display:none">クリックで拡大表示できます。掲載画像の無断転載はご遠慮ください。</p>
       </section>
 
-      <svg class="ink-divider" viewBox="0 0 340 14" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 8 C60 2, 120 12, 170 7 S 300 4, 336 8" fill="none" stroke="#2b2723" stroke-width="2.4"
-          stroke-linecap="round" opacity=".6" />
-        <circle cx="80" cy="6" r="3" fill="#b23a2b" />
-      </svg>
+      <img class="ink-divider" src="assets/sumisen.svg" alt="">
 
       <!-- ============ お知らせ ============ -->
       <section id="news" class="reveal">
@@ -1911,10 +1924,13 @@
               <button type="button" class="btn" id="cfSend">送信する</button>
             </div>
           </div>
-          <p id="contactThanks"
-            style="display:none;text-align:center;font-size:15px;letter-spacing:.12em;padding:40px 0">
-            お問い合わせを送信しました。<br>ご連絡ありがとうございます。
-          </p>
+          <div id="contactThanks" style="display:none;text-align:center;padding:40px 0 10px">
+            <p style="font-size:15px;letter-spacing:.12em;margin-bottom:28px">
+              お問い合わせを送信しました。<br>ご連絡ありがとうございます。
+            </p>
+            <button type="button" class="btn ghost"
+              onclick="location.href=location.pathname+'#contact'">メッセージを再送する</button>
+          </div>
         </div>
       </section>
 
@@ -2001,6 +2017,42 @@
     });
     lb.addEventListener('click', () => lb.classList.remove('open'));
     document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+
+    /* ==========================================================
+       ◆ キャラクター設定画 ◆
+       ここに1行追加するだけでサムネイルが増えます。
+       例： { src: "assets/新しい設定画.png", caption: "新衣装" },
+       ========================================================== */
+    const CHAR_ART = {
+      rigen: [
+        { src: "assets/costume_rigen.png", caption: "衣装の構造解説" },
+      ],
+      shumari: [
+        { src: "assets/costume_shumari.jpg", caption: "衣装の構造解説" },
+      ],
+      genya: [
+        { src: "assets/genya_fullbody.png", caption: "全身設定" },
+        { src: "assets/genya_butup_01.png", caption: "バストアップ 01" },
+        { src: "assets/genya_butup_02.png", caption: "バストアップ 02" },
+        { src: "assets/genya_emotion.jpg", caption: "表情集" },
+      ],
+    };
+    document.querySelectorAll('.art-thumbs').forEach(box => {
+      const arts = CHAR_ART[box.dataset.char] || [];
+      arts.forEach(item => {
+        const fig = document.createElement('figure');
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.alt = item.caption || '設定画';
+        img.loading = 'lazy';
+        fig.appendChild(img);
+        fig.addEventListener('click', () => {
+          lbImg.src = item.src;
+          lb.classList.add('open');
+        });
+        box.appendChild(fig);
+      });
+    });
 
     // ふわっと出現
     const io = new IntersectionObserver(es => {
