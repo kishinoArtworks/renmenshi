@@ -113,13 +113,14 @@
       position: relative;
     }
 
-    /* カスミ柄の装飾（コンテンツ端にさりげなく） */
+    /* カスミ柄の装飾（コンテンツ端にさりげなく・常に文字や墨線の背面） */
     .kasumi {
       position: absolute;
       width: clamp(130px, 28vw, 500px);
       opacity: .8;
       pointer-events: none;
       user-select: none;
+      z-index: -1;
     }
 
     .kasumi.flip {
@@ -1450,17 +1451,27 @@
         display: none
       }
 
-      /* カスミ柄：スマホでは固定サイズにして、画面端から見切れさせる */
+      /* カスミ柄：スマホでは固定サイズにして、画面端から大きく見切れさせる */
       .kasumi {
-        width: 430px;
+        width: 460px;
       }
 
       .kasumi:not(.flip) {
-        left: -200px !important;
+        left: -270px !important;
       }
 
       .kasumi.flip {
-        right: -200px !important;
+        right: -270px !important;
+      }
+
+      /* 見出しが改行しないよう、モバイルでは字間を詰める */
+      .sub-title {
+        font-size: 19px;
+        letter-spacing: .08em;
+      }
+
+      .sec-title {
+        letter-spacing: .12em;
       }
 
       /* ファーストビュー：円の中に文字が収まるよう縮小＆1行化 */
