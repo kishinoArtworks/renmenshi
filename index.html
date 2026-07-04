@@ -127,6 +127,11 @@
       transform: scaleX(-1);
     }
 
+    /* 円内の無地塗り（スマホのみ表示） */
+    .enso-fill {
+      display: none;
+    }
+
     main {
       position: relative;
       z-index: 2
@@ -1480,6 +1485,20 @@
         top: 50%;
       }
 
+      /* 円の内側は無地の和紙色にして、テクスチャを目立たせない */
+      .enso-fill {
+        display: block;
+        position: absolute;
+        z-index: -1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: min(336px, 88vw);
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        background: var(--washi);
+      }
+
       .hero-tagline {
         font-size: 12px;
         letter-spacing: .12em;
@@ -1576,6 +1595,7 @@
         </figure>
         <div class="hero-inner">
           <img class="enso" src="assets/suimmaru.svg" alt="" aria-hidden="true">
+          <span class="enso-fill" aria-hidden="true"></span>
           <div class="hero-ruby">れんめんし</div>
           <h1 class="hero-title"><img src="assets/renmenshi.svg" alt="連綿師"></h1>
           <div class="hero-en">-THE SUMMONER OF MAD CALLIGRAPHY-</div>
