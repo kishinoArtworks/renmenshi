@@ -253,7 +253,7 @@
       text-align: center;
       position: relative;
       overflow: hidden;
-      padding: 0px 20px 90px;
+      padding: 0px 20px 48px;
     }
 
     /* タイトル一式を包むラッパー：円と縦書きはこの箱を基準に配置される */
@@ -335,7 +335,8 @@
     /* ファーストビューのメインビジュアル */
     .hero-visual {
       margin: 0 auto;
-      width: min(880px, 94vw);
+      width: 100%;
+      max-width: 880px;
       border: 1px solid rgba(43, 39, 35, .2);
       box-shadow: 0 12px 44px rgba(50, 46, 102, .18);
       overflow: hidden;
@@ -347,10 +348,8 @@
     }
 
     .hero-scroll {
-      position: absolute;
-      bottom: 26px;
-      left: 50%;
-      transform: translateX(-50%);
+      position: static;
+      margin-top: 56px;
       font-size: 10px;
       letter-spacing: .4em;
       color: var(--sumi-usu);
@@ -964,8 +963,7 @@
     /* ライトボックスの前後送りボタン */
     .lb-nav {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+      bottom: 22px;
       background: rgba(244, 241, 234, .12);
       color: #f4f1ea;
       border: 1px solid rgba(244, 241, 234, .45);
@@ -991,11 +989,17 @@
     }
 
     #lbPrev {
-      left: max(12px, 2.5vw);
+      left: calc(50% - 70px);
     }
 
     #lbNext {
-      right: max(12px, 2.5vw);
+      right: calc(50% - 70px);
+    }
+
+    /* 前後送りがあるときは、画像の下にボタン領域を確保 */
+    .lightbox.multi img {
+      max-height: calc(100% - 92px);
+      margin-bottom: 92px;
     }
 
     /* ============ お知らせ ============ */
@@ -1422,8 +1426,36 @@
         display: none
       }
 
+      /* ファーストビュー：円の中に文字が収まるよう縮小＆1行化 */
+      .hero .enso {
+        width: min(370px, 97vw);
+      }
+
+      .hero-title img {
+        width: min(230px, 60vw);
+      }
+
+      .hero-ruby {
+        font-size: 12px;
+        letter-spacing: .9em;
+        padding-left: .9em;
+      }
+
+      .hero-en {
+        font-size: 9px;
+        letter-spacing: .18em;
+        white-space: nowrap;
+        margin-top: 12px;
+      }
+
+      .hero-catch {
+        font-size: 12px;
+        letter-spacing: .08em;
+        white-space: nowrap;
+      }
+
       .hero-inner {
-        padding: 55px 10px 85px
+        padding: 75px 10px 100px
       }
 
       nav {
@@ -2140,6 +2172,7 @@
       const multi = lbList.length > 1;
       lbPrev.classList.toggle('show', multi);
       lbNext.classList.toggle('show', multi);
+      lb.classList.toggle('multi', multi);
     }
     function stepLb(dir) {
       if (lbList.length < 2) return;
