@@ -1216,6 +1216,116 @@
       letter-spacing: .1em
     }
 
+    /* ============ 二次創作ガイドライン ============ */
+    .gl-lead {
+      max-width: 720px;
+      margin: 0 auto 34px;
+      text-align: center;
+      font-size: clamp(14px, 1.7vw, 15.5px);
+    }
+
+    .gl-acc {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .gl-acc details {
+      background: rgba(255, 253, 248, .8);
+      border: 1px solid rgba(176, 141, 62, .45);
+      margin-bottom: 14px;
+    }
+
+    .gl-acc summary {
+      cursor: pointer;
+      padding: 16px 52px 16px 20px;
+      font-weight: 600;
+      font-size: 15.5px;
+      letter-spacing: .1em;
+      position: relative;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .gl-acc summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .gl-acc summary::after {
+      content: "＋";
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--kin);
+      font-size: 18px;
+      font-weight: 400;
+    }
+
+    .gl-acc details[open] summary::after {
+      content: "−";
+    }
+
+    .gl-tag {
+      flex: none;
+      font-size: 12px;
+      letter-spacing: .18em;
+      color: #fff;
+      padding: 3px 12px;
+      border-radius: 3px;
+    }
+
+    .gl-tag.ok {
+      background: var(--kon);
+    }
+
+    .gl-tag.ng {
+      background: var(--shu);
+    }
+
+    .gl-tag.lic {
+      background: var(--kin);
+    }
+
+    .gl-body {
+      padding: 4px 24px 22px;
+      font-size: 14px;
+      line-height: 2;
+      border-top: 1px dotted rgba(176, 141, 62, .5);
+      margin: 0 16px;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    .gl-body ol {
+      padding-left: 1.6em;
+    }
+
+    .gl-body li {
+      margin: .6em 0;
+    }
+
+    .gl-body .note {
+      font-size: 12.5px;
+      color: var(--sumi-usu);
+      display: block;
+      margin-top: .2em;
+    }
+
+    .gl-body p {
+      margin: .8em 0;
+    }
+
+    .gl-foot {
+      max-width: 820px;
+      margin: 24px auto 0;
+      font-size: 12px;
+      color: var(--sumi-usu);
+      text-align: center;
+      line-height: 2;
+    }
+
     /* ============ お問合せ ============ */
     .contact-wrap {
       max-width: 620px;
@@ -1593,6 +1703,7 @@
         <a href="#news" class="nav-hot">個展情報<small>EXHIBITION</small></a>
         <a href="#diary">理玄の日記<small>DIARY</small></a>
         <a href="#shop">通販<small>SHOP</small></a>
+  <a href="#guideline">ガイドライン<small>GUIDELINE</small></a>
         <a href="#contact">お問合せ<small>CONTACT</small></a>
       </nav>
 
@@ -2124,6 +2235,63 @@
           <a class="btn shu" href="https://lmaworks.booth.pm/" target="_blank" rel="noopener">BOOTHでグッズを見る</a>
         </div>
         <p class="shop-note">在庫状況・最新のラインナップはBOOTHのショップページをご確認ください。</p>
+      </section>
+
+      <!-- ============ 二次創作ガイドライン ============ -->
+      <section id="guideline" class="reveal">
+        <img class="kasumi" src="assets/kasumi_01.svg" alt="" style="left:8px;top:-8px">
+        <img class="kasumi flip" src="assets/kasumi_02.svg" alt="" style="right:8px;top:155px">
+        <h2 class="sec-title">二次創作ガイドライン</h2>
+        <div class="sec-sub">FAN CREATION GUIDELINE</div>
+        <p class="gl-lead">このガイドラインは、ファンクリエイターの皆さまの創造性と熱意を尊重し、<br>楽しく創作活動を行っていただくために作成しました。<br>『連綿師』のキャラクター・世界観を使った二次創作を行う際は、以下をご確認ください。</p>
+        <div class="gl-acc">
+
+          <details>
+            <summary><span class="gl-tag ok">OK</span>歓迎します</summary>
+            <div class="gl-body">
+              <ol>
+                <li>二次創作の漫画・小説・イラスト・フィジカルグッズ等の制作および販売（同人活動の範囲に限る）
+                  <span class="note">※即売会やBOOTH等での頒布、次の創作の活動費に充てるための販売はOKです。事業として継続的に収益を得る販売は二次創作の範囲を超えるため、「ライセンスのご案内」をご覧ください。</span>
+                </li>
+                <li>キャラクターの衣装に創造的なアレンジを加えること</li>
+                <li>コスプレおよびコスプレ写真の撮影・公開（個人利用に限る）</li>
+                <li>ご自身の作品に登場させること</li>
+                <li>SNSへのファンアート投稿<span class="note">※「#連綿師」タグでの共有、歓迎します！</span></li>
+              </ol>
+            </div>
+          </details>
+
+          <details>
+            <summary><span class="gl-tag ng">NG</span>ご遠慮ください</summary>
+            <div class="gl-body">
+              <ol>
+                <li>公式画像のトレース・複製・改変による二次利用、および生成AIへの学習利用
+                  <span class="note">（公式サイト掲載のイラスト、バナー、予章録、グッズ画像等すべてを含む）</span>
+                </li>
+                <li>キャラクターの設定・身体的特徴を大幅に改変すること</li>
+                <li>キャラクターのイメージを著しく損なう表現<span class="note">（例：R18、R18G、その他品位を損なう内容）</span></li>
+                <li>公式（kishino）発という誤解を招くような活動（デジタル・フィジカル含む）</li>
+                <li>他者の権利を侵害する行為</li>
+                <li>第三者（個人・法人問わず）からの依頼を受けて制作すること</li>
+                <li>kishinoの許可なく、制作物を企業や団体のサービス・プロジェクトとして提供すること
+                  <span class="note">※ライセンス契約により許可できる場合があります。「ライセンスのご案内」からご相談ください。</span>
+                </li>
+                <li>その他、ファン活動としての範囲を逸脱し、不適切と判断されるもの</li>
+              </ol>
+            </div>
+          </details>
+
+          <details>
+            <summary><span class="gl-tag lic">LICENSE</span>ライセンスのご案内 ── ビジネスでのご利用</summary>
+            <div class="gl-body">
+              <p>『連綿師』は、企業・出版社・クリエイターの皆さまとのコラボレーションや商品化のご相談を歓迎しています。</p>
+              <p>商用利用や事業としての展開（グッズの量産・販売、サービス・プロジェクトへの起用、出版・映像化など）は、二次創作ガイドラインの範囲外となるため、ライセンス契約にてお受けしています。</p>
+              <p>料率・条件は内容に応じて個別にご相談させていただきます。<a href="#contact" style="color:var(--kon)">お問い合わせフォーム</a>より、件名に「ライセンス希望」と添えてご連絡ください。</p>
+            </div>
+          </details>
+
+        </div>
+        <p class="gl-foot">※本ガイドラインは予告なく変更する場合があります。二次創作活動を行う前に、必ず最新の内容をご確認ください。<br>最終更新日：2026年7月4日</p>
       </section>
 
       <!-- ============ お問合せ ============ -->
