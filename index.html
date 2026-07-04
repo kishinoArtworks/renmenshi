@@ -9,6 +9,8 @@
     content="書のアートと和風ファンタジーが融合したkishinoのオリジナル一次創作『連綿師』公式サイト。一筆書きの連綿体で幻獣を召喚する少年書家と狐面の男子たちが織りなす物語と世界観。キャラクター・連綿術・イラスト・グッズ情報を紹介。">
   <meta name="keywords"
     content="連綿師,和風ファンタジー,一次創作,オリジナル作品,書のアート,連綿体,一筆書き,狐面,狐面 男子,オリジナルキャラクター,オリジナルIP,kishino,イラスト,少年書家,神獣,妖怪,召喚,和風イラスト,個展,浅草橋">
+  <!-- AI学習クローラーへの拒否表明（対応クローラーのみ有効） -->
+  <meta name="robots" content="noai, noimageai">
   <meta property="og:title" content="『連綿師』公式サイト｜書のアート×和風ファンタジー">
   <meta property="og:description" content="書のアート×和風ファンタジー。一筆書きの連綿体で幻獣を召喚する少年書家と狐面の男子たちが織りなす一次創作の物語。kishino原作のオリジナルIP。">
   <meta property="og:type" content="website">
@@ -65,6 +67,13 @@
 
     html {
       scroll-behavior: smooth
+    }
+
+    /* 画像の長押し保存（iOS）・選択を抑止 */
+    img {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     body {
@@ -2330,6 +2339,21 @@
       es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
     }, { threshold: 0, rootMargin: '0px 0px -60px 0px' });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ==========================================================
+    // 画像の無断保存への抑止策
+    // （スクリーンショット等の完全防止は技術的に不可能なため、
+    //   「気軽に保存させない」ためのものです）
+    // ==========================================================
+    // 画像上での右クリックメニューを無効化（テキスト部分は通常どおり）
+    document.addEventListener('contextmenu', e => {
+      if (e.target.tagName === 'IMG') e.preventDefault();
+    });
+    // 画像のドラッグ保存を無効化
+    document.querySelectorAll('img').forEach(img => { img.draggable = false; });
+    new MutationObserver(() => {
+      document.querySelectorAll('img:not([draggable="false"])').forEach(img => { img.draggable = false; });
+    }).observe(document.body, { childList: true, subtree: true });
 
     // お問合せ（FormSubmit）：送信後は同じページに ?sent=1 付きで戻る
     const contactForm = document.getElementById('contactForm');
