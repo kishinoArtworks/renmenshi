@@ -206,8 +206,8 @@
     /* 設定画サムネイル */
     .art-thumbs {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, 64px);
+      gap: 10px;
       margin-top: 14px;
       max-width: 640px;
     }
@@ -261,7 +261,7 @@
       position: relative;
       width: fit-content;
       margin: 0 auto;
-      padding: 55px 30px 160px;
+      padding: 90px 30px 150px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -269,9 +269,9 @@
 
     .hero .enso {
       position: absolute;
-      width: min(620px, 96vw);
+      width: min(560px, 92vw);
       aspect-ratio: 1/1;
-      top: 46%;
+      top: 48%;
       left: 50%;
       transform: translate(-50%, -50%);
       opacity: .10;
@@ -279,12 +279,14 @@
     }
 
     .hero-title {
-      font-family: 'GyoshoTitle', 'Yuji Syuku', serif;
-      font-size: clamp(60px, 12vw, 128px);
-      letter-spacing: .08em;
-      color: var(--sumi);
-      line-height: 1.15;
-      text-shadow: 0 2px 14px rgba(43, 39, 35, .12);
+      margin: 0;
+      line-height: 0;
+    }
+
+    .hero-title img {
+      width: min(340px, 66vw);
+      display: block;
+      filter: drop-shadow(0 2px 10px rgba(43, 39, 35, .12));
     }
 
     .hero-ruby {
@@ -1336,7 +1338,7 @@
       }
 
       .hero-inner {
-        padding: 70px 10px 80px
+        padding: 55px 10px 85px
       }
 
       nav {
@@ -1400,7 +1402,7 @@
         <div class="hero-inner">
           <img class="enso" src="assets/suimmaru.svg" alt="" aria-hidden="true">
           <div class="hero-ruby">れんめんし</div>
-          <h1 class="hero-title">連綿師</h1>
+          <h1 class="hero-title"><img src="assets/renmenshi.svg" alt="連綿師"></h1>
           <div class="hero-en">-THE SUMMONER OF MAD CALLIGRAPHY-</div>
           <p class="hero-catch">一筆に宿る<span class="shu">縁起</span>。その筆先が、世界を繋ぐ。</p>
           <p class="hero-tagline">名付けと名指しで紡がれる、連綿の理</p>
@@ -2055,9 +2057,11 @@
     });
 
     // ふわっと出現
+    // threshold:0 ＋ rootMargin で「要素の先頭が画面に60px入ったら表示」にする。
+    // （割合指定だと、縦長セクションが小さい画面で永遠に発火しない不具合が起きるため）
     const io = new IntersectionObserver(es => {
       es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
-    }, { threshold: .12 });
+    }, { threshold: 0, rootMargin: '0px 0px -60px 0px' });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
     // お問合せ（FormSubmit）：送信後は同じページに ?sent=1 付きで戻る
