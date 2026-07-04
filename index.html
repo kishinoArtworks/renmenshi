@@ -2153,7 +2153,7 @@
     const CHAR_ART = {
       rigen: [
         { src: "assets/costume_rigen.png", caption: "衣装の構造解説" },
-        { src: "assets/rigen_casual wear01.jpg", caption: "普段着 01" },
+        { src: "assets/rigen_casual wear01.jpg", caption: "普段着 01", pos: "top" },
         { src: "assets/rigen_casual-wear02.jpg", caption: "普段着 02" },
       ],
       shumari: [
@@ -2175,6 +2175,7 @@
         img.src = item.src;
         img.alt = item.caption || '設定画';
         img.loading = 'lazy';
+        if (item.pos) img.style.objectPosition = item.pos; // サムネの切り抜き位置（例: "top"）
         fig.appendChild(img);
         fig.addEventListener('click', () => openLb(arts, i));
         box.appendChild(fig);
