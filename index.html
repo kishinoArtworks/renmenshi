@@ -1400,16 +1400,23 @@
 
     /* 縦書きタグラインは狭い画面では横書きに切替（円との干渉を防ぐ） */
     @media (max-width:900px) {
+
+      /* 縦書きタグラインは横書きにして、円の下（枠の外）に配置する */
       .hero-tagline {
-        position: static;
-        transform: none;
         writing-mode: horizontal-tb;
+        position: absolute;
+        left: 50%;
+        bottom: 6px;
+        top: auto;
+        right: auto;
+        transform: translateX(-50%);
         border-right: none;
         padding-right: 0;
-        margin-top: 28px;
         border-top: 1px solid rgba(81, 75, 156, .32);
-        padding-top: 14px;
-        white-space: normal
+        padding-top: 12px;
+        font-size: 13px;
+        letter-spacing: .2em;
+        white-space: nowrap;
       }
     }
 
@@ -1455,7 +1462,7 @@
       }
 
       .hero-inner {
-        padding: 75px 10px 100px
+        padding: 75px 10px 140px
       }
 
       nav {
