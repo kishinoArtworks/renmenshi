@@ -1284,12 +1284,13 @@
       background: rgba(244, 241, 234, .28);
     }
 
+    /* 横位置は作品（額）の左右端に重ねる: スライド幅=min(92%,1000px)の外側余白からボタン半径分を引く */
     .tsumugi-nav.prev {
-      left: max(3%, calc(50% - 215px));
+      left: calc((100% - min(92%, 1000px)) / 2 - 22px);
     }
 
     .tsumugi-nav.next {
-      right: max(3%, calc(50% - 215px));
+      right: calc((100% - min(92%, 1000px)) / 2 - 22px);
     }
 
     /* 販売予定の告知（通販ページ開設までの案内） */
