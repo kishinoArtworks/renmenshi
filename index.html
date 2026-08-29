@@ -3,6 +3,14 @@
 
 <head>
   <meta charset="UTF-8">
+  <!-- Google Analytics 4 (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD4MCSPCQ5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-RD4MCSPCQ5');
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>『連綿師』公式サイト｜書のアート×和風ファンタジー｜kishinoのオリジナル作品</title>
   <meta name="description"
@@ -974,6 +982,280 @@
       letter-spacing: .1em
     }
 
+    /* ============ 個展作品カルーセル（ピーク型） ============ */
+    .tsumugi-carousel {
+      position: relative;
+      margin-top: 28px;
+      padding: 40px 0 34px;
+      background: var(--kon-fukai);
+      /* 検討用: .bg-black で黒背景に切替 */
+      transition: background .4s;
+    }
+
+    .tsumugi-carousel.bg-black {
+      background: #17140f;
+    }
+
+    .tsumugi-track {
+      display: flex;
+      gap: 34px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      /* 中央寄せ: スライド幅92%(上限1000px)の残り半分を左右パディングにする */
+      padding: 0 max(4%, calc((100% - 1000px) / 2));
+      scrollbar-width: none;
+      cursor: grab;
+    }
+
+    .tsumugi-track.dragging {
+      cursor: grabbing;
+      scroll-snap-type: none;
+    }
+
+    .tsumugi-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tsumugi-slide {
+      flex: 0 0 92%;
+      max-width: 1000px;
+      scroll-snap-align: center;
+      opacity: .22;
+      transition: opacity .45s;
+    }
+
+    .tsumugi-slide.is-active {
+      opacity: 1;
+    }
+
+    /* 両端の見た目を揃えるための装飾スライド（拡大・枚数・クリックの対象外） */
+    .tsumugi-slide.tsumugi-filler {
+      scroll-snap-align: none;
+      pointer-events: none;
+    }
+
+    .tsumugi-slide.tsumugi-filler img {
+      width: 100%;
+      display: block;
+    }
+
+    /* 額装の再現（個展会場と同じ構成）: 金縁 → 黒マット → 作品 */
+    .tw-frame {
+      background: linear-gradient(135deg, #caa54e, #f0dfa0 28%, #a8842e 52%, #e7cd85 78%, #b28c36);
+      padding: 6px;
+      /* 左上から光が当たった金縁の立体感（外側の面取り） */
+      box-shadow:
+        inset 1px 1px 2px rgba(255, 246, 214, .9),
+        inset -1px -1px 2px rgba(92, 62, 14, .9),
+        0 10px 34px rgba(0, 0, 0, .5);
+      transition: transform .4s;
+    }
+
+    .tw-mat {
+      background: #141118;
+      padding: clamp(14px, 7%, 62px);
+      /* 金縁の内側の斜面（窓側は光が反転する） */
+      box-shadow:
+        -1px -1px 1px rgba(92, 62, 14, .9),
+        1px 1px 1px rgba(255, 246, 214, .7);
+    }
+
+    .tsumugi-slide img.tw-art {
+      width: 100%;
+      display: block;
+    }
+
+    .tsumugi-slide.is-active img.tw-art {
+      cursor: zoom-in;
+    }
+
+    .tsumugi-slide:not(.is-active) img.tw-art {
+      cursor: pointer;
+    }
+
+    .tsumugi-slide.is-active .tw-frame:hover {
+      transform: scale(1.012);
+    }
+
+    .tsumugi-cap {
+      text-align: center;
+      margin-top: 16px;
+      color: var(--washi);
+    }
+
+    /* 説明文と「作中の連綿体」の間の金の区切り線 */
+    .tsumugi-cap .tw-desc::after {
+      content: '';
+      display: block;
+      height: 1px;
+      margin-top: 18px;
+      background: linear-gradient(90deg,
+          rgba(230, 200, 126, 0),
+          rgba(230, 200, 126, .85) 15%,
+          rgba(230, 200, 126, .85) 85%,
+          rgba(230, 200, 126, 0));
+    }
+
+    .tsumugi-cap .tw-roma {
+      font-size: 12px;
+      line-height: 1.3;
+      letter-spacing: .3em;
+      color: rgba(244, 241, 234, .68);
+    }
+
+    .tsumugi-cap .tw-title {
+      font-family: 'Yuji Syuku', serif;
+      font-size: 30px;
+      line-height: 1.3;
+      letter-spacing: .2em;
+      margin-top: 0;
+    }
+
+    .tsumugi-cap .tw-sub {
+      color: #e6c87e;
+      font-size: 13px;
+      letter-spacing: .18em;
+      margin-top: 8px;
+    }
+
+    .tsumugi-cap .tw-desc {
+      font-size: 13px;
+      line-height: 2;
+      letter-spacing: .08em;
+      margin-top: 12px;
+      color: rgba(244, 241, 234, .85);
+    }
+
+    .tsumugi-cap .tw-renmen-label {
+      margin-top: 20px;
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: .24em;
+      color: var(--washi);
+    }
+
+    /* 連綿体カードも作品と同じ金縁で囲う */
+    .tsumugi-cap .tw-renmen {
+      width: min(300px, 72%);
+      margin: 14px auto 0;
+      padding: 4px;
+      background: linear-gradient(135deg, #caa54e, #f0dfa0 28%, #a8842e 52%, #e7cd85 78%, #b28c36);
+      box-shadow:
+        inset 1px 1px 1px rgba(255, 246, 214, .85),
+        inset -1px -1px 1px rgba(92, 62, 14, .85),
+        0 4px 14px rgba(0, 0, 0, .35);
+    }
+
+    .tsumugi-cap .tw-renmen.blank {
+      aspect-ratio: 4 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      box-shadow: none;
+      background: rgba(244, 241, 234, .05);
+      border: 1px dashed rgba(244, 241, 234, .3);
+      font-size: 11.5px;
+      letter-spacing: .16em;
+      color: rgba(244, 241, 234, .5);
+    }
+
+    .tsumugi-cap .tw-renmen img {
+      width: 100%;
+      display: block;
+    }
+
+    .tsumugi-nav {
+      position: absolute;
+      top: 33%;
+      background: rgba(244, 241, 234, .1);
+      color: #f4f1ea;
+      border: 1px solid rgba(244, 241, 234, .45);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 21px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .3s;
+      user-select: none;
+      z-index: 2;
+    }
+
+    .tsumugi-nav:hover {
+      background: rgba(244, 241, 234, .28);
+    }
+
+    .tsumugi-nav.prev {
+      left: 4%;
+    }
+
+    .tsumugi-nav.next {
+      right: 4%;
+    }
+
+    .tsumugi-counter {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 12px;
+      letter-spacing: .3em;
+      color: rgba(244, 241, 234, .6);
+    }
+
+    /* 背景切替ボタン（正式採用：紺 ⇄ 黒を訪問者が選べる） */
+    .tsumugi-bgtoggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 11px;
+      letter-spacing: .08em;
+      color: rgba(244, 241, 234, .75);
+      background: transparent;
+      border: 1px solid rgba(244, 241, 234, .35);
+      border-radius: 999px;
+      padding: 5px 14px;
+      cursor: pointer;
+      z-index: 2;
+      transition: background .3s, color .3s;
+    }
+
+    .tsumugi-bgtoggle:hover {
+      background: rgba(244, 241, 234, .18);
+      color: var(--washi);
+    }
+
+    @media (max-width: 640px) {
+      .tsumugi-track {
+        gap: 16px;
+        padding: 0 4%;
+      }
+
+      .tsumugi-slide {
+        flex: 0 0 92%;
+      }
+
+      .tsumugi-cap .tw-title {
+        font-size: 24px;
+      }
+
+      .tsumugi-nav {
+        width: 38px;
+        height: 38px;
+        top: 22%;
+      }
+
+      .tsumugi-nav.prev {
+        left: 2%;
+      }
+
+      .tsumugi-nav.next {
+        right: 2%;
+      }
+    }
+
     .lightbox {
       position: fixed;
       inset: 0;
@@ -1700,11 +1982,11 @@
         <a href="#renmenshi">連綿師とは<small>ABOUT</small></a>
         <a href="#chars">登場人物<small>CHARACTER</small></a>
         <a href="#gallery">画廊<small>GALLERY</small></a>
-        <a href="#news" class="nav-hot">個展情報<small>EXHIBITION</small></a>
         <a href="#diary">理玄の日記<small>DIARY</small></a>
         <a href="#shop">通販<small>SHOP</small></a>
         <a href="#guideline">ガイドライン<small>GUIDELINE</small></a>
         <a href="#contact">お問合せ<small>CONTACT</small></a>
+        <a href="#event">イベント情報<small>EVENT</small></a>
       </nav>
 
       <!-- ============ HERO ============ -->
@@ -2132,11 +2414,25 @@
         <img class="kasumi" src="assets/kasumi_03.svg" alt="" style="left:8px;top:145px">
         <h2 class="sec-title">画廊</h2>
         <div class="sec-sub">GALLERY</div>
+
+        <h3 class="sub-title" style="margin-top:0"><span style="display:inline-block">2026年 初個展</span><span
+            style="display:inline-block">『紡 -Tsumugi-』作品</span></h3>
+        <div class="sub-sub">SOLO EXHIBITION 2026</div>
+        <div class="tsumugi-carousel" id="tsumugiCarousel">
+          <button type="button" class="tsumugi-bgtoggle" id="tsumugiBgToggle"
+            title="カルーセルの背景色を切り替えます">背景切替：紺 ⇄ 黒</button>
+          <button type="button" class="tsumugi-nav prev" id="twPrev" title="前の作品" aria-label="前の作品">‹</button>
+          <div class="tsumugi-track" id="tsumugiTrack"></div>
+          <button type="button" class="tsumugi-nav next" id="twNext" title="次の作品" aria-label="次の作品">›</button>
+          <div class="tsumugi-counter" id="twCounter">1 / 6</div>
+        </div>
+        <p class="gallery-note">クリックで拡大表示できます。掲載画像の無断転載はご遠慮ください。</p>
+
         <!--
-    ◆ 画廊の更新方法 ◆
+    ◆ 画廊（グリッド）の更新方法 ◆
     下のスクリプト内 GALLERY_IMAGES に1行追加するだけで画像が並びます。
     例： { src: "assets/新しい画像.jpg", caption: "キャプション" },
-    画像ファイルは assets フォルダに入れてください。空の場合は「準備中」表示になります。
+    画像ファイルは assets フォルダに入れてください。
   -->
         <div class="gallery-grid" id="galleryGrid"></div>
         <div class="gallery-empty" id="galleryEmpty" style="display:none">
@@ -2155,31 +2451,7 @@
         <h2 class="sec-title">お知らせ</h2>
         <div class="sec-sub">NEWS</div>
 
-        <h3 class="sub-title" style="margin-top:0">個展『紡 -Tsumugi-』開催</h3>
-        <div class="sub-sub">SOLO EXHIBITION</div>
-        <div class="news-img-grid" style="grid-template-columns:1fr;max-width:860px">
-          <figure class="lb-zoom"><img src="assets/kishino個展【tsumugi】キービジュアル_website.jpg"
-              alt="kishino初個展『紡 -Tsumugi-』浅草橋 - 連綿体×書のアート イラスト展" loading="lazy"></figure>
-        </div>
-        <div class="news-body">
-          <p>kishino初個展【紡 -Tsumugi-】を開催します！<br>テーマは、一筆書きの連綿体×イラストレーション。</p>
-          <p>昔の書家たちが紡いだ、筆の流れが途切れずに続く「連綿体」という表現で、<br>伝統的な書の美を現代のイラストレーションへ繋げていきます。<br>長年の想いを込めて紡ぎ出した作品たちをお楽しみいただければ幸いです。
-          </p>
-        </div>
-        <div class="news-info">
-          <div class="row"><span class="lbl">会　期</span><span>7月14日(火) 〜 7月19日(日)</span></div>
-          <div class="row"><span class="lbl">時　間</span><span>10:00 〜 19:00（最終日は17:00まで）</span></div>
-          <div class="row"><span class="lbl">会　場</span><span><a href="https://atelier-ar-57.com/" target="_blank"
-                rel="noopener">『ATERIER AR』3階 ↗</a></span></div>
-          <div class="row"><span class="lbl">住　所</span><span><a
-                href="https://www.google.com/maps/search/?api=1&amp;query=東京都台東区浅草橋1丁目24番11号&amp;basemap=roadmap"
-                target="_blank" rel="noopener">東京都台東区浅草橋1丁目24番11号 ↗</a></span></div>
-          <div class="row"><span class="lbl">アクセス</span><span>JR総武線「浅草橋」西口徒歩1分</span></div>
-        </div>
-        <p style="text-align:center;margin-top:22px;font-size:14.5px;letter-spacing:.12em">
-          入場無料・全日在廊します。<br>是非kishinoに会いに来てください！</p>
-
-        <h3 class="sub-title" id="diary" style="scroll-margin-top:90px">理玄の日記『一筆の縁』連載中</h3>
+        <h3 class="sub-title" id="diary" style="margin-top:0;scroll-margin-top:90px">理玄の日記『一筆の縁』連載中</h3>
         <div class="sub-sub">SERIAL DIARY ON SUBSTACK</div>
         <a class="substack-banner" href="https://tsudukirigen.substack.com/" target="_blank" rel="noopener">
           <img src="assets/substack_header.png" alt="理玄の日記『一筆の縁』" loading="lazy">
@@ -2355,6 +2627,29 @@
         </div>
       </section>
 
+      <!-- ============ イベント情報（過去のイベント） ============ -->
+      <section id="event" class="reveal">
+        <img class="kasumi flip" src="assets/kasumi_03.svg" alt="" style="right:8px;top:-12px">
+        <img class="kasumi" src="assets/kasumi_02.svg" alt="" style="left:8px;top:150px">
+        <h2 class="sec-title">イベント情報</h2>
+        <div class="sec-sub">EVENT</div>
+
+        <h3 class="sub-title" style="margin-top:0">個展『紡 -Tsumugi-』</h3>
+        <div class="sub-sub">SOLO EXHIBITION</div>
+        <div class="news-img-grid" style="grid-template-columns:1fr;max-width:860px">
+          <figure class="lb-zoom"><img src="assets/kishino個展【tsumugi】キービジュアル_website.jpg"
+              alt="kishino初個展『紡 -Tsumugi-』浅草橋 - 連綿体×書のアート イラスト展" loading="lazy"></figure>
+        </div>
+        <div class="news-body">
+          <p>ご来場いただいた皆様、どうもありがとうございました。<br>また個展開催の折りには改めてお知らせいたします。</p>
+        </div>
+        <div class="news-info">
+          <div class="row"><span class="lbl">開催期間</span><span><span style="display:inline-block">2026年7月14日(火)</span> 〜 <span style="display:inline-block">7月19日(日)</span> <span style="display:inline-block">10:00 〜 19:00</span><span style="display:inline-block">（最終日は17:00まで）</span></span></div>
+          <div class="row"><span class="lbl">会　場</span><span><a href="https://atelier-ar-57.com/" target="_blank"
+                rel="noopener">『ATERIER AR』3階 ↗</a></span></div>
+        </div>
+      </section>
+
       <!-- ============ 縁 ============ -->
       <section id="en" class="en-sec reveal">
         <div class="en-inner">
@@ -2404,12 +2699,211 @@
       // { src: "assets/main_banner.jpg", caption: "メインビジュアル" },
     ];
 
+    /* ==========================================================
+       ◆ 個展『紡 -Tsumugi-』作品カルーセル ◆
+       title=作品名 / sub=サブタイトル / desc=解説文（会場キャプション準拠）
+       ========================================================== */
+    const TSUMUGI_WORKS = [
+      {
+        src: "assets/tsumugi_work_keyvisual.jpg",
+        roma: "Fandra", title: "紡龍",
+        sub: "- ご縁を紡ぐ龍 -",
+        desc: "「紡」は中国読みで”fan”、「龍」はラテン語で”Draco”。それらを組み合わせて”Fandra”と命名。",
+        renmen: "assets/calligraphy/tsumugi.jpg"
+      },
+      {
+        src: "assets/tsumugi_work_kitsunemen.jpg",
+        roma: "Kitsune men", title: "狐面",
+        sub: "- 面に宿るは始まりの記憶 -",
+        desc: "幼かった頃の理玄とシュマリ、ふたりの運命を結びつけたのは狐面だった。",
+        renmen: "assets/calligraphy/kitsunemen.jpg"
+      },
+      {
+        src: "assets/tsumugi_work_dango.jpg",
+        roma: "Dango", title: "団子",
+        sub: "- 馴染みの店のお品書きに -",
+        desc: "玄也がよく行くお茶屋に、お使いの帰りだと言って現れた理玄。玄也が注文した団子を頬張りつつ、その場で思いついた文字を連綿体でサラサラと描き始めたのだった。",
+        renmen: "assets/calligraphy/dango.jpg"
+      },
+      {
+        src: "assets/tsumugi_work_yata.jpg",
+        roma: "Yata", title: "八咫",
+        sub: "- 初陣 闇を切り裂く破魔の一閃 -",
+        desc: "人の姿を得たシュマリを待ち受けていたのは、村を呑む黒き災厄。この戦いが、すべての始まりだった――。",
+        renmen: "assets/calligraphy/yata-kumo.jpg"
+      },
+      {
+        src: "assets/tsumugi_work_shimi.jpg",
+        roma: "Shimi", title: "紙魚",
+        sub: "- 式神召喚の対価 -",
+        desc: "紙魚は、古い本の中に住みつき紙を蝕む小さな虫のこと。ひとつひとつは弱くても、436ページ分の紙魚があつまると強大な力になる。ただし、その分必要な対価も大きくなる。",
+        renmen: "assets/calligraphy/shimi.jpg"
+      },
+      {
+        src: "assets/tsumugi_work_sharon.jpg",
+        roma: "Sharon", title: "射龍",
+        sub: "- 標的を射抜く二頭の龍 -",
+        desc: "2012年の段階での理玄です。当時は戦うキャラクターとしてデザインしており、年齢も17〜18歳で設定していました。",
+        renmen: "assets/calligraphy/sharon.jpg"
+      },
+    ];
+
+    const twTrack = document.getElementById('tsumugiTrack');
+    const twCounter = document.getElementById('twCounter');
+    let twSuppressClick = false; // ドラッグ直後のクリック誤発火防止
+
+    function twSlides() {
+      return twTrack.querySelectorAll('.tsumugi-slide:not(.tsumugi-filler)');
+    }
+    // スクロール中央に最も近い作品スライドを現在位置とする（端の装飾スライドの影響を受けない）
+    function twCurrentIndex() {
+      const center = twTrack.scrollLeft + twTrack.clientWidth / 2;
+      let best = 0, bestDist = Infinity;
+      twSlides().forEach((s, i) => {
+        const d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - center);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      return best;
+    }
+    let twTargetIdx = 0; // ボタン連打時にも積み上がる送り先（スクロール停止後に現在地へ同期）
+    function twGoTo(i, instant) {
+      const slide = twSlides()[i];
+      if (!slide) return;
+      twTargetIdx = i;
+      twTrack.scrollTo({
+        left: slide.offsetLeft - (twTrack.clientWidth - slide.offsetWidth) / 2,
+        behavior: instant ? 'auto' : 'smooth'
+      });
+    }
+    function twUpdateActive() {
+      const idx = twCurrentIndex();
+      twSlides().forEach((s, i) => s.classList.toggle('is-active', i === idx));
+      twCounter.textContent = (idx + 1) + ' / ' + TSUMUGI_WORKS.length;
+    }
+    function twMakeFiller() {
+      const f = document.createElement('div');
+      f.className = 'tsumugi-slide tsumugi-filler';
+      f.setAttribute('aria-hidden', 'true');
+      const frame = document.createElement('div');
+      frame.className = 'tw-frame';
+      const mat = document.createElement('div');
+      mat.className = 'tw-mat';
+      const img = document.createElement('img');
+      img.src = 'assets/brank.png';
+      img.alt = '';
+      mat.appendChild(img);
+      frame.appendChild(mat);
+      f.appendChild(frame);
+      return f;
+    }
+
+    twTrack.appendChild(twMakeFiller());
+    TSUMUGI_WORKS.forEach((w, i) => {
+      const slide = document.createElement('figure');
+      slide.className = 'tsumugi-slide';
+      const img = document.createElement('img');
+      img.className = 'tw-art';
+      img.src = w.src;
+      img.alt = w.title + ' ' + w.roma + ' ' + w.sub;
+      img.loading = 'lazy';
+      img.title = 'クリックで拡大表示';
+      img.addEventListener('click', () => {
+        if (twSuppressClick) return;
+        if (!slide.classList.contains('is-active')) { twGoTo(i); return; }
+        openLb(TSUMUGI_WORKS.map(x => ({ src: x.src, caption: x.title })), i);
+      });
+      const cap = document.createElement('figcaption');
+      cap.className = 'tsumugi-cap';
+      cap.innerHTML = '<div class="tw-roma"></div><div class="tw-title"></div><div class="tw-sub"></div>'
+        + '<div class="tw-desc"></div><div class="tw-renmen-label">作中の連綿体</div>';
+      cap.querySelector('.tw-roma').textContent = w.roma;
+      cap.querySelector('.tw-title').textContent = w.title;
+      cap.querySelector('.tw-sub').textContent = w.sub;
+      // 解説文は「。」ごとに改行して表示する
+      cap.querySelector('.tw-desc').innerHTML = w.desc
+        .split('。').filter(s => s.length).map(s => s + '。').join('<br>');
+      const ren = document.createElement('div');
+      if (w.renmen) {
+        ren.className = 'tw-renmen';
+        const rImg = document.createElement('img');
+        rImg.src = w.renmen;
+        rImg.alt = w.title + ' 作中の連綿体';
+        rImg.loading = 'lazy';
+        ren.appendChild(rImg);
+      } else {
+        ren.className = 'tw-renmen blank';
+        ren.textContent = '連綿体（画像準備中）';
+      }
+      cap.appendChild(ren);
+      const frame = document.createElement('div');
+      frame.className = 'tw-frame';
+      const mat = document.createElement('div');
+      mat.className = 'tw-mat';
+      mat.appendChild(img);
+      frame.appendChild(mat);
+      slide.appendChild(frame);
+      slide.appendChild(cap);
+      twTrack.appendChild(slide);
+    });
+    twTrack.appendChild(twMakeFiller());
+
+    // 両端でもループして送れるようにする（6枚目の次は1枚目へ）
+    document.getElementById('twPrev').addEventListener('click',
+      () => twGoTo((twTargetIdx - 1 + TSUMUGI_WORKS.length) % TSUMUGI_WORKS.length));
+    document.getElementById('twNext').addEventListener('click',
+      () => twGoTo((twTargetIdx + 1) % TSUMUGI_WORKS.length));
+
+    let twSyncTimer;
+    twTrack.addEventListener('scroll', () => {
+      twUpdateActive();
+      clearTimeout(twSyncTimer);
+      twSyncTimer = setTimeout(() => { twTargetIdx = twCurrentIndex(); }, 150);
+    }, { passive: true });
+    twGoTo(0, true); // 初期表示は1作品目を中央に（先頭の装飾スライド分を送る）
+    twUpdateActive();
+
+    // PC向け：マウスドラッグでもスワイプできるようにする
+    let twDrag = null;
+    twTrack.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse') return;
+      twDrag = { startX: e.clientX, startScroll: twTrack.scrollLeft, moved: false, baseIdx: twCurrentIndex() };
+      twTrack.classList.add('dragging');
+    });
+    window.addEventListener('pointermove', e => {
+      if (!twDrag) return;
+      const dx = e.clientX - twDrag.startX;
+      if (Math.abs(dx) > 6) twDrag.moved = true;
+      twTrack.scrollLeft = twDrag.startScroll - dx;
+    });
+    window.addEventListener('pointerup', () => {
+      if (!twDrag) return;
+      const dx = twTrack.scrollLeft - twDrag.startScroll;
+      const baseIdx = twDrag.baseIdx;
+      const moved = twDrag.moved;
+      twDrag = null;
+      twTrack.classList.remove('dragging');
+      if (moved) {
+        twSuppressClick = true;
+        setTimeout(() => { twSuppressClick = false; }, 250);
+        // 60px以上ドラッグしたら隣へ1枚送る。それ未満は元の位置へ戻す
+        let idx = baseIdx;
+        if (dx > 60) idx = Math.min(baseIdx + 1, TSUMUGI_WORKS.length - 1);
+        else if (dx < -60) idx = Math.max(baseIdx - 1, 0);
+        twGoTo(idx);
+      }
+    });
+
+    // 背景切替（たたき台の検討用・決定後に削除）
+    document.getElementById('tsumugiBgToggle').addEventListener('click', () => {
+      document.getElementById('tsumugiCarousel').classList.toggle('bg-black');
+    });
+
     // ギャラリー描画
     const grid = document.getElementById('galleryGrid');
     const empty = document.getElementById('galleryEmpty');
     const note = document.getElementById('galleryNote');
     if (GALLERY_IMAGES.length === 0) {
-      empty.style.display = 'block';
+      /* カルーセル常設のため、グリッドが空でも「準備中」表示は出さない */
     } else {
       note.style.display = 'block';
       GALLERY_IMAGES.forEach((item, i) => {
