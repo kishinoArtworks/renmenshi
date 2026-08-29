@@ -1028,9 +1028,8 @@
       opacity: 1;
     }
 
-    /* 両端の見た目を揃えるための装飾スライド（拡大・枚数・クリックの対象外） */
+    /* ループの継ぎ目用の複製スライド（拡大・枚数・クリックの対象外） */
     .tsumugi-slide.tsumugi-filler {
-      scroll-snap-align: none;
       pointer-events: none;
     }
 
@@ -2755,52 +2754,51 @@
     function twSlides() {
       return twTrack.querySelectorAll('.tsumugi-slide:not(.tsumugi-filler)');
     }
-    // スクロール中央に最も近い作品スライドを現在位置とする（端の装飾スライドの影響を受けない）
-    function twCurrentIndex() {
+    function twAllSlides() {
+      return twTrack.querySelectorAll('.tsumugi-slide');
+    }
+    // スクロール中央に最も近いスライド（両端の複製も含む）
+    function twNearest() {
       const center = twTrack.scrollLeft + twTrack.clientWidth / 2;
-      let best = 0, bestDist = Infinity;
-      twSlides().forEach((s, i) => {
+      let best = null, bestDist = Infinity;
+      twAllSlides().forEach(s => {
         const d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - center);
-        if (d < bestDist) { bestDist = d; best = i; }
+        if (d < bestDist) { bestDist = d; best = s; }
       });
       return best;
     }
-    let twTargetIdx = 0; // ボタン連打時にも積み上がる送り先（スクロール停止後に現在地へ同期）
-    function twGoTo(i, instant) {
-      const slide = twSlides()[i];
-      if (!slide) return;
-      twTargetIdx = i;
+    function twCurrentIndex() {
+      const el = twNearest();
+      return el ? parseInt(el.dataset.workIndex, 10) : 0;
+    }
+    function twScrollToEl(el, instant) {
       twTrack.scrollTo({
-        left: slide.offsetLeft - (twTrack.clientWidth - slide.offsetWidth) / 2,
+        left: el.offsetLeft - (twTrack.clientWidth - el.offsetWidth) / 2,
         behavior: instant ? 'auto' : 'smooth'
       });
     }
-    function twUpdateActive() {
-      const idx = twCurrentIndex();
-      twSlides().forEach((s, i) => s.classList.toggle('is-active', i === idx));
-      twCounter.textContent = (idx + 1) + ' / ' + TSUMUGI_WORKS.length;
+    let twTargetIdx = 0; // ボタン連打時にも積み上がる送り先（スクロール停止後に現在地へ同期）
+    // i は -1（先頭側の複製）〜 作品数（末尾側の複製）まで受け付ける
+    function twGoTo(i, instant) {
+      const works = twSlides();
+      twTargetIdx = Math.max(-1, Math.min(i, works.length));
+      let el;
+      if (twTargetIdx < 0) el = twTrack.querySelector('.tsumugi-filler[data-pos="head"]');
+      else if (twTargetIdx >= works.length) el = twTrack.querySelector('.tsumugi-filler[data-pos="tail"]');
+      else el = works[twTargetIdx];
+      if (el) twScrollToEl(el, instant);
     }
-    function twMakeFiller() {
-      const f = document.createElement('div');
-      f.className = 'tsumugi-slide tsumugi-filler';
-      f.setAttribute('aria-hidden', 'true');
-      const frame = document.createElement('div');
-      frame.className = 'tw-frame';
-      const mat = document.createElement('div');
-      mat.className = 'tw-mat';
-      const img = document.createElement('img');
-      img.src = 'assets/brank.png';
-      img.alt = '';
-      mat.appendChild(img);
-      frame.appendChild(mat);
-      f.appendChild(frame);
-      return f;
+    function twUpdateActive() {
+      const el = twNearest();
+      if (!el) return;
+      twAllSlides().forEach(s => s.classList.toggle('is-active', s === el));
+      twCounter.textContent = (parseInt(el.dataset.workIndex, 10) + 1) + ' / ' + TSUMUGI_WORKS.length;
     }
 
-    twTrack.appendChild(twMakeFiller());
     TSUMUGI_WORKS.forEach((w, i) => {
       const slide = document.createElement('figure');
       slide.className = 'tsumugi-slide';
+      slide.dataset.workIndex = i;
       const img = document.createElement('img');
       img.className = 'tw-art';
       img.src = w.src;
@@ -2845,19 +2843,39 @@
       slide.appendChild(cap);
       twTrack.appendChild(slide);
     });
-    twTrack.appendChild(twMakeFiller());
+    // ループの継ぎ目用に、先頭の前へ最後の作品・末尾の後へ最初の作品の複製を置く
+    {
+      const works = twTrack.querySelectorAll('.tsumugi-slide');
+      const head = works[works.length - 1].cloneNode(true);
+      head.classList.add('tsumugi-filler');
+      head.dataset.pos = 'head';
+      head.setAttribute('aria-hidden', 'true');
+      twTrack.insertBefore(head, twTrack.firstChild);
+      const tail = works[0].cloneNode(true);
+      tail.classList.add('tsumugi-filler');
+      tail.dataset.pos = 'tail';
+      tail.setAttribute('aria-hidden', 'true');
+      twTrack.appendChild(tail);
+    }
 
-    // 両端でもループして送れるようにする（6枚目の次は1枚目へ）
-    document.getElementById('twPrev').addEventListener('click',
-      () => twGoTo((twTargetIdx - 1 + TSUMUGI_WORKS.length) % TSUMUGI_WORKS.length));
-    document.getElementById('twNext').addEventListener('click',
-      () => twGoTo((twTargetIdx + 1) % TSUMUGI_WORKS.length));
+    // 両端でもループして送れるようにする（端では複製スライドへ同方向に進み、停止後に実体へ差し替える）
+    document.getElementById('twPrev').addEventListener('click', () => twGoTo(twTargetIdx - 1));
+    document.getElementById('twNext').addEventListener('click', () => twGoTo(twTargetIdx + 1));
 
     let twSyncTimer;
     twTrack.addEventListener('scroll', () => {
       twUpdateActive();
       clearTimeout(twSyncTimer);
-      twSyncTimer = setTimeout(() => { twTargetIdx = twCurrentIndex(); }, 150);
+      twSyncTimer = setTimeout(() => {
+        if (twDrag) return; // ドラッグ保持中は差し替えない
+        const el = twNearest();
+        if (el && el.classList.contains('tsumugi-filler')) {
+          // 複製の上で停止したら、同じ見た目の実体へ瞬間移動（ループの継ぎ目）
+          twGoTo(parseInt(el.dataset.workIndex, 10), true);
+        } else {
+          twTargetIdx = twCurrentIndex();
+        }
+      }, 150);
     }, { passive: true });
     twGoTo(0, true); // 初期表示は1作品目を中央に（先頭の装飾スライド分を送る）
     twUpdateActive();
@@ -2885,10 +2903,10 @@
       if (moved) {
         twSuppressClick = true;
         setTimeout(() => { twSuppressClick = false; }, 250);
-        // 60px以上ドラッグしたら隣へ1枚送る。それ未満は元の位置へ戻す
+        // 60px以上ドラッグしたら隣へ1枚送る（端は複製スライド経由でループ）。それ未満は元の位置へ戻す
         let idx = baseIdx;
-        if (dx > 60) idx = Math.min(baseIdx + 1, TSUMUGI_WORKS.length - 1);
-        else if (dx < -60) idx = Math.max(baseIdx - 1, 0);
+        if (dx > 60) idx = baseIdx + 1;
+        else if (dx < -60) idx = baseIdx - 1;
         twGoTo(idx);
       }
     });
