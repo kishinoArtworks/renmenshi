@@ -1542,6 +1542,50 @@
       display: block
     }
 
+    /* 読者登録（Substack埋め込みフォーム） */
+    .subscribe-box {
+      max-width: 560px;
+      margin: 30px auto 26px;
+      padding: 26px 22px 18px;
+      background: rgba(255, 255, 255, .5);
+      border: 1px solid rgba(176, 141, 62, .5);
+      text-align: center;
+    }
+
+    .subscribe-box h4 {
+      font-family: 'Yuji Syuku', serif;
+      font-size: 18px;
+      letter-spacing: .25em;
+      color: var(--kon-fukai);
+      margin-bottom: 8px;
+    }
+
+    .subscribe-note {
+      font-size: 13px;
+      color: var(--sumi-usu);
+      letter-spacing: .05em;
+      margin-bottom: 14px;
+    }
+
+    .subscribe-box iframe {
+      width: 100%;
+      max-width: 480px;
+      height: 260px;
+      /* Substack側が中身を上下中央寄せするため、高さ＝中身＋余白少々に詰めてある。
+         240px以下にするとSubstack側の仕様で説明文が非表示になるので260pxが下限。
+         文言が増えて見切れたらここを広げる（スマホは下のメディアクエリ） */
+      border: none;
+      display: block;
+      margin: 0 auto;
+      background: transparent;
+    }
+
+    @media (max-width: 640px) {
+      .subscribe-box iframe {
+        height: 320px;
+      }
+    }
+
     /* ============ 通販 ============ */
     .shop-lead {
       max-width: 680px;
@@ -2134,7 +2178,13 @@
           <div class="kb-top" aria-hidden="true"></div>
           <div class="kb-mid">
             <h2 class="kanban-title">新着情報</h2>
+            <!--
+    ◆ 日記配信告知のルール ◆
+    『一筆の縁』の配信告知は「最新1件だけ」を掲載し、配信のたびに行ごと置き換える（看板が日記だらけになるのを防ぐ）。
+    行の書式： <li><span class="wn-date">日付</span><span>理玄の日記『一筆の縁』「タイトル」を配信しました（<a href="記事URL" target="_blank" rel="noopener">読む</a>／<a href="#subscribe">読者登録</a>）</span></li>
+  -->
             <ul class="kanban-list">
+              <li><span class="wn-date">2026.08.30</span><span><a href="#diary">理玄の日記</a>に『一筆の縁』の読者登録フォームを設置しました</span></li>
               <li><span class="wn-date">2026.08.29</span><span><a href="#gallery">画廊</a>に個展『紡 -Tsumugi-』の作品6点を掲載しました。展示作品は販売を予定しています</span></li>
               <li><span class="wn-date">2026.08.29</span><span>個展『紡 -Tsumugi-』の記録を<a href="#event">イベント情報</a>に移しました</span></li>
             </ul>
@@ -2604,8 +2654,18 @@
           <div class="row"><span class="lbl">配　信</span><span>毎週 月・水・金 20時</span></div>
           <div class="row"><span class="lbl">場　所</span><span>Substack（プラットフォーム）もしくはメルマガ</span></div>
         </div>
+        <!--
+    ◆ 読者登録フォーム ◆
+    Substack公式の埋め込みフォーム（iframe）。サイトを離れずにメールアドレスだけで登録できる。
+    見た目（配色・文言）はSubstack側のパブリケーション設定に従うため、ここでは変更できない。
+  -->
+        <div class="subscribe-box" id="subscribe">
+          <h4>読者登録（無料）</h4>
+          <p class="subscribe-note">メールアドレスを入れるだけで、配信日に『一筆の縁』が届きます。</p>
+          <iframe src="https://tsudukirigen.substack.com/embed" title="『一筆の縁』読者登録フォーム" loading="lazy" scrolling="no"></iframe>
+        </div>
         <div class="btn-row">
-          <a class="btn" href="https://tsudukirigen.substack.com/" target="_blank" rel="noopener">『一筆の縁』を読む</a>
+          <a class="btn" href="https://tsudukirigen.substack.com/" target="_blank" rel="noopener" title="Substackで過去回を読めます">『一筆の縁』を読む</a>
         </div>
       </section>
 
