@@ -288,6 +288,100 @@
       transform: none
     }
 
+    /* ============ 新着情報（木の立て看板・高札風） ============
+       kishino作の3分割パーツ（assets/UI_parts/kawaraban_01〜03.png）を積む3スライス方式。
+       01=傘＋枠上部 / 02=左右枠＋掲示面（縦に伸縮） / 03=枠下部＋脚 */
+    .whatsnew {
+      padding-top: 8px;
+      padding-bottom: 0;
+    }
+
+    .kanban {
+      position: relative;
+      margin: 0 auto;
+      max-width: 700px;
+      filter: drop-shadow(0 12px 20px rgba(43, 39, 35, .2));
+    }
+
+    .kb-top {
+      aspect-ratio: 2544 / 228;
+      background: url("assets/UI_parts/kawaraban_01.png") no-repeat center / 100% 100%;
+    }
+
+    .kb-mid {
+      background: url("assets/UI_parts/kawaraban_02.png") no-repeat center / 100% 100%;
+      /* 上下スライスとの継ぎ目対策で1pxずつ重ねる */
+      margin: -1px 0;
+      padding: 2px 9% 12px;
+    }
+
+    .kb-bottom {
+      aspect-ratio: 2544 / 222;
+      background: url("assets/UI_parts/kawaraban_03.png") no-repeat center / 100% 100%;
+    }
+
+    .kanban-title {
+      font-family: 'Yuji Syuku', serif;
+      font-size: clamp(19px, 3vw, 23px);
+      letter-spacing: .34em;
+      text-indent: .34em;
+      text-align: center;
+      color: var(--sumi);
+    }
+
+    .kanban-title::after {
+      content: '';
+      display: block;
+      width: 118px;
+      height: 1px;
+      margin: 10px auto 0;
+      background: rgba(43, 39, 35, .35);
+    }
+
+    .kanban-list {
+      list-style: none;
+      margin-top: 12px;
+    }
+
+    .kanban-list li {
+      display: flex;
+      gap: 16px;
+      padding: 9px 0;
+      border-bottom: 1px dashed rgba(43, 39, 35, .2);
+      font-size: 13.5px;
+      letter-spacing: .06em;
+      line-height: 1.9;
+    }
+
+    .kanban-list li:last-child {
+      border-bottom: none;
+    }
+
+    .kanban-list .wn-date {
+      white-space: nowrap;
+      color: var(--kin);
+      font-size: 12.5px;
+      padding-top: 1px;
+      letter-spacing: .1em;
+    }
+
+    .kanban-list a {
+      color: var(--kon);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .kanban-list a:hover {
+      color: var(--shu);
+    }
+
+    @media (max-width: 640px) {
+      .kanban-list li {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+
     /* ============ HERO ============ */
     .hero {
       display: flex;
@@ -2026,10 +2120,25 @@
         <div class="hero-scroll">SCROLL</div>
       </section>
 
+      <!-- ============ 新着情報（木の立て看板） ============ -->
+      <section id="whatsnew" class="whatsnew reveal">
+        <div class="kanban">
+          <div class="kb-top" aria-hidden="true"></div>
+          <div class="kb-mid">
+            <h2 class="kanban-title">新着情報</h2>
+            <ul class="kanban-list">
+              <li><span class="wn-date">2026.08.29</span><span><a href="#gallery">画廊</a>に個展『紡 -Tsumugi-』の作品6点を掲載しました。展示作品は販売を予定しています</span></li>
+              <li><span class="wn-date">2026.08.29</span><span>個展『紡 -Tsumugi-』の記録を<a href="#event">イベント情報</a>に移しました</span></li>
+            </ul>
+          </div>
+          <div class="kb-bottom" aria-hidden="true"></div>
+        </div>
+      </section>
+
       <!-- ============ 物語 ============ -->
       <section id="story" class="reveal">
-        <img class="kasumi flip" src="assets/kasumi_02.svg" alt="" style="right:8px;top:-6px">
-        <img class="kasumi" src="assets/kasumi_01.svg" alt="" style="left:8px;top:150px">
+        <img class="kasumi flip" src="assets/kasumi_02.svg" alt="" style="right:8px;top:110px">
+        <img class="kasumi" src="assets/kasumi_01.svg" alt="" style="left:8px;top:266px">
         <h2 class="sec-title">物語</h2>
         <div class="sec-sub">STORY</div>
         <div class="story-lead">
