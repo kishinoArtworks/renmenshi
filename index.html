@@ -1260,7 +1260,9 @@
 
     .tsumugi-nav {
       position: absolute;
-      top: 33%;
+      /* 縦位置はJS（twPlaceNav）が作品名の行に合わせて設定する */
+      top: 200px;
+      transform: translateY(-50%);
       background: rgba(244, 241, 234, .1);
       color: #f4f1ea;
       border: 1px solid rgba(244, 241, 234, .45);
@@ -1283,11 +1285,11 @@
     }
 
     .tsumugi-nav.prev {
-      left: 4%;
+      left: max(3%, calc(50% - 215px));
     }
 
     .tsumugi-nav.next {
-      right: 4%;
+      right: max(3%, calc(50% - 215px));
     }
 
     /* 販売予定の告知（通販ページ開設までの案内） */
@@ -1357,15 +1359,6 @@
       .tsumugi-nav {
         width: 38px;
         height: 38px;
-        top: 22%;
-      }
-
-      .tsumugi-nav.prev {
-        left: 2%;
-      }
-
-      .tsumugi-nav.next {
-        right: 2%;
       }
     }
 
@@ -2995,6 +2988,21 @@
     document.getElementById('twNext').addEventListener('click', () => twGoTo(twTargetIdx + 1));
 
     let twSyncTimer;
+    // 送りボタンの縦位置を、表示中スライドの作品名の行の中心に合わせる
+    const twCarouselEl = document.getElementById('tsumugiCarousel');
+    const twPrevBtn = document.getElementById('twPrev');
+    const twNextBtn = document.getElementById('twNext');
+    function twPlaceNav() {
+      const t = twTrack.querySelector('.tsumugi-slide.is-active .tw-title');
+      if (!t) return;
+      const top = t.getBoundingClientRect().top - twCarouselEl.getBoundingClientRect().top + t.offsetHeight / 2;
+      twPrevBtn.style.top = top + 'px';
+      twNextBtn.style.top = top + 'px';
+    }
+    // 画像読み込みや幅の変化でレイアウトが動いたら追従する
+    new ResizeObserver(twPlaceNav).observe(twTrack);
+    window.addEventListener('resize', twPlaceNav);
+
     twTrack.addEventListener('scroll', () => {
       twUpdateActive();
       clearTimeout(twSyncTimer);
@@ -3011,6 +3019,7 @@
     }, { passive: true });
     twGoTo(0, true); // 初期表示は1作品目を中央に（先頭の装飾スライド分を送る）
     twUpdateActive();
+    twPlaceNav();
 
     // PC向け：マウスドラッグでもスワイプできるようにする
     let twDrag = null;
