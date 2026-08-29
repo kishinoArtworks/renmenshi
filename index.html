@@ -36,8 +36,9 @@
   <style>
     /* ============ 基本 ============ */
     /* 行書体タイトル用フォント（衡山毛筆フォント行書）
-   gyosho-title.woff2 は「連綿師」3文字のみを抜き出した軽量版。
-   タイトル以外にも使いたい場合は KouzanGyoushoOTF.otf の方を参照してください。 */
+   gyosho-title.woff2 は「連綿師」＋「縁」の4文字のみを抜き出した軽量版（約3.6KB）。
+   他の文字にも使いたい場合は fontTools でサブセットを再生成して文字を追加すること
+   （フル版 KouzanGyoushoOTF.otf は6MBあるため、そのまま読ませない）。 */
     @font-face {
       font-family: 'GyoshoTitle';
       src: url('assets/fonts/gyosho-title.woff2') format('woff2'),
@@ -1913,7 +1914,9 @@
     }
 
     .en-sec .sec-title {
-      color: var(--washi)
+      color: var(--washi);
+      /* TOPの「連綿師」と同じ衡山毛筆行書（サブセットに「縁」を追加済み） */
+      font-family: 'GyoshoTitle', 'Yuji Syuku', serif;
     }
 
     .en-lead {
