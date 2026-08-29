@@ -1090,6 +1090,19 @@
       background: #17140f;
     }
 
+    /* 個展会場の壁の再現（青黒＋麻織りのテクスチャ）。色は会場写真から実測。
+       織り糸はSVGフラクタルノイズを縦横に引き伸ばしてランダムに生成（均一な線の繰り返しにしない）。
+       上からスポットライトが当たり、下へ向かって黒く沈む照明を模している */
+    .tsumugi-carousel.bg-wall {
+      background-color: #192434;
+      background-image:
+        radial-gradient(ellipse 75% 62% at 50% 0%, rgba(118, 145, 182, .42), rgba(118, 145, 182, 0) 78%),
+        linear-gradient(90deg, rgba(4, 8, 15, .5) 0%, rgba(4, 8, 15, 0) 20%, rgba(4, 8, 15, 0) 80%, rgba(4, 8, 15, .5) 100%),
+        linear-gradient(180deg, rgba(4, 8, 15, 0) 8%, rgba(4, 8, 15, .25) 45%, rgba(3, 7, 13, .8) 100%),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='640'><filter id='hd'><feTurbulence type='fractalNoise' baseFrequency='0.007 0.25' numOctaves='3' seed='47' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.02 0 0 0 0 0.07 0 0 0 0 0.12 0 0 0 0.12 0'/></filter><filter id='vd'><feTurbulence type='fractalNoise' baseFrequency='0.25 0.007' numOctaves='3' seed='63' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.02 0 0 0 0 0.07 0 0 0 0 0.12 0 0 0 0.12 0'/></filter><filter id='hl'><feTurbulence type='fractalNoise' baseFrequency='0.006 0.22' numOctaves='3' seed='11' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.75 0 0 0 0 0.82 0 0 0 0 0.95 0 0 0 0.13 0'/></filter><filter id='vl'><feTurbulence type='fractalNoise' baseFrequency='0.22 0.006' numOctaves='3' seed='29' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.75 0 0 0 0 0.82 0 0 0 0 0.95 0 0 0 0.13 0'/></filter><rect width='640' height='640' filter='url(%23hd)'/><rect width='640' height='640' filter='url(%23vd)'/><rect width='640' height='640' filter='url(%23hl)'/><rect width='640' height='640' filter='url(%23vl)'/></svg>");
+      background-size: auto, auto, 640px 640px;
+    }
+
     .tsumugi-track {
       display: flex;
       gap: 34px;
@@ -2088,7 +2101,7 @@
         <a href="#world">世界観<small>WORLD</small></a>
         <a href="#renmenshi">連綿師とは<small>ABOUT</small></a>
         <a href="#chars">登場人物<small>CHARACTER</small></a>
-        <a href="#gallery">画廊<small>GALLERY</small></a>
+        <a href="#galleryTop">画廊<small>GALLERY</small></a>
         <a href="#news">理玄の日記<small>DIARY</small></a>
         <a href="#shop">通販<small>SHOP</small></a>
         <a href="#guideline">ガイドライン<small>GUIDELINE</small></a>
@@ -2534,7 +2547,7 @@
       <section id="gallery" class="reveal">
         <img class="kasumi flip" src="assets/kasumi_02.svg" alt="" style="right:8px;top:-10px">
         <img class="kasumi" src="assets/kasumi_03.svg" alt="" style="left:8px;top:145px">
-        <h2 class="sec-title">画廊</h2>
+        <h2 class="sec-title" id="galleryTop" style="scroll-margin-top:86px">画廊</h2>
         <div class="sec-sub">GALLERY</div>
 
         <h3 class="sub-title" style="margin-top:0"><span style="display:inline-block">2026年 初個展</span><span
@@ -2542,7 +2555,7 @@
         <div class="sub-sub">SOLO EXHIBITION 2026</div>
         <div class="tsumugi-carousel" id="tsumugiCarousel">
           <button type="button" class="tsumugi-bgtoggle" id="tsumugiBgToggle"
-            title="カルーセルの背景色を切り替えます">背景切替：紺 ⇄ 黒</button>
+            title="カルーセルの背景色を切り替えます（紺・黒・会場の壁）">背景切替：紺 → 黒 → 会場</button>
           <button type="button" class="tsumugi-nav prev" id="twPrev" title="前の作品" aria-label="前の作品">‹</button>
           <div class="tsumugi-track" id="tsumugiTrack"></div>
           <button type="button" class="tsumugi-nav next" id="twNext" title="次の作品" aria-label="次の作品">›</button>
@@ -3053,9 +3066,14 @@
       }
     });
 
-    // 背景切替（たたき台の検討用・決定後に削除）
+    // 背景切替（紺 → 黒 → 会場壁 の3色を巡回）
+    const TW_BGS = ['', 'bg-black', 'bg-wall'];
+    let twBgIdx = 0;
     document.getElementById('tsumugiBgToggle').addEventListener('click', () => {
-      document.getElementById('tsumugiCarousel').classList.toggle('bg-black');
+      twBgIdx = (twBgIdx + 1) % TW_BGS.length;
+      const el = document.getElementById('tsumugiCarousel');
+      el.classList.remove('bg-black', 'bg-wall');
+      if (TW_BGS[twBgIdx]) el.classList.add(TW_BGS[twBgIdx]);
     });
 
     // ギャラリー描画
