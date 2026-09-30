@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google tag (gtag.js)：公式サイトと同じ GA4 プロパティ。公開前に G-RD4MCSPCQ5 が入っているか確認すること -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD4MCSPCQ5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-RD4MCSPCQ5');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noai, noimageai">
+  <title>『連綿師』グッズ｜RENMENSHI Goods</title>
+  <meta name="description" content="kishino のオリジナル作品『連綿師』と連綿体のグッズ一覧。BOOTH・SUZURIの販売ページへご案内します。">
+  <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Yuji+Syuku&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/common.css">
+  <style>
+
+    /* ============ 商品カード ============ */
+    .goods-grid {
+      display: grid; gap: 24px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: 960px; margin: 0 auto;
+    }
+    .goods-item {
+      display: flex; flex-direction: column;
+      background: rgba(255, 255, 255, .65);
+      border: 1px solid rgba(43, 39, 35, .12); border-radius: 6px; overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .goods-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(50, 46, 102, .15) }
+
+    .goods-img {
+      display: block; position: relative; aspect-ratio: 1 / 1; background: #fff;
+      width: 100%; padding: 0; border: 0; cursor: pointer; font: inherit;
+    }
+    .goods-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block }
+    .goods-count {
+      position: absolute; left: 8px; top: 8px;
+      font-size: 14px; color: var(--kon); background: rgba(244, 241, 234, .92);
+      border: 1px solid rgba(81, 75, 156, .4); padding: 0 10px; border-radius: 999px;
+    }
+    .goods-img::after {
+      content: attr(data-hint);
+      position: absolute; right: 8px; bottom: 8px;
+      font-size: 14px; color: var(--washi); background: var(--kon);
+      padding: 2px 10px; border-radius: 999px; opacity: 0; transition: opacity .2s;
+    }
+    .goods-img:hover::after, .goods-img:focus-visible::after { opacity: 1 }
+    .goods-img .noimg {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      color: var(--sumi-usu); font-size: 14px; background: var(--washi-deep);
+    }
+
+    .goods-body { padding: 12px 16px 16px }
+    .goods-series { font-size: 14px; color: var(--kin); letter-spacing: .12em }
+    .goods-name { font-size: 18px; font-weight: 700; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere }
+    .goods-name a { color: inherit; text-decoration: none }
+    .goods-name a:hover { color: var(--kon) }
+    .goods-price { margin-top: 4px; font-size: 16px; color: var(--shu); font-weight: 600 }
+    .goods-vars { font-size: 14px; color: var(--kon); word-break: keep-all }
+    .goods-note { font-size: 14px; color: var(--sumi-usu) }
+
+    /* ============ オーダーフォーム ============ */
+    .order-card {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 2fr); max-width: 960px; margin: 0 auto;
+      background: rgba(255, 255, 255, .65); border: 1px solid rgba(43, 39, 35, .12); border-radius: 6px; overflow: hidden;
+    }
+    .order-samples { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 20px }
+    /* 金縁（公式サイトの個展作品の額と同じ配色）。作例1枚ごとに囲って別の作品だと分かるようにする */
+    .gold-frame {
+      display: block; max-width: 100%; padding: 5px;
+      background: linear-gradient(135deg, #caa54e, #f0dfa0 28%, #a8842e 52%, #e7cd85 78%, #b28c36);
+      box-shadow:
+        inset 1px 1px 1px rgba(255, 246, 214, .85),
+        inset -1px -1px 1px rgba(92, 62, 14, .85),
+        0 4px 14px rgba(0, 0, 0, .25);
+    }
+    .gold-frame img { display: block; max-width: 100%; max-height: 220px; width: auto; height: auto; background: #fff }
+    .order-info { padding: 20px 24px 24px }
+    .order-title { font-size: 20px; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere }
+    .order-lead { margin-top: 8px; color: var(--sumi-usu) }
+    .order-price { margin-top: 8px; font-size: 18px }
+    .order-price small { font-size: 14px; color: var(--sumi-usu); font-weight: 400 }
+    .order-details { margin-top: 12px; border-top: 1px solid rgba(43, 39, 35, .15) }
+    .order-details summary {
+      cursor: pointer; padding: 10px 0; color: var(--kon); font-weight: 600; transition: color .2s;
+    }
+    .order-details summary:hover { color: var(--shu) }
+    .order-spec { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; font-size: 15px }
+    .order-spec dt { color: var(--kin); font-weight: 600; white-space: nowrap }
+    .order-steps {
+      margin-top: 12px; padding: 0; list-style: none; counter-reset: step;
+      display: flex; flex-direction: column; gap: 6px; font-size: 15px;
+    }
+    .order-steps li { counter-increment: step; display: flex; align-items: flex-start }
+    .order-steps li::before {
+      content: counter(step); flex: none; display: inline-grid; place-items: center;
+      width: 22px; height: 22px; margin: 3px 8px 0 0; border-radius: 50%;
+      background: var(--kon); color: var(--washi); font-size: 14px;
+    }
+    .order-notes { margin: 12px 0 0 1.2em; font-size: 15px; color: var(--sumi-usu) }
+    .order-info .btn { margin-top: 16px }
+
+    /* ============ ギャラリー（拡大表示） ============ */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 100;
+      display: grid; place-items: center; padding: 16px;
+      background: rgba(30, 27, 60, .82);
+    }
+    .lightbox[hidden] { display: none }
+    .lb-panel {
+      width: min(880px, 100%); max-height: calc(100vh - 32px); overflow: auto;
+      background: var(--washi); border-radius: 8px; padding: 16px 16px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .lb-head { width: 100%; display: flex; align-items: flex-start; gap: 12px }
+    .lb-title { flex: 1; font-weight: 700; font-size: 18px; line-height: 1.5 }
+    .lb-close {
+      width: 40px; height: 40px; flex: none; border: 0; border-radius: 50%;
+      font-size: 24px; line-height: 1; color: var(--sumi); background: transparent; cursor: pointer;
+      transition: background .2s;
+    }
+    .lb-close:hover { background: rgba(43, 39, 35, .1) }
+    .lb-stage { position: relative; width: 100%; display: grid; place-items: center; background: #fff; border-radius: 4px }
+    .lb-img { max-width: 100%; max-height: min(62vh, 640px); object-fit: contain; display: block }
+    .lb-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; border: 0; border-radius: 50%;
+      font-size: 28px; line-height: 1; color: var(--washi); background: rgba(50, 46, 102, .7); cursor: pointer;
+      transition: background .2s;
+    }
+    .lb-nav:hover { background: var(--kon) }
+    .lb-prev { left: 8px }
+    .lb-next { right: 8px }
+    .lb-meta { width: 100%; display: flex; justify-content: space-between; gap: 12px; color: var(--sumi-usu) }
+    .lb-count { flex: none; letter-spacing: .1em }
+    .lb-thumbs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px }
+    .lb-thumbs button {
+      width: 64px; height: 64px; padding: 0; background: #fff; cursor: pointer;
+      border: 2px solid transparent; border-radius: 4px; opacity: .6; transition: opacity .2s, border-color .2s;
+    }
+    .lb-thumbs button:hover { opacity: 1 }
+    .lb-thumbs button[aria-current="true"] { border-color: var(--kon); opacity: 1 }
+    .lb-thumbs img { width: 100%; height: 100%; object-fit: contain; display: block }
+    .lb-shop { margin-top: 4px }
+
+    footer {
+      text-align: center; padding: 40px 24px 56px; color: var(--sumi-usu);
+    }
+    .banners { display: grid; gap: 24px; max-width: 560px; margin: 0 auto }
+    .banner { display: block; color: var(--kon); text-decoration: none; transition: color .2s }
+    .banner img {
+      width: 100%; height: auto; display: block; border-radius: 6px;
+      border: 1px solid rgba(43, 39, 35, .12); transition: transform .2s, box-shadow .2s;
+    }
+    .banner:hover { color: var(--shu) }
+    .banner:hover img { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(50, 46, 102, .18) }
+    .banner-label { display: block; margin-top: 8px }
+    footer small { display: block; margin-top: 16px; font-size: 14px }
+
+    @media (max-width: 640px) {
+      .order-card { grid-template-columns: 1fr }
+      .order-info { padding: 16px }
+    }
+
+    @media (max-width: 560px) {
+      .goods-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px }
+      .goods-body { padding: 8px 12px 12px }
+      .goods-name { font-size: 16px }
+      section { padding: 40px 16px }
+    }
+  </style>
+</head>
+<body>
+  <div class="kikko-frame" aria-hidden="true"></div>
+
+  <div class="lang-switch" role="group" aria-label="Language">
+    <button type="button" data-lang="ja" title="日本語で表示">JP</button>
+    <button type="button" data-lang="en" title="Show in English">EN</button>
+  </div>
+
+  <div class="page">
+    <header>
+      <img class="logo" src="assets/renmenshi.svg" alt="連綿師" draggable="false">
+      <p class="logo-en">-THE SUMMONER OF MAD CALLIGRAPHY-</p>
+      <h1 class="page-title">
+        <span class="ja">グッズ一覧</span><span class="en">Goods</span>
+      </h1>
+      <p class="lead">
+        <span class="ja">オリジナル作品『連綿師』と、連綿体のグッズを販売しています。<br>画像を押すと販売ページが開きます。</span>
+        <span class="en">Goods from the original series "RENMENSHI" and items featuring renmen-tai calligraphy.<br>Tap an image to open its store page.</span>
+      </p>
+      <img class="ink-divider" src="assets/sumisen.svg" alt="" draggable="false">
+    </header>
+
+    <main>
+      <section id="booth">
+        <h2 class="sec-title"><span class="ja">『連綿師』グッズ</span><span class="en">RENMENSHI Goods</span></h2>
+        <p class="sec-sub">BOOTH</p>
+        <p class="jp-only"><span class="ja">販売ページは日本語のみです</span><span class="en">Store pages are in Japanese only</span></p>
+        <div class="goods-grid" data-list="booth"></div>
+      </section>
+
+      <section id="suzuri">
+        <h2 class="sec-title"><span class="ja">連綿体グッズ</span><span class="en">Renmen-tai Calligraphy Goods</span></h2>
+        <p class="sec-sub">SUZURI</p>
+        <p class="jp-only"><span class="ja">販売ページは日本語のみです</span><span class="en">Store pages are in Japanese only</span></p>
+        <div class="goods-grid" data-list="suzuri"></div>
+      </section>
+
+      <section id="order" class="order">
+        <h2 class="sec-title"><span class="ja">オーダーフォーム</span><span class="en">Order Form</span></h2>
+        <p class="sec-sub">ORDER</p>
+
+        <article class="order-card">
+          <div class="order-samples">
+            <span class="gold-frame"><img src="images/order made/Sora_Riku.webp" alt="連綿体で書いたお名前の作例1" draggable="false"></span>
+            <span class="gold-frame"><img src="images/order made/Leon.webp" alt="連綿体で書いたお名前の作例2" draggable="false"></span>
+          </div>
+          <div class="order-info">
+            <h3 class="order-title">
+              <span class="ja">あなたのお名前を<wbr>連綿体で書きます</span>
+              <span class="en">Your Name in Renmen-tai Calligraphy</span>
+            </h3>
+            <p class="order-lead">
+              <span class="ja"><span class="nb">一点ものの書作品として</span><span class="nb">お書きします。</span><br><span class="nb">ニューボーンフォトや</span><span class="nb">命名の記念にもどうぞ。</span></span>
+              <span class="en">A one-of-a-kind calligraphy artwork of your name.<br>A lovely keepsake for newborn photos or naming celebrations.</span>
+            </p>
+            <p class="goods-price order-price">
+              <span class="ja">¥8,000<small>（1名分・データ納品）</small></span>
+              <span class="en">¥8,000<small> (one name, digital delivery)</small></span>
+            </p>
+
+            <details class="order-details">
+              <summary title="クリックで開閉します / Click to open or close">
+                <span class="ja">納品形式・流れ・ご注意を見る</span><span class="en">Delivery, steps &amp; notes</span>
+              </summary>
+              <dl class="order-spec">
+                <dt><span class="ja">納品</span><span class="en">Delivery</span></dt>
+                <dd><span class="ja">PDF（A4）と、背景が透明なPNGの2点</span><span class="en">A4 PDF + transparent PNG</span></dd>
+                <dt><span class="ja">納期</span><span class="en">Delivery time</span></dt>
+                <dd><span class="ja">ご入金確認後から約2週間</span><span class="en">About 2 weeks after payment is confirmed</span></dd>
+                <dt><span class="ja">お支払い</span><span class="en">Payment</span></dt>
+                <dd><span class="ja">全額前払い（ゆうちょ銀行へのお振込／JPYC〈Polygon〉）<br>クレジットカードをご希望の方はご相談ください</span><span class="en">Full payment in advance (bank transfer to Japan Post Bank / JPYC on Polygon)<br>If you'd like to pay by credit card, please ask.</span></dd>
+                <dt><span class="ja">ご利用</span><span class="en">Use</span></dt>
+                <dd><span class="ja">個人の記念としてお使いください（商用はご相談ください）</span><span class="en">For personal keepsakes (please ask about commercial use)</span></dd>
+              </dl>
+              <ol class="order-steps">
+                <li><span class="ja">申し込みフォームから送信</span><span class="en">Send the order form</span></li>
+                <li><span class="ja">お受けできるかをご連絡</span><span class="en">We reply whether we can take it</span></li>
+                <li><span class="ja">お支払い（全額前払い）</span><span class="en">Payment (in full, in advance)</span></li>
+                <li><span class="ja">作風の候補から1つ選んでいただく</span><span class="en">Choose one style from the drafts</span></li>
+                <li><span class="ja">清書して納品</span><span class="en">Final piece delivered</span></li>
+              </ol>
+              <ul class="order-notes">
+                <li><span class="ja"><span class="nb">お名前の文字によっては、</span><span class="nb">連綿体に向かず</span><span class="nb">お受けできない場合がございます。</span><br><span class="nb">あらかじめご了承ください。</span></span><span class="en">Some names may not suit renmen-tai; in that case we may decline the request.<br>Thank you for your understanding.</span></li>
+                <li><span class="ja"><span class="nb">一点ものの作品として</span><span class="nb">お書きするため、</span><br><span class="nb">清書後の部分的な修正には</span><span class="nb">お応えいたしかねます。</span></span><span class="en">As each piece is an original artwork,<br>partial revisions after the final piece are not available.</span></li>
+              </ul>
+            </details>
+
+            <!-- 申し込みフォームは同じフォルダの order.html（同じタブで開く）。空にすると「準備中」になる -->
+            <a class="btn" id="order-btn"></a>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <div class="banners">
+        <a class="banner" href="https://renmenshi.kishino-artworks.com/" target="_blank" rel="noopener" title="『連綿師』公式サイト（別タブで開きます） / RENMENSHI Official Site (opens in a new tab)">
+          <img src="assets/banner_renmenshi.webp" alt="『連綿師』公式サイト" draggable="false">
+          <span class="banner-label"><span class="ja">『連綿師』公式サイト</span><span class="en">RENMENSHI Official Site</span> ↗</span>
+        </a>
+        <a class="banner" href="https://tsudukirigen.substack.com/" target="_blank" rel="noopener" title="理玄の日記『一筆の縁』（別タブで開きます） / Rigen's Diary (opens in a new tab)">
+          <img src="assets/banner_hitofude.webp" alt="都竹理玄の日記『一筆の縁』" draggable="false">
+          <span class="banner-label"><span class="ja">理玄の日記『一筆の縁』</span><span class="en">Rigen's Diary "Hitofude no Enishi" (Japanese)</span> ↗</span>
+        </a>
+      </div>
+      <small>© kishino</small>
+    </footer>
+  </div>
+
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Gallery" hidden>
+    <div class="lb-panel">
+      <div class="lb-head">
+        <p class="lb-title"></p>
+        <button type="button" class="lb-close" title="閉じる / Close" aria-label="Close">×</button>
+      </div>
+      <div class="lb-stage">
+        <button type="button" class="lb-nav lb-prev" title="前の画像 / Previous" aria-label="Previous">‹</button>
+        <img class="lb-img" alt="" draggable="false">
+        <button type="button" class="lb-nav lb-next" title="次の画像 / Next" aria-label="Next">›</button>
+      </div>
+      <p class="lb-meta"><span class="lb-cap"></span><span class="lb-count"></span></p>
+      <div class="lb-thumbs"></div>
+      <a class="btn lb-shop" target="_blank" rel="noopener"></a>
+    </div>
+  </div>
+
+  <script>
+    /* ===== オーダーフォームのURL（未設定のあいだは空のまま） ===== */
+    const ORDER_FORM_URL = "order.html";
+
+    /* ===== 商品データ =====
+       imgs … 画像の一覧。1枚なら画像を押すと販売ページへ、2枚以上なら拡大表示（ギャラリー）が開く
+       画像は { src, ja, en } で書く（ja/en は拡大表示のときの説明。不要なら src の文字列だけでよい）
+       imgs が空なら「画像準備中」を表示する */
+    const B = "images/booth/";
+    const GOODS = {
+      booth: {
+        shop: "BOOTH",
+        // 並びは表示価格の安い順。連綿みくじはおまけなので最後（3列表示で右下）
+        items: [
+          { url: "https://lmaworks.booth.pm/items/7155207",
+            ja: "【連綿師】|ポストカード", en: "RENMENSHI Postcards", price: "各¥200", priceEn: "¥200 each", vars: { ja: "理玄／シュマリ／玄也", en: "Rigen / Shumari / Genya" },
+            imgs: [
+              { src: B + "Postcard_縦断裁-_Renmenshi_Rigen.webp", ja: "理玄", en: "Rigen" },
+              { src: B + "Postcard_縦断裁-_Renmenshi_Shumari.webp", ja: "シュマリ", en: "Shumari" },
+              { src: B + "Postcard_縦断裁-_Renmenshi_Genya.webp", ja: "玄也", en: "Genya" },
+            ] },
+          { url: "https://lmaworks.booth.pm/items/7155336",
+            ja: "【連綿師】|カンバッジ", en: "RENMENSHI Can Badges",
+            // 種類ごとに価格が違うときは rows で「種類→価格」を並べる
+            rows: [
+              { vars: { ja: "理玄／シュマリ／玄也", en: "Rigen / Shumari / Genya" }, price: "各¥300", priceEn: "¥300 each" },
+              { vars: { ja: "連綿体|（書家・大神・大蛇）", en: "Renmen-tai calligraphy (3 designs)" }, price: "各¥200", priceEn: "¥200 each" },
+            ],
+            imgs: [B + "カンバッジ.webp"] },
+          { url: "https://lmaworks.booth.pm/items/7155584",
+            ja: "【連綿師】|フレークシール|セット", en: "RENMENSHI Flake Sticker Set", price: "¥500",
+            imgs: [B + "フレークシールセット_1500x2105.webp"] },
+          { url: "https://lmaworks.booth.pm/items/7155569",
+            ja: "【連綿師】|A4|クリアファイル", en: "RENMENSHI A4 Clear File", price: "各¥500", priceEn: "¥500 each", vars: { ja: "理玄／シュマリ／玄也", en: "Rigen / Shumari / Genya" },
+            imgs: [
+              { src: B + "3人衆_クリアファイル.webp", ja: "3キャラセット", en: "Set of 3" },
+              { src: B + "理玄_クリアファイル.webp", ja: "理玄", en: "Rigen" },
+              { src: B + "PrintPac_clearfile_A4_Rigen_ol.webp", ja: "理玄（表・裏）", en: "Rigen (front & back)" },
+              { src: B + "シュマリ_クリアファイル.webp", ja: "シュマリ", en: "Shumari" },
+              { src: B + "PrintPac_clearfile_A4_Shumari_ol.webp", ja: "シュマリ（表・裏）", en: "Shumari (front & back)" },
+              { src: B + "玄也_クリアファイル.webp", ja: "玄也", en: "Genya" },
+              { src: B + "PrintPac_clearfile_A4_Genya_ol.webp", ja: "玄也（表・裏）", en: "Genya (front & back)" },
+            ] },
+          { url: "https://lmaworks.booth.pm/items/8662568",
+            ja: "個展【紡】|作品|ポストカード| 全5種|セット\n（特典：|三貴神|ステッカー付）", en: "Exhibition \"Tsumugi\" Art Postcards — Set of 5\n(bonus Sankishin sticker)",
+            price: "¥1,500",
+            note: { ja: "単品 ¥250　|※特典は無し", en: "Single cards ¥250 each (no bonus)" },
+            imgs: [
+              { src: B + "個展作品ポスカ5枚組_実物_1500x1064.webp", ja: "ポストカード 全5種", en: "All 5 postcards" },
+              { src: B + "kishino個展【tsumugi】キービジュアル_postcard.webp", ja: "キービジュアル", en: "Key visual" },
+              { src: B + "狐面とシュマリ_postcard.webp", ja: "狐面とシュマリ", en: "Kitsunemen & Shumari" },
+              { src: B + "初陣_闇を切り裂く一閃_postcard.webp", ja: "初陣 ─ 闇を切り裂く一閃", en: "First Battle" },
+              { src: B + "団子_postcard.webp", ja: "団子", en: "Dango" },
+              { src: B + "理玄_連綿術発動_紙魚_postcard.webp", ja: "理玄 ─ 連綿術発動", en: "Rigen" },
+              { src: B + "三貴神シール01.webp", ja: "特典：三貴神ステッカー", en: "Bonus: Sankishin stickers" },
+              { src: B + "【紡】天照大御神ステッカー.webp", ja: "天照大御神", en: "Amaterasu" },
+              { src: B + "【紡】月読命ステッカー.webp", ja: "月読命", en: "Tsukuyomi" },
+              { src: B + "【紡】素戔嗚尊ステッカー.webp", ja: "素戔嗚尊", en: "Susanoo" },
+            ] },
+          { url: "https://lmaworks.booth.pm/items/7155446",
+            ja: "【連綿師】|アクリル|スタンド", en: "RENMENSHI Acrylic Stand", price: "各¥1,500", priceEn: "¥1,500 each", vars: { ja: "理玄／シュマリ／玄也", en: "Rigen / Shumari / Genya" },
+            imgs: [B + "アクスタ集合絵.webp"] },
+          { url: "https://lmaworks.booth.pm/items/7155601",
+            ja: "【連綿師】|B2|タペストリー", en: "RENMENSHI B2 Tapestry", price: "各¥5,000", priceEn: "¥5,000 each", vars: { ja: "理玄／シュマリ／玄也", en: "Rigen / Shumari / Genya" },
+            imgs: [
+              { src: B + "理玄_B2タペストリー_w1200.webp", ja: "理玄", en: "Rigen" },
+              { src: B + "茱真理_B2タペストリー_w1200.webp", ja: "シュマリ", en: "Shumari" },
+              { src: B + "玄也_B2タペストリー_w1200.webp", ja: "玄也", en: "Genya" },
+            ] },
+          { url: "https://lmaworks.booth.pm/items/7828922",
+            ja: "理玄・|原画色紙", en: "Rigen — Original Hand-Drawn Shikishi", price: "¥5,300",
+            imgs: [B + "理玄色紙2_12×13.5cm.webp"] },
+          { url: "https://lmaworks.booth.pm/items/8662575",
+            ja: "連綿|みくじ", en: "Renmen Omikuji (fortune slip)", price: "¥100",
+            imgs: [B + "連綿みくじ_01.webp"] },
+        ]
+      },
+      suzuri: {
+        shop: "SUZURI",
+        series: "紡 -tsumugi-",
+        // 並びは表示価格の安い順
+        items: [
+          { url: "https://suzuri.jp/_kishino/20910897/mug/m/white",
+            ja: "マグカップ", en: "Mug", price: "¥2,816", imgs: ["images/suzuri/05_mug.webp"] },
+          { url: "https://suzuri.jp/_kishino/20910897/soft-clear-smartphone-case/iphone16/clear",
+            ja: "ソフトクリア|スマホケース", en: "Soft Clear Phone Case", price: "¥3,184", imgs: ["images/suzuri/04_smartphone-case.webp"] },
+          { url: "https://suzuri.jp/_kishino/20910897/tote-bag/m/natural",
+            ja: "トートバッグ", en: "Tote Bag", price: "¥3,630", imgs: ["images/suzuri/02_tote-bag.webp"] },
+          { url: "https://suzuri.jp/_kishino/20910897/thermo-tumbler/360ml/white",
+            ja: "サーモ|タンブラー", en: "Thermo Tumbler", price: "¥4,257", imgs: ["images/suzuri/06_thermo-tumbler.webp"] },
+          { url: "https://suzuri.jp/_kishino/20910897/cushion/free/white",
+            ja: "クッション", en: "Cushion", price: "¥5,049", imgs: ["images/suzuri/01_cushion.webp"] },
+          { url: "https://suzuri.jp/_kishino/20910897/hoodie/s/white",
+            ja: "パーカー", en: "Hoodie", price: "¥5,564", imgs: ["images/suzuri/03_hoodie.webp"] },
+        ]
+      }
+    };
+
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    // 商品名の「|」は折り返してよい位置（語の途中で改行させないため）
+    // 「\n」は必ず改行する位置
+    const nameHtml = s => esc(s).split("|").join("<wbr>").split("\n").join("<br>");
+    const brHtml = s => esc(s).split("\n").join("<br>");
+    const plain = s => String(s).split("|").join("").split("\n").join(" ");
+    const bi = (ja, en) => `<span class="ja">${ja}</span><span class="en">${en}</span>`;
+    const NOIMG = `<span class="noimg">${bi("画像準備中", "Image coming soon")}</span>`;
+    // 画像は文字列でも { src, ja, en } でも書けるようにそろえる
+    const normImgs = it => (it.imgs || []).map(x => typeof x === "string" ? { src: x } : x);
+
+    function render() {
+      for (const [key, group] of Object.entries(GOODS)) {
+        const grid = document.querySelector(`[data-list="${key}"]`);
+        grid.innerHTML = group.items.map((it, idx) => {
+          const tip = `${group.shop}で開きます（別タブ） / Opens ${group.shop} in a new tab`;
+          const imgs = normImgs(it);
+          const alt = esc(plain(it.ja));
+          let media;
+          if (imgs.length > 1) {
+            media = `<button type="button" class="goods-img" data-gallery="${key}:${idx}"
+                title="画像を拡大して見る（${imgs.length}枚） / View ${imgs.length} images" data-hint="${esc(`拡大 ${imgs.length}枚`)}">
+                <img src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy" draggable="false">
+                <span class="goods-count">${bi(`全${imgs.length}枚`, `${imgs.length} images`)}</span>
+              </button>`;
+          } else if (imgs.length === 1) {
+            media = `<a class="goods-img" href="${esc(it.url)}" target="_blank" rel="noopener" title="${esc(tip)}" data-hint="${group.shop} ↗">
+                <img src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy" draggable="false">
+              </a>`;
+          } else {
+            media = `<a class="goods-img" href="${esc(it.url)}" target="_blank" rel="noopener" title="${esc(tip)}" data-hint="${group.shop} ↗">${NOIMG}</a>`;
+          }
+          return `
+          <article class="goods-item">
+            ${media}
+            <div class="goods-body">
+              ${group.series ? `<p class="goods-series">${esc(group.series)}</p>` : ""}
+              <h3 class="goods-name"><a href="${esc(it.url)}" target="_blank" rel="noopener" title="${esc(tip)}">
+                ${bi(nameHtml(it.ja), brHtml(it.en))}</a></h3>
+              ${(it.rows || [it]).map(r => `
+                ${r.vars ? `<p class="goods-vars">${bi(nameHtml(r.vars.ja), esc(r.vars.en))}</p>` : ""}
+                <p class="goods-price">${bi(esc(r.price), esc(r.priceEn || r.price))}</p>`).join("")}
+              ${it.note ? `<p class="goods-note">${bi(esc(it.note.ja).split("|").map(x => `<span class="nb">${x}</span>`).join(""), esc(it.note.en))}</p>` : ""}
+            </div>
+          </article>`;
+        }).join("");
+      }
+      // 画像ファイルが見つからないときは「画像準備中」に差し替える
+      document.querySelectorAll(".goods-img img").forEach(img => {
+        img.addEventListener("error", () => img.outerHTML = NOIMG, { once: true });
+      });
+      document.querySelectorAll("[data-gallery]").forEach(btn => btn.addEventListener("click", () => {
+        const [key, idx] = btn.dataset.gallery.split(":");
+        openGallery(GOODS[key], GOODS[key].items[idx], btn);
+      }));
+
+      const btn = document.getElementById("order-btn");
+      if (ORDER_FORM_URL) {
+        btn.href = ORDER_FORM_URL;
+        btn.title = "申し込みフォームへ進みます / Go to the order form";
+        btn.innerHTML = bi("申し込みフォームへ", "Go to the Order Form");
+      } else {
+        btn.classList.add("is-disabled");
+        btn.setAttribute("aria-disabled", "true");
+        btn.title = "準備中です / Coming soon";
+        btn.innerHTML = bi("準備中", "Coming soon");
+      }
+    }
+
+    /* ===== ギャラリー（拡大表示＋スライド） ===== */
+    const lb = document.getElementById("lightbox");
+    const lbImg = lb.querySelector(".lb-img");
+    const lbCap = lb.querySelector(".lb-cap");
+    const lbCount = lb.querySelector(".lb-count");
+    const lbThumbs = lb.querySelector(".lb-thumbs");
+    const lbTitle = lb.querySelector(".lb-title");
+    const lbShop = lb.querySelector(".lb-shop");
+    let lbList = [], lbIndex = 0, lbOpener = null;
+
+    function openGallery(group, it, opener) {
+      lbList = normImgs(it);
+      lbOpener = opener;
+      lbTitle.innerHTML = bi(esc(plain(it.ja)), esc(it.en));
+      lbShop.href = it.url;
+      lbShop.title = `${group.shop}で開きます（別タブ） / Opens ${group.shop} in a new tab`;
+      lbShop.innerHTML = bi(`${group.shop}で見る ↗`, `View on ${group.shop} ↗`);
+      lbThumbs.innerHTML = lbList.map((im, i) =>
+        `<button type="button" data-i="${i}" title="${esc(im.ja || "")}"><img src="${esc(im.src)}" alt="" draggable="false"></button>`).join("");
+      lbThumbs.querySelectorAll("button").forEach(b => b.addEventListener("click", () => showSlide(+b.dataset.i)));
+      showSlide(0);
+      lb.hidden = false;
+      document.body.style.overflow = "hidden";
+      lb.querySelector(".lb-close").focus();
+    }
+    function closeGallery() {
+      lb.hidden = true;
+      document.body.style.overflow = "";
+      if (lbOpener) lbOpener.focus();
+    }
+    function showSlide(i) {
+      lbIndex = (i + lbList.length) % lbList.length;
+      const im = lbList[lbIndex];
+      lbImg.src = im.src;
+      lbImg.alt = im.ja || "";
+      lbCap.innerHTML = im.ja ? bi(esc(im.ja), esc(im.en || im.ja)) : "";
+      lbCount.textContent = `${lbIndex + 1} / ${lbList.length}`;
+      lbThumbs.querySelectorAll("button").forEach((b, n) => b.setAttribute("aria-current", n === lbIndex));
+    }
+    lb.querySelector(".lb-prev").addEventListener("click", () => showSlide(lbIndex - 1));
+    lb.querySelector(".lb-next").addEventListener("click", () => showSlide(lbIndex + 1));
+    lb.querySelector(".lb-close").addEventListener("click", closeGallery);
+    lb.addEventListener("click", e => { if (e.target === lb) closeGallery() });
+    document.addEventListener("keydown", e => {
+      if (lb.hidden) return;
+      if (e.key === "Escape") closeGallery();
+      if (e.key === "ArrowLeft") showSlide(lbIndex - 1);
+      if (e.key === "ArrowRight") showSlide(lbIndex + 1);
+    });
+    // スマホのスワイプで前後へ
+    let touchX = null;
+    lb.addEventListener("touchstart", e => { touchX = e.touches[0].clientX }, { passive: true });
+    lb.addEventListener("touchend", e => {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) showSlide(lbIndex + (dx < 0 ? 1 : -1));
+      touchX = null;
+    });
+
+    render();
+  </script>
+  <script src="assets/common.js"></script>
+</body>
+</html>

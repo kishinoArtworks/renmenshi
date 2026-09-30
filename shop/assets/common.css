@@ -1,0 +1,102 @@
+/* グッズ一覧（index.html）と申し込みフォーム（order.html）で共通の見た目 */
+* { box-sizing: border-box; margin: 0; padding: 0 }
+
+/* 配色は公式サイト（04_公式サイト/index.html）と同じ値 */
+:root {
+  --washi: #f4f1ea;
+  --washi-deep: #ece7db;
+  --sumi: #2b2723;
+  --sumi-usu: #5c554c;
+  --kon: #514b9c;
+  --kon-fukai: #322e66;
+  --shu: #b23a2b;
+  --kin: #b08d3e;
+  --frame: 14px;
+}
+
+img { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none }
+
+body {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 16px;
+  color: var(--sumi);
+  background: var(--kon-fukai);
+  line-height: 1.8;
+  letter-spacing: .05em;
+  overflow-wrap: anywhere;
+}
+
+/* 亀甲柄の外枠 */
+.kikko-frame {
+  position: fixed; inset: 0; z-index: 90; pointer-events: none;
+  border: var(--frame) solid transparent;
+  border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='64' viewBox='0 0 56 64'><rect width='56' height='64' fill='%23322e66'/><g stroke='%23b08d3e' stroke-width='1.6' fill='none' opacity='0.55'><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(28,0) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(14,16) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(-14,16) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(42,16) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(0,32) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(28,32) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(14,48) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(-14,48) scale(0.5)'/><path d='M14 0 L42 0 L56 16 L56 48 L42 64 L14 64 L0 48 L0 16 Z' transform='translate(42,48) scale(0.5)'/></g></svg>") 28 round;
+}
+
+.page {
+  min-height: 100vh;
+  margin: var(--frame);
+  overflow-x: clip;
+  background:
+    url("washi_fiber2.png"),  /* このCSSと同じ assets/ にある */
+    radial-gradient(ellipse 1200px 800px at 80% -100px, rgba(176, 141, 62, .10), transparent 60%),
+    radial-gradient(ellipse 900px 900px at -100px 40%, rgba(81, 75, 156, .07), transparent 55%),
+    var(--washi);
+  background-size: 700px 700px, auto, auto;
+}
+
+/* ============ 言語切替 ============ */
+html[lang="ja"] .en, html[lang="en"] .ja { display: none !important }
+
+.lang-switch {
+  position: absolute; top: calc(var(--frame) + 12px); right: calc(var(--frame) + 12px); z-index: 80;
+  display: flex; border: 1px solid var(--kon); border-radius: 999px; overflow: hidden;
+  background: rgba(244, 241, 234, .95);
+}
+.lang-switch button {
+  font: 600 14px 'Shippori Mincho', serif; letter-spacing: .08em;
+  padding: 6px 14px; border: 0; background: transparent; color: var(--kon); cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.lang-switch button:hover { background: rgba(81, 75, 156, .12) }
+.lang-switch button[aria-pressed="true"] { background: var(--kon); color: var(--washi) }
+
+/* ============ ヘッダー ============ */
+header {
+  text-align: center;
+  padding: 72px 24px 32px;
+}
+.logo { width: min(300px, 70vw); height: auto; display: block; margin: 0 auto }
+.logo-en { color: var(--kin); font-size: 14px; letter-spacing: .24em; margin-top: 8px }
+.page-title {
+  font-family: 'Yuji Syuku', serif; font-weight: 400;
+  font-size: clamp(22px, 4vw, 30px); letter-spacing: .16em; margin-top: 24px;
+}
+.lead { margin: 16px auto 0; max-width: 36em; color: var(--sumi-usu) }
+
+.ink-divider { display: block; margin: 32px auto 0; width: min(280px, 60%); opacity: .8 }
+
+/* ============ セクション ============ */
+section { max-width: 1100px; margin: 0 auto; padding: 48px 24px }
+.sec-title {
+  font-family: 'Yuji Syuku', serif; font-weight: 400;
+  font-size: clamp(24px, 4vw, 32px); text-align: center; letter-spacing: .14em;
+  word-break: keep-all;
+}
+.sec-sub { text-align: center; color: var(--kin); font-size: 14px; letter-spacing: .3em; margin-top: 4px }
+.jp-only {
+  display: table; margin: 16px auto 32px; padding: 4px 16px;
+  font-size: 14px; color: var(--sumi-usu);
+  border: 1px solid rgba(43, 39, 35, .25); border-radius: 999px; background: rgba(255, 255, 255, .5);
+}
+
+.nb { display: inline-block }  /* 文節のかたまり。この途中では折り返さない */
+
+.btn {
+  display: inline-block; margin-top: 24px; padding: 12px 32px;
+  font: 600 16px 'Shippori Mincho', serif; letter-spacing: .1em; text-decoration: none;
+  color: var(--washi); background: var(--kon); border-radius: 999px;
+  transition: background .2s;
+}
+.btn:hover { background: var(--kon-fukai) }
+.btn.is-disabled { background: #9b97b8; cursor: default; pointer-events: none }
