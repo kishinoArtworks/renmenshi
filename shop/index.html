@@ -323,7 +323,7 @@
         // 並びは表示価格の安い順。連綿みくじはおまけなので最後（3列表示で右下）
         items: [
           { url: "https://lmaworks.booth.pm/items/7155207",
-            ja: "【連綿師】|ポストカード", en: "RENMENSHI Postcards", price: "各¥200", priceEn: "¥200 each", vars: { ja: "理玄／シュマリ／玄也", en: "Rigen / Shumari / Genya" },
+            ja: "【連綿師】|ポストカード", en: "RENMENSHI Postcards", price: "各¥200", priceEn: "¥200 each", vars: { ja: "理玄／|シュマリ／|玄也", en: "Rigen / Shumari / Genya" },
             imgs: [
               { src: B + "Postcard_縦断裁-_Renmenshi_Rigen.webp", ja: "理玄", en: "Rigen" },
               { src: B + "Postcard_縦断裁-_Renmenshi_Shumari.webp", ja: "シュマリ", en: "Shumari" },
@@ -333,15 +333,15 @@
             ja: "【連綿師】|カンバッジ", en: "RENMENSHI Can Badges",
             // 種類ごとに価格が違うときは rows で「種類→価格」を並べる
             rows: [
-              { vars: { ja: "理玄／シュマリ／玄也", en: "Rigen / Shumari / Genya" }, price: "各¥300", priceEn: "¥300 each" },
-              { vars: { ja: "連綿体|（書家・大神・大蛇）", en: "Renmen-tai calligraphy (3 designs)" }, price: "各¥200", priceEn: "¥200 each" },
+              { vars: { ja: "理玄／|シュマリ／|玄也", en: "Rigen / Shumari / Genya" }, price: "各¥300", priceEn: "¥300 each" },
+              { vars: { ja: "連綿体|（書家／|大神／|大蛇）", en: "Renmen-tai calligraphy (3 designs)" }, price: "各¥200", priceEn: "¥200 each" },
             ],
             imgs: [B + "カンバッジ.webp"] },
           { url: "https://lmaworks.booth.pm/items/7155584",
             ja: "【連綿師】|フレークシール|セット", en: "RENMENSHI Flake Sticker Set", price: "¥500",
             imgs: [B + "フレークシールセット_1500x2105.webp"] },
           { url: "https://lmaworks.booth.pm/items/7155569",
-            ja: "【連綿師】|A4|クリアファイル", en: "RENMENSHI A4 Clear File", price: "各¥500", priceEn: "¥500 each", vars: { ja: "理玄／シュマリ／玄也", en: "Rigen / Shumari / Genya" },
+            ja: "【連綿師】|A4|クリアファイル", en: "RENMENSHI A4 Clear File", price: "各¥500", priceEn: "¥500 each", vars: { ja: "理玄／|シュマリ／|玄也", en: "Rigen / Shumari / Genya" },
             imgs: [
               { src: B + "3人衆_クリアファイル.webp", ja: "3キャラセット", en: "Set of 3" },
               { src: B + "理玄_クリアファイル.webp", ja: "理玄", en: "Rigen" },
@@ -368,10 +368,10 @@
               { src: B + "【紡】素戔嗚尊ステッカー.webp", ja: "素戔嗚尊", en: "Susanoo" },
             ] },
           { url: "https://lmaworks.booth.pm/items/7155446",
-            ja: "【連綿師】|アクリル|スタンド", en: "RENMENSHI Acrylic Stand", price: "各¥1,500", priceEn: "¥1,500 each", vars: { ja: "理玄／シュマリ／玄也", en: "Rigen / Shumari / Genya" },
+            ja: "【連綿師】|アクリル|スタンド", en: "RENMENSHI Acrylic Stand", price: "各¥1,500", priceEn: "¥1,500 each", vars: { ja: "理玄／|シュマリ／|玄也", en: "Rigen / Shumari / Genya" },
             imgs: [B + "アクスタ集合絵.webp"] },
           { url: "https://lmaworks.booth.pm/items/7155601",
-            ja: "【連綿師】|B2|タペストリー", en: "RENMENSHI B2 Tapestry", price: "各¥5,000", priceEn: "¥5,000 each", vars: { ja: "理玄／シュマリ／玄也", en: "Rigen / Shumari / Genya" },
+            ja: "【連綿師】|B2|タペストリー", en: "RENMENSHI B2 Tapestry", price: "各¥5,000", priceEn: "¥5,000 each", vars: { ja: "理玄／|シュマリ／|玄也", en: "Rigen / Shumari / Genya" },
             imgs: [
               { src: B + "理玄_B2タペストリー_w1200.webp", ja: "理玄", en: "Rigen" },
               { src: B + "茱真理_B2タペストリー_w1200.webp", ja: "シュマリ", en: "Shumari" },
@@ -412,6 +412,8 @@
     const nameHtml = s => esc(s).split("|").join("<wbr>").split("\n").join("<br>");
     const brHtml = s => esc(s).split("\n").join("<br>");
     const plain = s => String(s).split("|").join("").split("\n").join(" ");
+    // 「|」で区切ったかたまりを inline-block で包む（Safari でもかたまりの途中では折り返さない）
+    const nbHtml = s => esc(s).split("|").map(x => `<span class="nb">${x}</span>`).join("");
     const bi = (ja, en) => `<span class="ja">${ja}</span><span class="en">${en}</span>`;
     const NOIMG = `<span class="noimg">${bi("画像準備中", "Image coming soon")}</span>`;
     // 画像は文字列でも { src, ja, en } でも書けるようにそろえる
@@ -446,7 +448,7 @@
               <h3 class="goods-name"><a href="${esc(it.url)}" target="_blank" rel="noopener" title="${esc(tip)}">
                 ${bi(nameHtml(it.ja), brHtml(it.en))}</a></h3>
               ${(it.rows || [it]).map(r => `
-                ${r.vars ? `<p class="goods-vars">${bi(nameHtml(r.vars.ja), esc(r.vars.en))}</p>` : ""}
+                ${r.vars ? `<p class="goods-vars">${bi(nbHtml(r.vars.ja), esc(r.vars.en))}</p>` : ""}
                 <p class="goods-price">${bi(esc(r.price), esc(r.priceEn || r.price))}</p>`).join("")}
               ${it.note ? `<p class="goods-note">${bi(esc(it.note.ja).split("|").map(x => `<span class="nb">${x}</span>`).join(""), esc(it.note.en))}</p>` : ""}
             </div>
