@@ -21,11 +21,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Yuji+Syuku&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/common.css">
   <style>
-    /* 入力欄・確認画面は公式サイト（04_公式サイト）のお問い合わせフォームと同じ作り */
-    .form-wrap { max-width: 620px; margin: 0 auto }
-    .form-summary {
-      margin: 16px 0 32px; color: var(--sumi-usu);
-    }
+    .form-wrap { max-width: 680px; margin: 0 auto; padding-top: 16px }
+    .form-summary { margin: 16px 0 32px; color: var(--sumi-usu) }
     .form-summary b { color: var(--shu); font-weight: 600 }
     .form-summary .sep { margin: 0 8px; color: var(--kin) }
     /* 1行に収まらない幅では「｜」が行末に残るので、区切りを消して2行にする */
@@ -33,43 +30,18 @@
       .form-summary .sep { display: none }
       .form-summary .nb { display: block }
     }
-    .form-row { margin-bottom: 24px }
-    .form-row label { display: block; font-weight: 600; letter-spacing: .1em; margin-bottom: 8px; color: var(--kon) }
-    .form-row label .req { color: var(--shu); font-size: 14px; margin-left: 8px }
-    .form-row .hint { display: block; font-size: 14px; color: var(--sumi-usu); font-weight: 400; letter-spacing: .05em }
-    .form-row input, .form-row textarea {
-      width: 100%; padding: 12px 14px;
-      font: 16px 'Shippori Mincho', serif; color: var(--sumi);
-      border: 1px solid rgba(43, 39, 35, .3); background: rgba(255, 253, 248, .9);
-      outline: none; transition: border .3s;
-    }
-    .form-row input:focus, .form-row textarea:focus { border-color: var(--kon) }
-    .form-row textarea { min-height: 180px; resize: vertical }
-    .btn-row, .confirm-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap }
-    .btn-row .btn, .confirm-btns .btn { margin-top: 8px; border: 0; cursor: pointer }
-    .btn.ghost { background: transparent; color: var(--kon); border: 1px solid var(--kon) }
-    .btn.ghost:hover { background: rgba(81, 75, 156, .08) }
-    .form-note { margin-top: 24px; text-align: center; font-size: 14px; color: var(--sumi-usu) }
+    .form-note { margin-bottom: 24px; text-align: center; font-size: 14px; color: var(--sumi-usu) }
 
-    .confirm-box {
-      background: rgba(255, 253, 248, .85); border: 1px solid rgba(176, 141, 62, .5);
-      padding: 32px 28px; margin-bottom: 24px;
-    }
-    .confirm-box h3 {
-      font-family: 'Yuji Syuku', serif; font-weight: 400; font-size: 20px;
-      letter-spacing: .3em; text-align: center; color: var(--kon); margin-bottom: 16px;
-    }
-    .confirm-row { padding: 12px 0; border-bottom: 1px dotted rgba(176, 141, 62, .5) }
-    .confirm-row:last-of-type { border-bottom: none }
-    .confirm-row .cl { display: block; font-size: 14px; color: var(--kon); font-weight: 600; letter-spacing: .15em; margin-bottom: 4px }
-    .confirm-row .cv { white-space: pre-wrap; word-break: break-word }
-    .confirm-msg { text-align: center; margin-bottom: 8px }
-    .thanks { text-align: center; padding: 24px 0 8px }
-    .thanks p { margin-bottom: 24px }
+    /* Googleフォームの埋め込み。高さが足りないと枠の中でスクロールになるので多めに取る */
+    .gform { background: #fff; border: 1px solid rgba(176, 141, 62, .5); border-radius: 6px; overflow: hidden }
+    .gform-banner { display: block; width: 100%; height: auto }
+    .gform iframe { display: block; width: 100%; height: 820px; border: 0 }
+    @media (max-width: 640px) { .gform iframe { height: 960px } }
+    .gform-fallback { margin-top: 12px; text-align: center; font-size: 14px }
+    .gform-fallback a, .back a { color: var(--kon) }
+    .gform-fallback a:hover, .back a:hover { color: var(--shu) }
 
     .back { text-align: center; padding: 8px 24px 56px }
-    .back a { color: var(--kon) }
-    .back a:hover { color: var(--shu) }
   </style>
 </head>
 <body>
@@ -98,74 +70,24 @@
 
     <main>
       <section class="form-wrap">
-        <form id="orderForm" action="https://formsubmit.co/renmenshi@kishino-artworks.com" method="POST">
-          <!-- FormSubmit設定（公式サイトのお問い合わせと同じ送信先） -->
-          <input type="hidden" name="_subject" value="【連綿体でお名前】申し込みフォームからのご依頼">
-          <input type="hidden" name="_next" id="fsNext" value="">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-
-          <div class="form-row">
-            <label for="oName"><span class="ja">ご氏名</span><span class="en">Your name</span><span class="req"><span class="ja">＊必須</span><span class="en">*required</span></span></label>
-            <input type="text" id="oName" name="ご氏名" autocomplete="name" required>
-          </div>
-          <div class="form-row">
-            <label for="oMail"><span class="ja">メールアドレス</span><span class="en">Email</span><span class="req"><span class="ja">＊必須</span><span class="en">*required</span></span></label>
-            <input type="email" id="oMail" name="email" autocomplete="email" required>
-          </div>
-          <div class="form-row">
-            <label for="oBody">
-              <span class="ja">コメント</span><span class="en">Comment</span><span class="req"><span class="ja">＊必須</span><span class="en">*required</span></span>
-              <span class="hint">
-                <span class="ja">書いてほしいお名前（2文字程度・ふりがなも）、用途、その他お伝えしたいことなど</span>
-                <span class="en">The name to be written (about 2 characters, with reading), how you will use it, and anything else you'd like to tell us</span>
-              </span>
-            </label>
-            <textarea id="oBody" name="コメント" required></textarea>
-          </div>
-          <div class="btn-row">
-            <button type="submit" class="btn" title="入力内容を確認します / Review your entry">
-              <span class="ja">確認画面へ</span><span class="en">Review</span>
-            </button>
-          </div>
           <p class="form-note">
-            <span class="ja"><span class="nb">お名前の文字によっては、</span><span class="nb">お受けできない場合がございます。</span><br><span class="nb">お受けできるかどうかを、</span><span class="nb">3日以内にメールでご連絡いたします。</span></span>
-            <span class="en">Some names may not suit renmen-tai.<br>We will reply by email within 3 days.</span>
+            <span class="ja"><span class="nb">お名前の文字によっては、</span><span class="nb">お受けできない場合がございます。</span><br><span class="nb">お受けできるかどうかを、</span><span class="nb">3日以内にメールでご連絡いたします。</span><br><span class="nb">コメント欄には、</span><span class="nb">書いてほしいお名前（2文字程度・ふりがなも）、</span><span class="nb">用途などをご記入ください。</span></span>
+            <span class="en">Some names may not suit renmen-tai.<br>We will reply by email within 3 days.<br>In the comment, please write the name (about 2 characters, with reading) and how you will use it.</span>
           </p>
-        </form>
-
-        <!-- 確認画面 -->
-        <div id="orderConfirm" hidden>
-          <div class="confirm-box">
-            <h3><span class="ja">入力内容のご確認</span><span class="en">Please review</span></h3>
-            <div class="confirm-row"><span class="cl"><span class="ja">ご氏名</span><span class="en">Your name</span></span><span class="cv" id="cfName"></span></div>
-            <div class="confirm-row"><span class="cl"><span class="ja">メールアドレス</span><span class="en">Email</span></span><span class="cv" id="cfMail"></span></div>
-            <div class="confirm-row"><span class="cl"><span class="ja">コメント</span><span class="en">Comment</span></span><span class="cv" id="cfBody"></span></div>
-          </div>
-          <p class="confirm-msg">
-            <span class="ja">上記の内容でよろしければ「送信する」を押してください。</span>
-            <span class="en">If everything looks right, press "Send".</span>
-          </p>
-          <div class="confirm-btns">
-            <button type="button" class="btn ghost" id="cfBack" title="入力画面に戻ります / Back to edit">
-              <span class="ja">修正する</span><span class="en">Edit</span>
-            </button>
-            <button type="button" class="btn" id="cfSend" title="この内容で送信します / Send">
-              <span class="ja">送信する</span><span class="en">Send</span>
-            </button>
-          </div>
+        <!-- 申し込みはGoogleフォーム（FormSubmitが2026-10-01に送信できなくなったため切り替え）。
+             回答はフォーム作成者のGoogleアカウントに届き、新しい回答はメールで通知される -->
+        <div class="gform">
+          <img class="gform-banner" src="images/order made/your-name_banner_120x300.webp" alt="あなたの名前を連綿体で" width="1200" height="300" draggable="false">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSefnsCxj4_e7kLtJ3LN7xdlAq9oBdCqlqhE9ZtC-neEtCUKBA/viewform?embedded=true"
+            title="お名前を連綿体で 申し込みフォーム（Googleフォーム）" loading="lazy">
+            <span class="ja">読み込んでいます…</span><span class="en">Loading…</span>
+          </iframe>
         </div>
-
-        <!-- 送信後（FormSubmit から ?sent=1 付きで戻ってくる） -->
-        <div id="orderThanks" class="thanks" hidden>
-          <p>
-            <span class="ja">お申し込みを送信しました。<br>ご連絡ありがとうございます。</span>
-            <span class="en">Your request has been sent.<br>Thank you!</span>
-          </p>
-          <a class="btn ghost" href="index.html" title="グッズ一覧へ戻る / Back to the goods list">
-            <span class="ja">グッズ一覧へ戻る</span><span class="en">Back to the goods list</span>
+        <p class="gform-fallback">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSefnsCxj4_e7kLtJ3LN7xdlAq9oBdCqlqhE9ZtC-neEtCUKBA/viewform" target="_blank" rel="noopener" title="別タブで開きます / Opens in a new tab">
+            <span class="ja">フォームが表示されない場合はこちら ↗</span><span class="en">If the form does not appear, open it here ↗</span>
           </a>
-        </div>
+        </p>
       </section>
     </main>
 
@@ -176,40 +98,6 @@
     </p>
   </div>
 
-  <script>
-    const form = document.getElementById("orderForm");
-    const confirmBox = document.getElementById("orderConfirm");
-    const thanks = document.getElementById("orderThanks");
-
-    // 送信後は同じページに ?sent=1 付きで戻る
-    document.getElementById("fsNext").value = location.origin + location.pathname + "?sent=1";
-    if (new URLSearchParams(location.search).get("sent") === "1") {
-      form.hidden = true;
-      thanks.hidden = false;
-      document.querySelector(".back").hidden = true;  // 完了画面には戻るボタンがあるので重複を避ける
-    }
-
-    // 送信前に確認画面を挟む
-    form.addEventListener("submit", e => {
-      e.preventDefault();
-      document.getElementById("cfName").textContent = document.getElementById("oName").value;
-      document.getElementById("cfMail").textContent = document.getElementById("oMail").value;
-      document.getElementById("cfBody").textContent = document.getElementById("oBody").value;
-      form.hidden = true;
-      confirmBox.hidden = false;
-      confirmBox.scrollIntoView({ behavior: "smooth", block: "center" });
-    });
-    document.getElementById("cfBack").addEventListener("click", () => {
-      confirmBox.hidden = true;
-      form.hidden = false;
-    });
-    document.getElementById("cfSend").addEventListener("click", e => {
-      const btn = e.currentTarget;
-      btn.disabled = true;
-      btn.innerHTML = '<span class="ja">送信中…</span><span class="en">Sending…</span>';
-      form.submit();
-    });
-  </script>
   <script src="assets/common.js"></script>
 </body>
 </html>
