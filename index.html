@@ -1837,14 +1837,6 @@
       line-height: 1.9
     }
 
-    /* お問合せ（Googleフォームの埋め込み）。高さが足りないと枠の中でスクロールになるので多めに取る */
-    .gform { background: #fff; border: 1px solid rgba(176, 141, 62, .5); overflow: hidden }
-    .gform iframe { display: block; width: 100%; height: 820px; border: 0 }
-    @media (max-width: 640px) { .gform iframe { height: 960px } }
-    .gform-fallback { margin-top: 12px; text-align: center; font-size: 14px }
-    .gform-fallback a { color: var(--kon) }
-    .gform-fallback a:hover { color: var(--shu) }
-
     /* 確認画面 */
     .confirm-box {
       background: rgba(255, 253, 248, .85);
@@ -2793,9 +2785,46 @@
         <div class="sec-sub">CONTACT</div>
         <div class="contact-wrap">
           <p class="contact-lead">『連綿師』に関するご感想・ご依頼・コラボのご相談など、<br>お気軽にお寄せください。</p>
-          <!-- お問合せは Googleフォームの埋め込み（2026-10-01 切替。FormSubmit が 500 エラーで送信できなくなったため。旧フォームは index.html.bak_pre-googleform_20261001） -->
-          <div class="gform"><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdtZzftg2OAtkmLrDUwVxdSk-gtBZ9uKPyKb5ukKkXt7ZkSNg/viewform?embedded=true" title="お問合せフォーム（Googleフォーム）" loading="lazy">読み込んでいます…</iframe></div>
-          <p class="gform-fallback"><a href="https://docs.google.com/forms/d/e/1FAIpQLSdtZzftg2OAtkmLrDUwVxdSk-gtBZ9uKPyKb5ukKkXt7ZkSNg/viewform" target="_blank" rel="noopener" title="別タブで開きます">フォームが表示されない場合はこちら ↗</a></p>
+          <!-- 見た目は自前のフォーム、送り先は Googleフォーム（2026-10-01〜。FormSubmit が送信できなくなったため）。
+               name の entry.○○ は Googleフォームの各質問の番号。フォーム側で質問を追加・削除・並べ替えたら、ここも合わせて直す -->
+          <form id="contactForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdtZzftg2OAtkmLrDUwVxdSk-gtBZ9uKPyKb5ukKkXt7ZkSNg/formResponse" method="POST">
+            <div class="form-row">
+              <label for="cName">ご氏名／企業名<span class="req">＊必須</span></label>
+              <input type="text" id="cName" name="entry.1769951703" required>
+            </div>
+            <div class="form-row">
+              <label for="cMail">メールアドレス<span class="req">＊必須</span></label>
+              <input type="email" id="cMail" name="entry.1743944010" required>
+            </div>
+            <div class="form-row">
+              <label for="cBody">ご用件<span class="req">＊必須</span></label>
+              <textarea id="cBody" name="entry.441311234" required></textarea>
+            </div>
+            <div class="btn-row"><button type="submit" class="btn">確認画面へ</button></div>
+            <p class="contact-note">送信いただいた内容は、運営者（kishino）宛てに直接届きます。<br>返信が必要な場合は、数日以内にメールにてご連絡いたします。</p>
+          </form>
+          <!-- 確認画面 -->
+          <div id="contactConfirm" style="display:none">
+            <div class="confirm-box">
+              <h3>入力内容のご確認</h3>
+              <div class="confirm-row"><span class="cl">ご氏名／企業名</span><span class="cv" id="cfName"></span></div>
+              <div class="confirm-row"><span class="cl">メールアドレス</span><span class="cv" id="cfMail"></span></div>
+              <div class="confirm-row"><span class="cl">ご用件</span><span class="cv" id="cfBody"></span></div>
+            </div>
+            <p style="text-align:center;font-size:13.5px;margin-bottom:6px">上記の内容でよろしければ「送信する」を押してください。</p>
+            <div class="confirm-btns">
+              <button type="button" class="btn ghost" id="cfBack">修正する</button>
+              <button type="button" class="btn" id="cfSend">送信する</button>
+            </div>
+            <p id="cfError" style="display:none;text-align:center;color:var(--shu);margin-top:16px">送信できませんでした。通信状況をご確認のうえ、もう一度お試しください。</p>
+          </div>
+          <div id="contactThanks" style="display:none;text-align:center;padding:40px 0 10px">
+            <p style="font-size:15px;letter-spacing:.12em;margin-bottom:28px">
+              お問い合わせを送信しました。<br>ご連絡ありがとうございます。
+            </p>
+            <button type="button" class="btn ghost"
+              onclick="location.href=location.pathname+'#contact'">メッセージを再送する</button>
+          </div>
         </div>
       </section>
 
@@ -3237,6 +3266,40 @@
       document.querySelectorAll('img:not([draggable="false"])').forEach(img => { img.draggable = false; });
     }).observe(document.body, { childList: true, subtree: true });
 
+    // お問合せ：送り先は Googleフォーム（2026-10-01〜）。確認画面を挟み、送信できたら同じ場所に完了表示を出す
+    const contactForm = document.getElementById('contactForm');
+    const contactConfirm = document.getElementById('contactConfirm');
+    // 送信前に確認画面を挟む
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById('cfName').textContent = document.getElementById('cName').value;
+      document.getElementById('cfMail').textContent = document.getElementById('cMail').value;
+      document.getElementById('cfBody').textContent = document.getElementById('cBody').value;
+      contactForm.style.display = 'none';
+      contactConfirm.style.display = 'block';
+      contactConfirm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    // 修正する：入力画面へ戻る
+    document.getElementById('cfBack').addEventListener('click', () => {
+      contactConfirm.style.display = 'none';
+      contactForm.style.display = 'block';
+    });
+    // 送信する：Googleフォームへ送る。Google は結果を返さない（no-cors）ので、通信できたら完了とみなす
+    document.getElementById('cfSend').addEventListener('click', async () => {
+      const btn = document.getElementById('cfSend');
+      btn.disabled = true;
+      btn.textContent = '送信中…';
+      document.getElementById('cfError').style.display = 'none';
+      try {
+        await fetch(contactForm.action, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(new FormData(contactForm)) });
+        contactConfirm.style.display = 'none';
+        document.getElementById('contactThanks').style.display = 'block';
+      } catch (err) {
+        document.getElementById('cfError').style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '送信する';
+      }
+    });
   </script>
 </body>
 
