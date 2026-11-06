@@ -2105,6 +2105,122 @@
         gap: 12px
       }
     }
+/* ============ 商品カード ============ */
+    #shopView .sp-grid {
+      display: grid; gap: 24px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: 960px; margin: 0 auto;
+    }
+    .sp-item {
+      display: flex; flex-direction: column;
+      background: rgba(255, 255, 255, .65);
+      border: 1px solid rgba(43, 39, 35, .12); border-radius: 6px; overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .sp-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(50, 46, 102, .15) }
+
+    .sp-img {
+      display: block; position: relative; aspect-ratio: 1 / 1; background: #fff;
+      width: 100%; padding: 0; border: 0; cursor: pointer; font: inherit;
+    }
+    .sp-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block }
+    .sp-count {
+      position: absolute; left: 8px; top: 8px;
+      font-size: 14px; color: var(--kon); background: rgba(244, 241, 234, .92);
+      border: 1px solid rgba(81, 75, 156, .4); padding: 0 10px; border-radius: 999px;
+    }
+    .sp-img::after {
+      content: attr(data-hint);
+      position: absolute; right: 8px; bottom: 8px;
+      font-size: 14px; color: var(--washi); background: var(--kon);
+      padding: 2px 10px; border-radius: 999px; opacity: 0; transition: opacity .2s;
+    }
+    .sp-img:hover::after, .sp-img:focus-visible::after { opacity: 1 }
+    .sp-img .noimg {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      color: var(--sumi-usu); font-size: 14px; background: var(--washi-deep);
+    }
+
+    .sp-body { padding: 12px 16px 16px }
+    .sp-series { font-size: 14px; color: var(--kin); letter-spacing: .12em }
+    .sp-name { font-size: 18px; font-weight: 700; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere }
+    .sp-name a { color: inherit; text-decoration: none }
+    .sp-name a:hover { color: var(--kon) }
+    .sp-price { margin-top: 4px; font-size: 16px; color: var(--shu); font-weight: 600 }
+    .sp-vars { font-size: 14px; color: var(--kon); word-break: keep-all }
+    .sp-note { font-size: 14px; color: var(--sumi-usu) }
+
+    /* ============ ギャラリー（拡大表示） ============ */
+    .sp-lightbox {
+      position: fixed; inset: 0; z-index: 100;
+      display: grid; place-items: center; padding: 16px;
+      background: rgba(30, 27, 60, .82);
+    }
+    .sp-lightbox[hidden] { display: none }
+    .sp-lb-panel {
+      width: min(880px, 100%); max-height: calc(100vh - 32px); overflow: auto;
+      background: var(--washi); border-radius: 8px; padding: 16px 16px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .sp-lb-head { width: 100%; display: flex; align-items: flex-start; gap: 12px }
+    .sp-lb-title { flex: 1; font-weight: 700; font-size: 18px; line-height: 1.5 }
+    .sp-lb-close {
+      width: 40px; height: 40px; flex: none; border: 0; border-radius: 50%;
+      font-size: 24px; line-height: 1; color: var(--sumi); background: transparent; cursor: pointer;
+      transition: background .2s;
+    }
+    .sp-lb-close:hover { background: rgba(43, 39, 35, .1) }
+    .sp-lb-stage { position: relative; width: 100%; display: grid; place-items: center; background: #fff; border-radius: 4px }
+    .sp-lb-img { max-width: 100%; max-height: min(62vh, 640px); object-fit: contain; display: block }
+    .sp-lb-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; border: 0; border-radius: 50%;
+      font-size: 28px; line-height: 1; color: var(--washi); background: rgba(50, 46, 102, .7); cursor: pointer;
+      transition: background .2s;
+    }
+    .sp-lb-nav:hover { background: var(--kon) }
+    .sp-lb-prev { left: 8px }
+    .sp-lb-next { right: 8px }
+    .sp-lb-meta { width: 100%; display: flex; justify-content: space-between; gap: 12px; color: var(--sumi-usu) }
+    .sp-lb-count { flex: none; letter-spacing: .1em }
+    .sp-lb-thumbs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px }
+    .sp-lb-thumbs button {
+      width: 64px; height: 64px; padding: 0; background: #fff; cursor: pointer;
+      border: 2px solid transparent; border-radius: 4px; opacity: .6; transition: opacity .2s, border-color .2s;
+    }
+    .sp-lb-thumbs button:hover { opacity: 1 }
+    .sp-lb-thumbs button[aria-current="true"] { border-color: var(--kon); opacity: 1 }
+    .sp-lb-thumbs img { width: 100%; height: 100%; object-fit: contain; display: block }
+    .sp-lb-shop { margin-top: 4px }
+
+
+    /* ============ 通販ビュー（画面切り替え） ============ */
+    #shopView { display: none }
+    body.view-shop #shopView { display: block; animation: spFade .5s ease }
+    body.view-shop main > *:not(nav):not(#shopView) { display: none !important }
+    @keyframes spFade { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+    nav a[aria-current="page"]::after { width: 100% }
+    #shopView[data-lang="ja"] .en, #shopView[data-lang="en"] .ja,
+    #sp-lightbox[data-lang="ja"] .en, #sp-lightbox[data-lang="en"] .ja { display: none !important }
+    #shopView .nb { display: inline-block }
+    .sp-lang { display: flex; width: max-content; margin: 0 auto 20px; border: 1px solid var(--kon); border-radius: 999px; overflow: hidden; background: rgba(244,241,234,.95) }
+    .sp-lang button { font: 600 14px 'Shippori Mincho', serif; letter-spacing: .08em; padding: 6px 16px; border: 0; background: transparent; color: var(--kon); cursor: pointer; transition: background .2s, color .2s }
+    .sp-lang button:hover { background: rgba(81,75,156,.12) }
+    .sp-lang button[aria-pressed="true"] { background: var(--kon); color: var(--washi) }
+    .sp-lead { text-align: center; color: var(--sumi-usu); max-width: 36em; margin: 0 auto }
+    .sp-block { padding-top: 24px; padding-bottom: 24px }
+    .sp-block-title { font-family: 'Yuji Syuku', serif; font-weight: 400; font-size: clamp(22px, 3.6vw, 28px); text-align: center; letter-spacing: .14em; word-break: keep-all }
+    .sp-block-sub { text-align: center; color: var(--kin); font-size: 14px; letter-spacing: .3em; margin: 4px 0 12px }
+    .sp-jp-only { display: table; margin: 0 auto 28px; padding: 4px 16px; font-size: 14px; color: var(--sumi-usu); border: 1px solid rgba(43,39,35,.25); border-radius: 999px; background: rgba(255,255,255,.5) }
+    #shopView .sp-name { font-size: 18px }
+    .sp-lightbox .btn { margin-top: 4px; font-size: 16px; padding: 12px 32px }
+    .sp-lightbox button { font-family: inherit }
+    @media (max-width: 560px) {
+      #shopView .sp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px }
+      .sp-body { padding: 8px 12px 12px }
+      #shopView .sp-name { font-size: 16px }
+    }
+    @media (max-width: 900px) and (min-width: 561px) { #shopView .sp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
   </style>
   <!-- 構造化データ（JSON-LD） -->
   <script type="application/ld+json">
@@ -2673,48 +2789,30 @@
         </div>
       </section>
 
-      <!-- ============ 通販 ============ -->
-      <section id="shop" class="reveal">
-        <img class="kasumi" src="assets/kasumi_02.svg" alt="" style="left:8px;top:-10px">
-        <img class="kasumi flip" src="assets/kasumi_01.svg" alt="" style="right:8px;top:150px">
-        <h2 class="sec-title">グッズ通販</h2>
-        <div class="sec-sub">SHOP</div>
-        <p class="shop-lead">『連綿師』グッズの通販はBOOTHにて行っております。<br>※デザインフェスタ61で販売したグッズと同じものです。</p>
-        <div class="goods-list">
-          <div class="goods-item">
-            <h4>ポストカード</h4>
-            <div class="price">各 ￥200</div>
+      <!-- ============ 通販（画面切り替えビュー：/shop/ の複製・オーダーフォーム以下は無し） ============ -->
+      <div id="shopView" data-lang="ja">
+        <section>
+          <h2 class="sec-title">グッズ通販</h2>
+          <div class="sec-sub">SHOP</div>
+          <div class="sp-lang" role="group" aria-label="Language">
+            <button type="button" data-lang="ja" title="日本語で表示">JP</button>
+            <button type="button" data-lang="en" title="Show in English">EN</button>
           </div>
-          <div class="goods-item">
-            <h4>カンバッジ</h4>
-            <div class="price">キャラ 各￥300<br>連綿体 各￥200</div>
-          </div>
-          <div class="goods-item">
-            <h4>フレークシールセット</h4>
-            <div class="price">￥500</div>
-          </div>
-          <div class="goods-item">
-            <h4>A4クリアファイル</h4>
-            <div class="price">各 ￥500</div>
-          </div>
-          <div class="goods-item">
-            <h4>アクリルスタンド</h4>
-            <div class="price">各 ￥1,500</div>
-          </div>
-          <div class="goods-item">
-            <h4>B2タペストリー</h4>
-            <div class="price">各 ￥5,000</div>
-          </div>
-          <div class="goods-item">
-            <h4>色紙</h4>
-            <div class="price">￥5,300</div>
-          </div>
-        </div>
-        <div class="btn-row">
-          <a class="btn shu" href="https://lmaworks.booth.pm/" target="_blank" rel="noopener">BOOTHでグッズを見る</a>
-        </div>
-        <p class="shop-note">在庫状況・最新のラインナップはBOOTHのショップページをご確認ください。</p>
-      </section>
+          <p class="sp-lead"><span class="ja">オリジナル作品『連綿師』と、連綿体のグッズを販売しています。<br>画像を押すと販売ページが開きます。</span><span class="en">Goods from the original series "RENMENSHI" and items featuring renmen-tai calligraphy.<br>Tap an image to open its store page.</span></p>
+        </section>
+        <section class="sp-block" id="sp-booth">
+          <h3 class="sp-block-title"><span class="ja">『連綿師』グッズ</span><span class="en">RENMENSHI Goods</span></h3>
+          <p class="sp-block-sub">BOOTH</p>
+          <p class="sp-jp-only"><span class="ja">販売ページは日本語のみです</span><span class="en">Store pages are in Japanese only</span></p>
+          <div class="sp-grid" data-list="booth"></div>
+        </section>
+        <section class="sp-block" id="sp-suzuri">
+          <h3 class="sp-block-title"><span class="ja">連綿体グッズ</span><span class="en">Renmen-tai Calligraphy Goods</span></h3>
+          <p class="sp-block-sub">SUZURI</p>
+          <p class="sp-jp-only"><span class="ja">販売ページは日本語のみです</span><span class="en">Store pages are in Japanese only</span></p>
+          <div class="sp-grid" data-list="suzuri"></div>
+        </section>
+      </div>
 
       <!-- ============ 二次創作ガイドライン ============ -->
       <section id="guideline" class="reveal">
@@ -3300,6 +3398,270 @@
         btn.textContent = '送信する';
       }
     });
+  </script>
+<div id="sp-lightbox" data-lang="ja" class="sp-lightbox" role="dialog" aria-modal="true" aria-label="Gallery" hidden>
+    <div class="sp-lb-panel">
+      <div class="sp-lb-head">
+        <p class="sp-lb-title"></p>
+        <button type="button" class="sp-lb-close" title="閉じる / Close" aria-label="Close">×</button>
+      </div>
+      <div class="sp-lb-stage">
+        <button type="button" class="sp-lb-nav sp-lb-prev" title="前の画像 / Previous" aria-label="Previous">‹</button>
+        <img class="sp-lb-img" alt="" draggable="false">
+        <button type="button" class="sp-lb-nav sp-lb-next" title="次の画像 / Next" aria-label="Next">›</button>
+      </div>
+      <p class="sp-lb-meta"><span class="sp-lb-cap"></span><span class="sp-lb-count"></span></p>
+      <div class="sp-lb-thumbs"></div>
+      <a class="btn sp-lb-shop" target="_blank" rel="noopener"></a>
+    </div>
+  </div>
+
+
+  <script>
+  (function () {
+    const B = "shop/images/booth/";
+    const GOODS = {
+      booth: {
+        shop: "BOOTH",
+        // 並びは表示価格の安い順。連綿みくじはおまけなので最後（3列表示で右下）
+        items: [
+          { url: "https://lmaworks.booth.pm/items/7155207",
+            ja: "【連綿師】|ポストカード", en: "RENMENSHI Postcards", price: "各¥200", priceEn: "¥200 each", vars: { ja: "理玄／|シュマリ／|玄也", en: "Rigen / Shumari / Genya" },
+            imgs: [
+              { src: B + "Postcard_縦断裁-_Renmenshi_Rigen.webp", ja: "理玄", en: "Rigen" },
+              { src: B + "Postcard_縦断裁-_Renmenshi_Shumari.webp", ja: "シュマリ", en: "Shumari" },
+              { src: B + "Postcard_縦断裁-_Renmenshi_Genya.webp", ja: "玄也", en: "Genya" },
+            ] },
+          { url: "https://lmaworks.booth.pm/items/7155336",
+            ja: "【連綿師】|カンバッジ", en: "RENMENSHI Can Badges",
+            // 種類ごとに価格が違うときは rows で「種類→価格」を並べる
+            rows: [
+              { vars: { ja: "理玄／|シュマリ／|玄也", en: "Rigen / Shumari / Genya" }, price: "各¥300", priceEn: "¥300 each" },
+              { vars: { ja: "連綿体|（書家／|大神／|大蛇）", en: "Renmen-tai calligraphy (3 designs)" }, price: "各¥200", priceEn: "¥200 each" },
+            ],
+            imgs: [B + "カンバッジ.webp"] },
+          { url: "https://lmaworks.booth.pm/items/7155584",
+            ja: "【連綿師】|フレークシール|セット", en: "RENMENSHI Flake Sticker Set", price: "¥500",
+            imgs: [B + "フレークシールセット_1500x2105.webp"] },
+          { url: "https://lmaworks.booth.pm/items/7155569",
+            ja: "【連綿師】|A4|クリアファイル", en: "RENMENSHI A4 Clear File", price: "各¥500", priceEn: "¥500 each", vars: { ja: "理玄／|シュマリ／|玄也", en: "Rigen / Shumari / Genya" },
+            imgs: [
+              { src: B + "3人衆_クリアファイル.webp", ja: "3キャラセット", en: "Set of 3" },
+              { src: B + "理玄_クリアファイル.webp", ja: "理玄", en: "Rigen" },
+              { src: B + "PrintPac_clearfile_A4_Rigen_ol.webp", ja: "理玄（表・裏）", en: "Rigen (front & back)" },
+              { src: B + "シュマリ_クリアファイル.webp", ja: "シュマリ", en: "Shumari" },
+              { src: B + "PrintPac_clearfile_A4_Shumari_ol.webp", ja: "シュマリ（表・裏）", en: "Shumari (front & back)" },
+              { src: B + "玄也_クリアファイル.webp", ja: "玄也", en: "Genya" },
+              { src: B + "PrintPac_clearfile_A4_Genya_ol.webp", ja: "玄也（表・裏）", en: "Genya (front & back)" },
+            ] },
+          { url: "https://lmaworks.booth.pm/items/8662568",
+            ja: "個展【紡】|作品|ポストカード| 全5種|セット\n（特典：|三貴神|ステッカー付）", en: "Exhibition \"Tsumugi\" Art Postcards — Set of 5\n(bonus Sankishin sticker)",
+            price: "¥1,500",
+            note: { ja: "単品 ¥250　|※特典は無し", en: "Single cards ¥250 each (no bonus)" },
+            imgs: [
+              { src: B + "個展作品ポスカ5枚組_実物_1500x1064.webp", ja: "ポストカード 全5種", en: "All 5 postcards" },
+              { src: B + "kishino個展【tsumugi】キービジュアル_postcard.webp", ja: "キービジュアル", en: "Key visual" },
+              { src: B + "狐面とシュマリ_postcard.webp", ja: "狐面とシュマリ", en: "Kitsunemen & Shumari" },
+              { src: B + "初陣_闇を切り裂く一閃_postcard.webp", ja: "初陣 ─ 闇を切り裂く一閃", en: "First Battle" },
+              { src: B + "団子_postcard.webp", ja: "団子", en: "Dango" },
+              { src: B + "理玄_連綿術発動_紙魚_postcard.webp", ja: "理玄 ─ 連綿術発動", en: "Rigen" },
+              { src: B + "三貴神シール01.webp", ja: "特典：三貴神ステッカー", en: "Bonus: Sankishin stickers" },
+              { src: B + "【紡】天照大御神ステッカー.webp", ja: "天照大御神", en: "Amaterasu" },
+              { src: B + "【紡】月読命ステッカー.webp", ja: "月読命", en: "Tsukuyomi" },
+              { src: B + "【紡】素戔嗚尊ステッカー.webp", ja: "素戔嗚尊", en: "Susanoo" },
+            ] },
+          { url: "https://lmaworks.booth.pm/items/7155446",
+            ja: "【連綿師】|アクリル|スタンド", en: "RENMENSHI Acrylic Stand", price: "各¥1,500", priceEn: "¥1,500 each", vars: { ja: "理玄／|シュマリ／|玄也", en: "Rigen / Shumari / Genya" },
+            imgs: [B + "アクスタ集合絵.webp"] },
+          { url: "https://lmaworks.booth.pm/items/7155601",
+            ja: "【連綿師】|B2|タペストリー", en: "RENMENSHI B2 Tapestry", price: "各¥5,000", priceEn: "¥5,000 each", vars: { ja: "理玄／|シュマリ／|玄也", en: "Rigen / Shumari / Genya" },
+            imgs: [
+              { src: B + "理玄_B2タペストリー_w1200.webp", ja: "理玄", en: "Rigen" },
+              { src: B + "茱真理_B2タペストリー_w1200.webp", ja: "シュマリ", en: "Shumari" },
+              { src: B + "玄也_B2タペストリー_w1200.webp", ja: "玄也", en: "Genya" },
+            ] },
+          { url: "https://lmaworks.booth.pm/items/7828922",
+            ja: "理玄・|原画色紙", en: "Rigen — Original Hand-Drawn Shikishi", price: "¥5,300",
+            imgs: [B + "理玄色紙2_12×13.5cm.webp"] },
+          { url: "https://lmaworks.booth.pm/items/8662575",
+            ja: "連綿|みくじ", en: "Renmen Omikuji (fortune slip)", price: "¥100",
+            imgs: [B + "連綿みくじ_01.webp"] },
+        ]
+      },
+      suzuri: {
+        shop: "SUZURI",
+        series: "紡 -tsumugi-",
+        // 並びは表示価格の安い順
+        items: [
+          { url: "https://suzuri.jp/_kishino/20910897/mug/m/white",
+            ja: "マグカップ", en: "Mug", price: "¥2,816", imgs: ["shop/images/suzuri/05_mug.webp"] },
+          { url: "https://suzuri.jp/_kishino/20910897/soft-clear-smartphone-case/iphone16/clear",
+            ja: "ソフトクリア|スマホケース", en: "Soft Clear Phone Case", price: "¥3,184", imgs: ["shop/images/suzuri/04_smartphone-case.webp"] },
+          { url: "https://suzuri.jp/_kishino/20910897/tote-bag/m/natural",
+            ja: "トートバッグ", en: "Tote Bag", price: "¥3,630", imgs: ["shop/images/suzuri/02_tote-bag.webp"] },
+          { url: "https://suzuri.jp/_kishino/20910897/thermo-tumbler/360ml/white",
+            ja: "サーモ|タンブラー", en: "Thermo Tumbler", price: "¥4,257", imgs: ["shop/images/suzuri/06_thermo-tumbler.webp"] },
+          { url: "https://suzuri.jp/_kishino/20910897/cushion/free/white",
+            ja: "クッション", en: "Cushion", price: "¥5,049", imgs: ["shop/images/suzuri/01_cushion.webp"] },
+          { url: "https://suzuri.jp/_kishino/20910897/hoodie/s/white",
+            ja: "パーカー", en: "Hoodie", price: "¥5,564", imgs: ["shop/images/suzuri/03_hoodie.webp"] },
+        ]
+      }
+    };
+
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    // 商品名の「|」は折り返してよい位置（語の途中で改行させないため）
+    // 「\n」は必ず改行する位置
+    const nameHtml = s => esc(s).split("|").join("<wbr>").split("\n").join("<br>");
+    const brHtml = s => esc(s).split("\n").join("<br>");
+    const plain = s => String(s).split("|").join("").split("\n").join(" ");
+    // 「|」で区切ったかたまりを inline-block で包む（Safari でもかたまりの途中では折り返さない）
+    const nbHtml = s => esc(s).split("|").map(x => `<span class="nb">${x}</span>`).join("");
+    const bi = (ja, en) => `<span class="ja">${ja}</span><span class="en">${en}</span>`;
+    const NOIMG = `<span class="noimg">${bi("画像準備中", "Image coming soon")}</span>`;
+    // 画像は文字列でも { src, ja, en } でも書けるようにそろえる
+    const normImgs = it => (it.imgs || []).map(x => typeof x === "string" ? { src: x } : x);
+
+    function render() {
+      for (const [key, group] of Object.entries(GOODS)) {
+        const grid = document.querySelector(`[data-list="${key}"]`);
+        grid.innerHTML = group.items.map((it, idx) => {
+          const tip = `${group.shop}で開きます（別タブ） / Opens ${group.shop} in a new tab`;
+          const imgs = normImgs(it);
+          const alt = esc(plain(it.ja));
+          let media;
+          if (imgs.length > 1) {
+            media = `<button type="button" class="sp-img" data-gallery="${key}:${idx}"
+                title="画像を拡大して見る（${imgs.length}枚） / View ${imgs.length} images" data-hint="${esc(`拡大 ${imgs.length}枚`)}">
+                <img src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy" draggable="false">
+                <span class="sp-count">${bi(`全${imgs.length}枚`, `${imgs.length} images`)}</span>
+              </button>`;
+          } else if (imgs.length === 1) {
+            media = `<a class="sp-img" href="${esc(it.url)}" target="_blank" rel="noopener" title="${esc(tip)}" data-hint="${group.shop} ↗">
+                <img src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy" draggable="false">
+              </a>`;
+          } else {
+            media = `<a class="sp-img" href="${esc(it.url)}" target="_blank" rel="noopener" title="${esc(tip)}" data-hint="${group.shop} ↗">${NOIMG}</a>`;
+          }
+          return `
+          <article class="sp-item">
+            ${media}
+            <div class="sp-body">
+              ${group.series ? `<p class="sp-series">${esc(group.series)}</p>` : ""}
+              <h3 class="sp-name"><a href="${esc(it.url)}" target="_blank" rel="noopener" title="${esc(tip)}">
+                ${bi(nameHtml(it.ja), brHtml(it.en))}</a></h3>
+              ${(it.rows || [it]).map(r => `
+                ${r.vars ? `<p class="sp-vars">${bi(nbHtml(r.vars.ja), esc(r.vars.en))}</p>` : ""}
+                <p class="sp-price">${bi(esc(r.price), esc(r.priceEn || r.price))}</p>`).join("")}
+              ${it.note ? `<p class="sp-note">${bi(esc(it.note.ja).split("|").map(x => `<span class="nb">${x}</span>`).join(""), esc(it.note.en))}</p>` : ""}
+            </div>
+          </article>`;
+        }).join("");
+      }
+      // 画像ファイルが見つからないときは「画像準備中」に差し替える
+      document.querySelectorAll(".sp-img img").forEach(img => {
+        img.addEventListener("error", () => img.outerHTML = NOIMG, { once: true });
+      });
+      document.querySelectorAll("[data-gallery]").forEach(btn => btn.addEventListener("click", () => {
+        const [key, idx] = btn.dataset.gallery.split(":");
+        openGallery(GOODS[key], GOODS[key].items[idx], btn);
+      }));
+
+    }
+
+    /* ===== ギャラリー（拡大表示＋スライド） ===== */
+    const lb = document.getElementById("sp-lightbox");
+    const lbImg = lb.querySelector(".sp-lb-img");
+    const lbCap = lb.querySelector(".sp-lb-cap");
+    const lbCount = lb.querySelector(".sp-lb-count");
+    const lbThumbs = lb.querySelector(".sp-lb-thumbs");
+    const lbTitle = lb.querySelector(".sp-lb-title");
+    const lbShop = lb.querySelector(".sp-lb-shop");
+    let lbList = [], lbIndex = 0, lbOpener = null;
+
+    function openGallery(group, it, opener) {
+      lbList = normImgs(it);
+      lbOpener = opener;
+      lbTitle.innerHTML = bi(esc(plain(it.ja)), esc(it.en));
+      lbShop.href = it.url;
+      lbShop.title = `${group.shop}で開きます（別タブ） / Opens ${group.shop} in a new tab`;
+      lbShop.innerHTML = bi(`${group.shop}で見る ↗`, `View on ${group.shop} ↗`);
+      lbThumbs.innerHTML = lbList.map((im, i) =>
+        `<button type="button" data-i="${i}" title="${esc(im.ja || "")}"><img src="${esc(im.src)}" alt="" draggable="false"></button>`).join("");
+      lbThumbs.querySelectorAll("button").forEach(b => b.addEventListener("click", () => showSlide(+b.dataset.i)));
+      showSlide(0);
+      lb.hidden = false;
+      document.body.style.overflow = "hidden";
+      lb.querySelector(".sp-lb-close").focus();
+    }
+    function closeGallery() {
+      lb.hidden = true;
+      document.body.style.overflow = "";
+      if (lbOpener) lbOpener.focus();
+    }
+    function showSlide(i) {
+      lbIndex = (i + lbList.length) % lbList.length;
+      const im = lbList[lbIndex];
+      lbImg.src = im.src;
+      lbImg.alt = im.ja || "";
+      lbCap.innerHTML = im.ja ? bi(esc(im.ja), esc(im.en || im.ja)) : "";
+      lbCount.textContent = `${lbIndex + 1} / ${lbList.length}`;
+      lbThumbs.querySelectorAll("button").forEach((b, n) => b.setAttribute("aria-current", n === lbIndex));
+    }
+    lb.querySelector(".sp-lb-prev").addEventListener("click", () => showSlide(lbIndex - 1));
+    lb.querySelector(".sp-lb-next").addEventListener("click", () => showSlide(lbIndex + 1));
+    lb.querySelector(".sp-lb-close").addEventListener("click", closeGallery);
+    lb.addEventListener("click", e => { if (e.target === lb) closeGallery() });
+    document.addEventListener("keydown", e => {
+      if (lb.hidden) return;
+      if (e.key === "Escape") closeGallery();
+      if (e.key === "ArrowLeft") showSlide(lbIndex - 1);
+      if (e.key === "ArrowRight") showSlide(lbIndex + 1);
+    });
+    // スマホのスワイプで前後へ
+    let touchX = null;
+    lb.addEventListener("touchstart", e => { touchX = e.touches[0].clientX }, { passive: true });
+    lb.addEventListener("touchend", e => {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) showSlide(lbIndex + (dx < 0 ? 1 : -1));
+      touchX = null;
+    });
+
+
+    const shopView = document.getElementById("shopView");
+    function setLang(lang) {
+      shopView.dataset.lang = lang; lb.dataset.lang = lang;
+      shopView.querySelectorAll(".sp-lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+      try { localStorage.setItem("renmenshi-goods-lang", lang) } catch (e) { }
+    }
+    let savedLang = null;
+    try { savedLang = localStorage.getItem("renmenshi-goods-lang") } catch (e) { }
+    shopView.querySelectorAll(".sp-lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+    setLang(savedLang || ((navigator.language || "ja").toLowerCase().startsWith("ja") ? "ja" : "en"));
+    render();
+  })();
+  </script>
+
+  <script>
+    /* ===== 画面切り替え：ナビの「通販」で通販ビューに切り替え、他のメニューでトップに戻る ===== */
+    (function () {
+      const shopLink = document.querySelector('nav a[href="#shop"]');
+      function sync() {
+        const h = location.hash, shop = h === "#shop";
+        const was = document.body.classList.contains("view-shop");
+        document.body.classList.toggle("view-shop", shop);
+        if (shopLink) { if (shop) shopLink.setAttribute("aria-current", "page"); else shopLink.removeAttribute("aria-current"); }
+        if (shop) { window.scrollTo({ top: 0, behavior: "instant" }); }
+        else if (was) {
+          let t = null; try { t = h.length > 1 ? document.querySelector(h) : null } catch (e) { }
+          if (t) t.scrollIntoView({ behavior: "instant" }); else window.scrollTo({ top: 0, behavior: "instant" });
+        }
+      }
+      if (shopLink) shopLink.addEventListener("click", () => { if (location.hash === "#shop") window.scrollTo({ top: 0, behavior: "smooth" }) });
+      window.addEventListener("hashchange", sync);
+      sync();
+    })();
   </script>
 </body>
 
