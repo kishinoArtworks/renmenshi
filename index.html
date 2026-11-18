@@ -1983,6 +1983,30 @@
       line-height: 2
     }
 
+    /* ============ SNSアイコン（フッター）・シェア（本文の最後）2026-11-19 ============
+       丸44px（指で押せる大きさ）。フッターは金茶、本文側は紺菫。ホバーで塗りつぶし＋抜き */
+    .r-sns, .r-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px }
+    .r-sns { margin-top: 18px }
+    .r-i { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; box-sizing: border-box; border: 1.5px solid var(--kon); border-radius: 50%; color: var(--kon); background: transparent; padding: 0; cursor: pointer; transition: background-color .15s, color .15s; text-decoration: none }
+    .r-i svg { width: 20px; height: 20px; fill: currentColor }
+    .r-i svg[fill="none"] { fill: none }
+    .r-i .sns-t { font-family: "Shippori Mincho", serif; font-size: 14px; font-weight: 700; letter-spacing: 0; line-height: 1 }
+    .r-i:hover, .r-i:focus-visible { background: var(--kon); color: var(--washi) }
+    footer .r-i { border-color: #cbb87a; color: #cbb87a }
+    footer .r-i:hover, footer .r-i:focus-visible { background: #cbb87a; color: var(--kon-fukai) }
+    .r-share { text-align: center; padding: 40px 20px 48px }
+    .r-share-h { margin: 0 0 14px; font-size: 16px; color: var(--sumi-usu); letter-spacing: .14em }
+    .r-msg { flex-basis: 100%; min-height: 1.8em; font-size: 14px; color: var(--sumi-usu) }
+
+    /* 2026-11-19 改：シェアは文字付きの横長ボタン（薄い紺菫の塗り）、フッターの丸アイコンには「FOLLOW」。形・文字・色の3つで見分ける */
+    footer .r-sns-h { margin-top: 18px; color: #cbb87a; letter-spacing: .3em }
+    footer .r-sns { margin-top: 8px }
+    .r-b { display: inline-flex; align-items: center; gap: 8px; height: 44px; box-sizing: border-box; padding: 0 18px; border: 0; border-radius: 22px; background: rgba(81, 75, 156, .1); color: var(--kon-fukai); font: inherit; font-size: 15px; line-height: 1; letter-spacing: .04em; text-decoration: none; cursor: pointer; transition: background-color .15s, color .15s }
+    .r-b svg { width: 18px; height: 18px; fill: currentColor; flex: none }
+    .r-b svg[fill="none"] { fill: none }
+    .r-b:hover, .r-b:focus-visible { background: var(--kon); color: var(--washi) }
+    .r-share .r-row { gap: 8px 10px }
+
     /* ============ レスポンシブ ============ */
     @media (max-width:760px) {
       .char-main {
@@ -2964,12 +2988,20 @@
         </div>
       </section>
 
+      <!-- ============ シェア（2026-11-19） ============ -->
+      <section class="r-share" aria-label="このサイトをシェア">
+        <p class="r-share-h">このサイトをシェア</p>
+        <div class="r-row"><a class="r-b" href="https://x.com/intent/post?text=%E3%80%8E%E9%80%A3%E7%B6%BF%E5%B8%AB%E3%80%8F%E5%85%AC%E5%BC%8F%E3%82%B5%E3%82%A4%E3%83%88%EF%BD%9C%E6%9B%B8%E3%81%AE%E3%82%A2%E3%83%BC%E3%83%88%C3%97%E5%92%8C%E9%A2%A8%E3%83%95%E3%82%A1%E3%83%B3%E3%82%BF%E3%82%B8%E3%83%BC&amp;url=https%3A%2F%2Frenmenshi.kishino-artworks.com%2F" target="_blank" rel="noopener" title="X でシェアします（別タブで開きます）"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg><span>Xでポスト</span></a><a class="r-b" href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Frenmenshi.kishino-artworks.com%2F" target="_blank" rel="noopener" title="LINE で送ります（別タブで開きます）"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg><span>LINEで送る</span></a><a class="r-b" href="https://note.com/intent/post?url=https%3A%2F%2Frenmenshi.kishino-artworks.com%2F" target="_blank" rel="noopener" title="note で紹介します（別タブで開きます。note へのログインが必要です）"><span><b>note</b>で紹介</span></a><button class="r-b r-copy" type="button" data-url="https://renmenshi.kishino-artworks.com/" title="このサイトのURLをコピーします"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/></svg><span>URLをコピー</span></button><span class="r-msg" role="status" aria-live="polite"></span></div>
+      </section>
+
     </main>
 
     <!-- ============ フッター ============ -->
     <footer>
       <div class="f-title">連綿師</div>
       <div>-THE SUMMONER OF MAD CALLIGRAPHY-</div>
+      <div class="r-sns-h">FOLLOW</div>
+      <div class="r-sns"><a class="r-i" href="https://x.com/Renmenshi" target="_blank" rel="noopener" title="『連綿師』公式X（@Renmenshi）を開きます（別タブで開きます）" aria-label="公式X（@Renmenshi）"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a><a class="r-i" href="https://note.com/tsudukirigen" target="_blank" rel="noopener" title="理玄の日記（note）を開きます（別タブで開きます）" aria-label="理玄の日記（note）"><span class="sns-t">note</span></a></div>
       <div class="f-links">
         <a href="https://lmaworks.booth.pm/" target="_blank" rel="noopener">BOOTH</a>
         <a href="#contact">お問合せ</a>
@@ -3663,6 +3695,16 @@
       window.addEventListener("hashchange", sync);
       sync();
     })();
+  </script>
+  <script>
+    // シェアの「URLをコピー」（2026-11-19）。押すと下に「コピーしました」と出す（ダイアログは使わない）
+    document.addEventListener('click', e => {
+      const b = e.target.closest('.r-copy'); if (!b) return;
+      const url = b.dataset.url, msg = b.parentElement.querySelector('.r-msg');
+      const done = ok => { if (msg) { msg.textContent = ok ? 'URLをコピーしました' : 'コピーできませんでした。アドレス欄のURLをお使いください'; clearTimeout(b._t); b._t = setTimeout(() => { msg.textContent = ''; }, 3000); } };
+      const legacy = () => { const ta = document.createElement('textarea'); ta.value = url; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0'; document.body.appendChild(ta); ta.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (_) {} ta.remove(); done(ok); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => done(true), legacy); else legacy();
+    });
   </script>
 </body>
 
